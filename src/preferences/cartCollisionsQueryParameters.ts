@@ -43,6 +43,20 @@ const cartCollisionsQueryParameters = QueryStringMachine.getAll({
     defaultValue: true,
     public: true,
   },
+
+  /** Show each Smart Cart's stream statistics (encoder counts, packets, missed packets). */
+  showDiagnostics: {
+    type: "flag",
+    public: true,
+  },
+
+  /** Sampling period of a real Smart Cart on the Smart Carts screen, in ms. */
+  smartCartPeriod: {
+    type: "number",
+    defaultValue: 20,
+    isValidValue: (value: number) => value >= 2 && value <= 1000,
+    public: true,
+  },
 });
 
 CartCollisionsNamespace.register("cartCollisionsQueryParameters", cartCollisionsQueryParameters);

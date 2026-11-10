@@ -18,6 +18,7 @@ import { FLAT_PANEL_PUSH_BUTTON_OPTIONS, LIGHT_SURFACE_TEXT_FILL } from "../../c
 import { CART_COLLISIONS_CHECKBOX_OPTIONS } from "../../common/CartCollisionsControlOptions.js";
 import { CartCollisionsPanel } from "../../common/CartCollisionsPanel.js";
 import { StringManager } from "../../i18n/StringManager.js";
+import cartCollisionsQueryParameters from "../../preferences/cartCollisionsQueryParameters.js";
 import { ConnectionState, type SmartCartChannel } from "../model/SmartCartChannel.js";
 
 const FONT = new PhetFont(12);
@@ -125,6 +126,15 @@ export class SmartCartPanel extends CartCollisionsPanel {
           }),
           changeSignCheckbox,
           new Text(live, { font: FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: innerWidth }),
+          ...(cartCollisionsQueryParameters.showDiagnostics
+            ? [
+                new Text(channel.diagnosticProperty, {
+                  font: new PhetFont(10),
+                  fill: CartCollisionsColors.warningColorProperty,
+                  maxWidth: innerWidth,
+                }),
+              ]
+            : []),
         ],
       }),
       { minWidth: options.width, maxWidth: options.width },

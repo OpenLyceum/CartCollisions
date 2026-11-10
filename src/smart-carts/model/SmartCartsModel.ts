@@ -26,6 +26,7 @@ import {
 import type { LabNotebook } from "../../common/model/LabNotebook.js";
 import type { RowId } from "../../common/model/labTables.js";
 import { type CartTrace, Recording } from "../../common/model/Recording.js";
+import cartCollisionsQueryParameters from "../../preferences/cartCollisionsQueryParameters.js";
 import { BluetoothSmartCart, preloadPascoBle } from "./BluetoothSmartCart.js";
 import { type ChannelSample, type Clock, ConnectionState, SmartCartChannel } from "./SmartCartChannel.js";
 import type { TSmartCartDevice } from "./SmartCartDevice.js";
@@ -65,8 +66,9 @@ export class SmartCartsModel implements TModel, TLabModel {
       preloadPascoBle().catch(() => undefined);
     }
 
-    this.red = new SmartCartChannel(createDevice(), this.clock);
-    this.blue = new SmartCartChannel(createDevice(), this.clock);
+    const period = cartCollisionsQueryParameters.smartCartPeriod;
+    this.red = new SmartCartChannel(createDevice(), this.clock, undefined, period);
+    this.blue = new SmartCartChannel(createDevice(), this.clock, undefined, period);
     this.red.sampleListener = (sample) => this.onSample(this.recording.red, sample);
     this.blue.sampleListener = (sample) => this.onSample(this.recording.blue, sample);
 

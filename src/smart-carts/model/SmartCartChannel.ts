@@ -2,8 +2,8 @@
  * SmartCartChannel.ts
  *
  * One real Smart Cart — red or blue — and its link: connection state, the
- * student's Change Sign setting, and a poll loop that runs for as long as the cart
- * is connected so the live readout always moves when the cart is pushed.
+ * student's Change Sign setting, and a sample stream that runs for as long as the
+ * cart is connected, so the live readout always moves when the cart is pushed.
  *
  * ── Errors never reach the caller ─────────────────────────────────────────────
  * `connect()` resolves even when it fails (pattern from MotionSensor
@@ -11,14 +11,15 @@
  * lands on `connectionStateProperty` / `errorMessageProperty` for the panel to show.
  * A cancelled picker returns to DISCONNECTED with no message.
  *
- * ── Timestamps ────────────────────────────────────────────────────────────────
- * The library reads on demand, one Bluetooth round trip per sample, so each sample
- * is stamped on the host at the midpoint of its round trip. Two carts are polled
- * independently; see doc/implementation-notes.md for what that means for timing.
+ * ── Streaming, or polling as a fallback ───────────────────────────────────────
+ * A device that can stream (a real cart, via `startStreaming`) samples on its own
+ * clock and stamps each sample with that clock, aligned to the host time sampling
+ * began. A device that cannot (the test fake) is polled, each sample stamped at the
+ * midpoint of its round trip. Position starts at zero on connect either way.
  */
 
 import { BooleanProperty, NumberProperty, Property } from "scenerystack/axon";
-import { HARDWARE_POLL_INTERVAL_MS } from "../../CartCollisionsConstants.js";
+import { HARDWARE_POLL_INTERVAL_MS, HARDWARE_STREAM_PERIOD_MS } from "../../CartCollisionsConstants.js";
 import CartCollisionsNamespace from "../../CartCollisionsNamespace.js";
 import { DeviceSelectionCancelled, type TSmartCartDevice } from "./SmartCartDevice.js";
 
@@ -51,6 +52,9 @@ export class SmartCartChannel {
   /** Position as last read, after Change Sign and relative to the last zero, in m. */
   public readonly livePositionProperty = new NumberProperty(0, { units: "m" });
 
+  /** Raw values behind the latest read and the read rate, for `?showDiagnostics`. */
+  public readonly diagnosticProperty = new Property<string>("");
+
   /** Called for every successful read while connected. */
   public sampleListener: ((sample: ChannelSample) => void) | null = null;
 
@@ -62,15 +66,21 @@ export class SmartCartChannel {
   private readonly device: TSmartCartDevice;
   private readonly clock: Clock;
   private readonly pollIntervalMs: number;
+  private readonly streamPeriodMs: number;
+  private samplesInWindow = 0;
+  private windowStart = 0;
+  private sampleRate = 0;
 
   public constructor(
     device: TSmartCartDevice,
     clock: Clock = () => performance.now(),
     pollIntervalMs = HARDWARE_POLL_INTERVAL_MS,
+    streamPeriodMs = HARDWARE_STREAM_PERIOD_MS,
   ) {
     this.device = device;
     this.clock = clock;
     this.pollIntervalMs = pollIntervalMs;
+    this.streamPeriodMs = streamPeriodMs;
     device.onUnexpectedDisconnect(() => {
       this.stopPolling();
       this.connectionStateProperty.value = ConnectionState.DISCONNECTED;
@@ -92,8 +102,18 @@ export class SmartCartChannel {
     try {
       await this.device.connect();
       this.deviceNameProperty.value = this.device.name;
+      this.zeroOffset = 0;
+      this.lastRawPosition = null;
+      this.windowStart = this.clock();
+      this.samplesInWindow = 0;
+      if (this.device.startStreaming) {
+        await this.device.startStreaming(this.streamPeriodMs, (sample) =>
+          this.accept(sample.timeMs, sample.position, sample.force),
+        );
+      } else {
+        this.startPolling();
+      }
       this.connectionStateProperty.value = ConnectionState.CONNECTED;
-      this.startPolling();
     } catch (error) {
       this.connectionStateProperty.value = ConnectionState.DISCONNECTED;
       if (!(error instanceof DeviceSelectionCancelled)) {
@@ -104,11 +124,31 @@ export class SmartCartChannel {
 
   public async disconnect(): Promise<void> {
     this.stopPolling();
+    await this.device.stopStreaming?.().catch(() => undefined);
     try {
       await this.device.disconnect();
     } finally {
       this.connectionStateProperty.value = ConnectionState.DISCONNECTED;
       this.deviceNameProperty.value = null;
+    }
+  }
+
+  /** One sample from either source: zero, Change Sign, live readout, listener. */
+  private accept(timeMs: number, rawPosition: number, force: number): void {
+    this.lastRawPosition = rawPosition;
+    const sign = this.changeSignProperty.value ? -1 : 1;
+    const position = sign * (rawPosition - this.zeroOffset);
+    this.livePositionProperty.value = position;
+    this.sampleListener?.({ timeMs, position, force });
+
+    this.samplesInWindow++;
+    const now = this.clock();
+    if (now - this.windowStart >= 1000) {
+      this.sampleRate = (1000 * this.samplesInWindow) / (now - this.windowStart);
+      this.windowStart = now;
+      this.samplesInWindow = 0;
+      const detail = this.device.diagnostic ?? "";
+      this.diagnosticProperty.value = `${detail}${detail ? " · " : ""}${this.sampleRate.toFixed(0)} samples/s`;
     }
   }
 
@@ -140,15 +180,7 @@ export class SmartCartChannel {
         }
         failures = 0;
         if (reading.position !== null) {
-          this.lastRawPosition = reading.position;
-          const sign = this.changeSignProperty.value ? -1 : 1;
-          const position = sign * (reading.position - this.zeroOffset);
-          this.livePositionProperty.value = position;
-          this.sampleListener?.({
-            timeMs: (before + this.clock()) / 2,
-            position,
-            force: reading.force ?? Number.NaN,
-          });
+          this.accept((before + this.clock()) / 2, reading.position, reading.force ?? Number.NaN);
         }
       } catch (error) {
         failures++;
@@ -174,6 +206,7 @@ export class SmartCartChannel {
     this.errorMessageProperty.dispose();
     this.changeSignProperty.dispose();
     this.livePositionProperty.dispose();
+    this.diagnosticProperty.dispose();
   }
 }
 

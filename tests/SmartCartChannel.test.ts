@@ -33,4 +33,26 @@ describe("SmartCartChannel", () => {
     expect(channel.errorMessageProperty.value).toBeNull();
     channel.dispose();
   });
+
+  it("streams from a device that can, starting at zero on connect", async () => {
+    const device = new FakeSmartCart();
+    let emit: ((sample: { timeMs: number; position: number; force: number }) => void) | null = null;
+    Object.assign(device, {
+      startStreaming: (_period: number, onSample: typeof emit) => {
+        emit = onSample;
+        return Promise.resolve();
+      },
+      stopStreaming: () => Promise.resolve(),
+    });
+    const channel = new SmartCartChannel(device, () => 0, 1, 20);
+    const samples: number[] = [];
+    channel.sampleListener = (sample) => samples.push(sample.position);
+    await channel.connect();
+    emit!({ timeMs: 20, position: 0.05, force: 0 });
+    channel.changeSignProperty.value = true;
+    emit!({ timeMs: 40, position: 0.1, force: 0 });
+    expect(samples).toEqual([0.05, -0.1]);
+    await channel.disconnect();
+    channel.dispose();
+  });
 });

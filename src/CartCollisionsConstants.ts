@@ -129,8 +129,11 @@ export const MAX_RECORDING_TIME = 10;
  */
 export const END_STOP_MARGIN = 0.01;
 
-/** How often the Smart Carts screen polls each real cart, in ms. */
+/** How often a device that cannot stream is polled, in ms (test fakes only). */
 export const HARDWARE_POLL_INTERVAL_MS = 20;
+
+/** A real Smart Cart's sampling period on the Smart Carts screen, in ms (50 Hz). */
+export const HARDWARE_STREAM_PERIOD_MS = 20;
 
 CartCollisionsNamespace.register("CartCollisionsConstants", {
   SCREEN_VIEW_MARGIN,

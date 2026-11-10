@@ -68,20 +68,40 @@ soon as it is built (when Web Bluetooth exists), so it is ready before the
 student clicks *Connect*. Chrome's user activation lasts a few seconds, so the
 picker still opens after that `await`.
 
-### Polling and timestamps
+The streaming subclass reaches into two non-public fields (`_sensorManager.state`
+for the channel list, `_protocol.sendAck`). That is why pasco-ble is pinned to
+exactly `0.3.70`: check both fields still exist before bumping it.
 
-`pasco-ble` reads on demand (one Bluetooth round trip per `readDataList`), so
-`SmartCartChannel` runs its own loop: read, then wait 20 ms. Each sample is
-stamped on the host at the midpoint of its round trip, and `SmartCartsModel`
-subtracts the time *Record* was pressed. The two carts are polled independently
-and sampled at different instants, which is why every `CartTrace` has its own
-time column.
+### Streaming, not polling
 
-The cost is timing jitter of a few milliseconds and an effective rate of
-roughly 20–40 Hz per cart, depending on the adapter. That is plenty for straight-
-line fits over a few tenths of a second before and after a collision, but it
-smooths the collision itself. A future version could use the cart's own
-periodic sampling (as MotionSensor does for the PS-3219) for device-clocked data.
+pasco-ble only offers one-shot reads, and **a one-shot read of the Smart Cart's
+position sensor carries no live encoder count**. Tested with two ME-1240 carts, one
+answered 0 however far it rolled, and the other a constant 32 625. pasco-ble then
+added that value to "Position" on every read, reaching thousands of metres while
+the cart sat still. The encoder only reports when the cart samples on its own
+clock, which is how PASCO's software reads it.
+
+So `BluetoothSmartCart` subclasses the library's device class at load time. It
+keeps the library's connection, sensor discovery and command writes, and does the
+sampling itself (protocol in `smartCartStream.ts`, the same commands MotionSensor
+uses for the PS-3219):
+
+1. Stop any sampler left running, then send each channel's service
+   `[0x01, period µs (u32 LE), 0, 0]`.
+2. Send the device service `[0x06, period ms (u16 LE) × channel count]`.
+3. Each sensor service then pushes `[sequence < 0x20, sample, …]`. Position samples
+   are signed 16-bit count *changes*, summed into position; force samples go
+   through the factory line (32768 → 0 N, 1000 → 100 N).
+4. Every 8 packets per service, acknowledge with `[0, 0, 0, 0, sequence]`. The
+   periodic packets are not passed on to pasco-ble, which would also decode them
+   and acknowledge with a one-byte packet.
+
+Samples are timed on the cart's clock (index × period), offset to the host time
+sampling began, so each cart's trace is evenly spaced. The two carts start a few
+milliseconds apart; that offset is the only timing error between them. The default
+period is 20 ms (50 Hz); `?smartCartPeriod=` changes it. `?showDiagnostics` shows
+the summed counts, packets received, packets missed (from gaps in the sequence
+numbers) and the sample rate.
 
 ### Zero and sign
 

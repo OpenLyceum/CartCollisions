@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "scenerystack": "^3.0.0",
-    "pasco-ble": "^0.3.70"
+    "pasco-ble": "0.3.70"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.5",

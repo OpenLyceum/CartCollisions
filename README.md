@@ -1,26 +1,61 @@
-# SceneryStack Template
+# Cart Collisions
 
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
-A reusable SceneryStack simulation template for one or N screens, built with
-[SceneryStack](https://scenerystack.org/), Vite 8, TypeScript 7, and Biome 2.
+The PASCO Smart Cart collision lab, on screen and with real carts. Launch two
+carts apart with a spring plunger, stick them together with Velcro, or bounce
+them off each other's magnets — with equal masses, or with two mass bars in the
+blue cart. Fit straight lines to the position–time graph to get each cart's
+velocity just before and just after, fill in the lab's two tables, and find out
+for yourself which of momentum and kinetic energy survives each kind of collision.
 
 ## Features
 
-- SceneryStack scaffold with model/view separation (`rename` + `scaffold-screens` for one or N screens)
-- English, Spanish, and French localization via `StringManager`
-- Default and projector color profiles
-- Progressive Web App (installable, offline-capable)
-- Git hooks for Biome pre-commit checks
-- Shared GitHub Actions CI via `OpenLyceum/Baton`
+- **The three experiments of the handout, one screen each.** *Explosions*
+  (plunger positions 1–3, tap the trigger), *Inelastic* (Velcro) and *Elastic*
+  (magnetic bumpers), each with an *Equal mass* / *2 bars in blue cart* switch.
+- **Collisions that take time.** Every interaction is a force law — a spring
+  plunger, a magnetic repulsion, a damped Velcro joint, hard plastic contact — so
+  the velocity changes over tens of milliseconds, as real data does, and choosing
+  *where* to fit is part of the lab.
+- **Smart Cart data, not perfect numbers.** Position is counted in whole
+  wheel-encoder steps (0.12 mm), sampled at 50, 100 or 250 Hz, and zeroed where
+  each cart sat when recording began. Masses on the balance are a few grams off
+  nominal. A little rolling friction slows the carts.
+- **The reference-frame trap, on purpose.** The blue cart faces the red one, so
+  — exactly as the handout warns — it reports the opposite sign until you tick its
+  *Change sign* box. (Preferences can switch that realism off.)
+- **Best-fit lines on a graph you can shape.** Drag across the position graph to
+  shade an interval; read each cart's slope ± uncertainty; send it to *before* or
+  *after* in Table 1 with one click. Zoom to the interval, or show it all.
+  Velocity and force graphs too.
+- **Data Table 1 and Table 2 for all six runs**, shared across screens. Type the
+  calculated columns (Δv, Δp, kinetic energies, ΔE, ΔE/Eᵢ) on a keypad, then
+  *Check my calculations* against the values computed from your own measurements,
+  or *Show expected values*. *Download CSV* for the write-up. The conclusion
+  questions are there too.
+- **Real Smart Carts.** The *Smart Carts* screen connects two PASCO Smart Carts
+  (ME-1240) over Web Bluetooth and feeds their position and force into the same
+  graph, fit and tables — no Capstone, no install.
+- Fully keyboard operable, with a live screen-reader summary; installable and
+  offline-capable (PWA); projector colour profile; English, French and Spanish.
 
 ## Quick Start
 
 ```bash
 npm install
-npm run icons    # generate PNG icons from public/icons/icon.svg
-npm start        # dev server → http://localhost:5173
+npm run icons     # generate PWA icons on a fresh clone
+npm start         # → http://localhost:5173
 ```
+
+To use real carts, open the **Smart Carts** screen in **Chrome or Edge** over
+HTTPS (or `localhost`), switch the Smart Cart on, and press *Connect* in the red
+or blue panel. Push the cart by hand: the live *x* reading should move, and
+*Change sign* should flip it. Firefox and Safari have no Web Bluetooth; the
+screen says so.
+
+Query parameters: `?sampleRate=250`, `?rollingFriction=0` (frictionless
+track), `?blueCartReversed=false` (both carts report the track's sign).
 
 ## Scripts
 
@@ -39,8 +74,6 @@ npm start        # dev server → http://localhost:5173
 | `npm run format` | Auto-format all files |
 | `npm run fix` | Lint + auto-fix |
 | `npm run icons` | Regenerate PNG icons from `public/icons/icon.svg` |
-| `npm run rename` | Sim-level fork/rename (`--id`, `--name`) |
-| `npm run scaffold-screens` | Emit N fleet-named screen packages from `sim-screen/` (`--shared-model` optional) |
 | `npm run release` | `check && lint && build && test`, then version patch + push tags |
 | `npm run clean` | Remove `dist/` |
 
@@ -55,6 +88,7 @@ New sims start at `version: "0.0.0"` in `package.json`. Bump only when cutting a
 | [TypeScript](https://www.typescriptlang.org/) | ^7 | Type-safe JavaScript |
 | [Biome](https://biomejs.dev/) | ^2.5 | Linting + formatting |
 | [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) | ^2 | PWA + service worker |
+| [pasco-ble](https://www.npmjs.com/package/pasco-ble) | 0.3.70 | Smart Cart over Web Bluetooth (loaded only on the Smart Carts screen) |
 
 ## License
 

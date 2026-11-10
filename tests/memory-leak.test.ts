@@ -1,15 +1,33 @@
 /**
  * Memory-leak regression suite (fleet standard).
  *
- * List every model/view object that links Properties, adds listeners, or owns child
- * nodes, with a factory that builds a fresh instance. The shared harness in
- * tests/helpers/memoryLeak.ts (template-owned) checks that each one is garbage
- * collected after dispose() and leaves no survivors across repeated cycles
- * (idempotentDispose: true also checks a second dispose()). Add sim-specific leak
- * tests below using forceGC().
+ * Every model object that links Properties or adds listeners, with a factory that
+ * builds a fresh instance; the shared harness in tests/helpers/memoryLeak.ts checks
+ * each is garbage collected after dispose().
  */
 
-import { TimeModel } from "../src/common/TimeModel.js";
+import { GraphState } from "../src/common/model/GraphState.js";
+import { LabNotebook } from "../src/common/model/LabNotebook.js";
+import { Recording } from "../src/common/model/Recording.js";
+import { SmartCartChannel } from "../src/smart-carts/model/SmartCartChannel.js";
+import { FakeSmartCart } from "./helpers/FakeSmartCart.js";
 import { describeDisposalLeaks } from "./helpers/memoryLeak.js";
 
-describeDisposalLeaks([{ name: "TimeModel", create: () => new TimeModel(), idempotentDispose: true }]);
+describeDisposalLeaks([
+  { name: "Recording", create: () => new Recording() },
+  {
+    name: "GraphState",
+    create: () => {
+      const recording = new Recording();
+      const graph = new GraphState(recording);
+      return {
+        dispose: () => {
+          graph.dispose();
+          recording.dispose();
+        },
+      };
+    },
+  },
+  { name: "LabNotebook", create: () => new LabNotebook() },
+  { name: "SmartCartChannel", create: () => new SmartCartChannel(new FakeSmartCart()) },
+]);

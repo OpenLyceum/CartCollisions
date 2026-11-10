@@ -46,32 +46,6 @@ const stringProperties = LocalizedString.getNestedStringProperties({
 });
 
 /**
- * Explicit `a11y` shape exposed by {@link StringManager.getA11yStrings}.
- * Keep this in sync with the `a11y` key in `strings_en.json` — a locale key
- * rename that is not mirrored here fails at the getter return (not silently).
- */
-export type SimA11yStrings = {
-  readonly screenSummary: {
-    readonly playAreaStringProperty: ReadOnlyProperty<string>;
-    readonly controlAreaStringProperty: ReadOnlyProperty<string>;
-    readonly interactionHintStringProperty: ReadOnlyProperty<string>;
-  };
-  readonly currentDetailsStringProperty: ReadOnlyProperty<string>;
-  readonly controls: {
-    readonly exampleControlStringProperty: ReadOnlyProperty<string>;
-  };
-};
-
-/**
- * Explicit Preferences → Simulation labels from {@link StringManager.getPreferences}.
- * Same sync rule as {@link SimA11yStrings}.
- */
-export type SimPreferenceStrings = {
-  readonly titleStringProperty: ReadOnlyProperty<string>;
-  readonly exampleToggleStringProperty: ReadOnlyProperty<string>;
-};
-
-/**
  * StringManager is a singleton that provides typed access to all localized
  * strings. Use `StringManager.getInstance()` everywhere — never construct it
  * directly.
@@ -103,34 +77,51 @@ export class StringManager {
    * Each property updates automatically when the locale changes.
    */
   public getScreenNames(): {
-    readonly simStringProperty: ReadOnlyProperty<string>;
+    readonly explosionsStringProperty: ReadOnlyProperty<string>;
+    readonly inelasticStringProperty: ReadOnlyProperty<string>;
+    readonly elasticStringProperty: ReadOnlyProperty<string>;
+    readonly smartCartsStringProperty: ReadOnlyProperty<string>;
   } {
     return {
-      simStringProperty: stringProperties.screens.simStringProperty,
+      explosionsStringProperty: stringProperties.screens.explosionsStringProperty,
+      inelasticStringProperty: stringProperties.screens.inelasticStringProperty,
+      elasticStringProperty: stringProperties.screens.elasticStringProperty,
+      smartCartsStringProperty: stringProperties.screens.smartCartsStringProperty,
     };
   }
 
-  /**
-   * Accessibility (Interactive Description) StringProperties.
-   *
-   * Returns the reactive `a11y` string tree used by the parallel DOM:
-   *   - `screenSummary.*` — play-area / control-area overview and an interaction
-   *     hint, read by `SimScreenSummaryContent`.
-   *   - `currentDetails` — a paragraph describing the simulation's current state.
-   *     In a real sim, derive a live version from model Properties (see
-   *     LunarLander's ScreenSummaryContent for the canonical pattern).
-   *
-   * Add `accessibleName` / `accessibleHelpText` strings for individual controls
-   * to the `a11y` group too, then read them through this same nested tree.
-   */
-  public getA11yStrings(): SimA11yStrings {
+  /** Labels used across every screen. */
+  public getLabels() {
+    return stringProperties.labels;
+  }
+
+  /** Accessibility strings shared by every screen. */
+  public getA11yStrings() {
     return stringProperties.a11y;
   }
 
-  /**
-   * Simulation-specific preference labels shown in Preferences → Simulation.
-   */
-  public getPreferences(): SimPreferenceStrings {
+  /** Accessibility strings for the Explosions screen. */
+  public getExplosionsA11yStrings() {
+    return stringProperties.a11y.explosions;
+  }
+
+  /** Accessibility strings for the Inelastic screen. */
+  public getInelasticA11yStrings() {
+    return stringProperties.a11y.inelastic;
+  }
+
+  /** Accessibility strings for the Elastic screen. */
+  public getElasticA11yStrings() {
+    return stringProperties.a11y.elastic;
+  }
+
+  /** Accessibility strings for the Smart Carts screen. */
+  public getSmartCartsA11yStrings() {
+    return stringProperties.a11y.smartCarts;
+  }
+
+  /** Simulation-specific preference labels shown in Preferences → Simulation. */
+  public getPreferences() {
     return stringProperties.preferences;
   }
 }

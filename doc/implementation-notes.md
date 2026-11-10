@@ -1,135 +1,103 @@
-# Implementation Notes - SceneryStack Template
+# Cart Collisions — implementation notes
 
-Developer-facing notes on the **SceneryStackTemplate** scaffold. **Replace and expand this file when
-forking** to describe your sim's real architecture (see Stern Gerlach or Light Propagation for
-target quality). Until then, this documents what the template provides out of the box.
-
-## Architecture Overview
-
-SceneryStackTemplate is the fleet-canonical starting point for new SceneryStack sims (one or N screens).
-It demonstrates Model–View separation, color profiles, localization, reset behavior, accessibility
-reference wiring, and reusable common components — **without** domain physics.
+## Shape
 
 ```
-main.ts
-  └─ SimScreen             (Screen<SimModel, SimScreenView>)
-       ├─ SimModel          state + logic  (src/sim-screen/model/)  ← stub: add physics here
-       └─ SimScreenView     visuals        (src/sim-screen/view/)
-            ├─ SimScreenSummaryContent     (PDOM overview — reference a11y pattern)
-            └─ SimKeyboardHelpContent      (keyboard help dialog)
-
-src/common/
-  ├─ SimPanel.ts           pre-themed panel (uses SimColors)
-  ├─ SimButtonOptions.ts   flat button / combo-box option bundles
-  └─ TimeModel.ts          composable play/pause + elapsed time
-
-src/preferences/
-  ├─ SimPreferencesModel   sim-specific pref state
-  ├─ SimPreferencesNode    pref UI in Preferences → Simulation
-  └─ simQueryParameters    QueryStringMachine declarations
+main.ts ── LabNotebook (one, shared) ── CartCollisionsPreferencesModel (one, shared)
+   │
+   ├─ Explosions / Inelastic / Elastic screens
+   │     model: CartCollisionsModel(experiment)  ── Recording, GraphState
+   │     view:  VirtualLabScreenView ── LabScreenView
+   │
+   └─ Smart Carts screen
+         model: SmartCartsModel ── 2 × SmartCartChannel(BluetoothSmartCart) ── Recording, GraphState
+         view:  SmartCartsScreenView ── LabScreenView
 ```
 
-Data flows Model → View through AXON `Property` objects (`.link()` / `.lazyLink()`). The view never
-integrates physics; the model never imports scenery.
+`TLabModel` (`common/model/LabModel.ts`) is what every screen offers the shared
+view: a `Recording`, a `GraphState`, the notebook, the active table row, and
+record/stop/clear. `LabScreenView` builds the graph, the fit panel, the record
+controls, the Lab Tables dialog and Reset All from that alone, so the Smart Carts
+screen is the virtual screens with a different source — the same rule MotionSensor
+follows for its sensor screen, and for the same reason: a student who has done the
+virtual lab recognises the real one instantly.
 
-## Forking checklist
+## Time and sampling
 
-### Automated rename + scaffold (recommended)
+`CartCollisionsModel.step` truncates a frame to 50 ms, splits it into 0.2 ms
+substeps, and samples on that grid whenever the next sample time is reached, so
+the sample interval is exact at any frame rate. When nothing moves it skips the
+physics but keeps sampling, so a recording started before the push shows the flat
+"before" segment students need for v_i = 0. `Recording.flush()` emits at most
+once per frame; the graph redraws from there.
 
-```sh
-npm run rename -- --id my-sim --name "My Simulation"
-npm run scaffold-screens -- --screens Intro,Lab   # or omit --screens for one screen
-npm run check
-```
+Recording stops by itself after 10 s, or when a cart comes within 1 cm of an end
+stop — the handout's "stop recording before either cart reaches the end".
 
-Or from the workspace: `Baton/scripts/create-sim.sh --repo MySim --name "My Simulation"`.
+## The graph
 
-`scripts/rename-sim.ts` updates sim-level identifiers (package id, Colors, Preferences).
-`scripts/scaffold-screens.ts` emits fleet-named screen folders and wires main/strings/icons.
+`TimeGraphNode` is written directly on bamboo rather than copied from
+MotionSensor's `ConfigurableGraph`: the x axis is always time, there are always
+two series, and the only gesture is the fit interval. The y range follows the
+data visible in the current time window (with a per-quantity minimum span, so a
+cart at rest is not magnified into encoder noise). Ticks use 1-2-5 steps
+(`formatting.ts`).
 
-### Manual steps (after rename/scaffold or if skipping the scripts)
+`GraphState.fitResultsProperty` recomputes both fits when the interval, the
+quantity, or the recording changes (a revision counter bumped by the recording's
+emitter).
 
-1. **`doc/model.md`** — educator physics (equations, ranges, simplifications).
-2. **`doc/implementation-notes.md`** — this file, rewritten for your architecture.
-3. **Screen model(s)** — real Properties, `step(dt)`, `reset()`; compose `TimeModel` if animated.
-4. **Screen view(s)** — play area + controls; wire `ResetAllButton` to `model.reset()`.
-5. **`*Colors.ts`** — sim palette (default + projector profiles).
-6. **Locale JSON** — title, strings, `a11y` keys; register locales in `init.ts`.
-7. **`public/icons/icon.svg`** → `npm run icons`; align theme color in `index.html` / vite config.
-8. **`tests/setup.ts`** — `init({ name: … })` must match `package.json` name after rename.
-9. **`AGENTS.md`** — sim-specific file map and pitfalls for AI assistants.
+## The tables
 
-## Common components (keep when forking)
+`LabNotebook` holds a `Property<number | null>` per cell. Formulas and tolerance
+live in pure `labTables.ts`; `LabTablesDialog` only draws. Each cell's colour and
+"expected" line depend on every cell of its row, because the expected value of a
+calculated cell is computed from that row's measurements. One `KeypadDialog` is
+shared by every cell of a dialog.
 
-### SimPanel
+## Smart Carts
 
-Every control panel should use `SimPanel` so projector-mode switching is automatic:
+### Library
 
-```typescript
-import { SimPanel } from "../../common/SimPanel.js";
-const panel = new SimPanel(content);
-const panelWide = new SimPanel(content, { xMargin: 20 });
-```
+The link uses [`pasco-ble`](https://www.npmjs.com/package/pasco-ble)
+(OpenPhysics/pascoTS), which knows the Smart Cart's datasheets — Position
+(RotaryPos, sensor 2027) and Force (sensor 2025). It pulls in mathjs, so it is
+loaded with a dynamic `import()`: Vite splits it into its own chunk, the three
+virtual screens never download it, and `SmartCartsModel` starts the import as
+soon as it is built (when Web Bluetooth exists), so it is ready before the
+student clicks *Connect*. Chrome's user activation lasts a few seconds, so the
+picker still opens after that `await`.
 
-### TimeModel
+### Polling and timestamps
 
-Compose into your screen model for animation (do not subclass `TimeModel`):
+`pasco-ble` reads on demand (one Bluetooth round trip per `readDataList`), so
+`SmartCartChannel` runs its own loop: read, then wait 20 ms. Each sample is
+stamped on the host at the midpoint of its round trip, and `SmartCartsModel`
+subtracts the time *Record* was pressed. The two carts are polled independently
+and sampled at different instants, which is why every `CartTrace` has its own
+time column.
 
-```typescript
-export class MyModel implements TModel {
-  public readonly timer = new TimeModel();  // pass true to auto-play on startup
+The cost is timing jitter of a few milliseconds and an effective rate of
+roughly 20–40 Hz per cart, depending on the adapter. That is plenty for straight-
+line fits over a few tenths of a second before and after a collision, but it
+smooths the collision itself. A future version could use the cart's own
+periodic sampling (as MotionSensor does for the PS-3219) for device-clocked data.
 
-  public step(dt: number): void {
-    this.timer.step(dt);
-    // physics uses this.timer.timeProperty.value
-  }
-  public reset(): void { this.timer.reset(); /* restore initial state */ }
-}
-```
+### Zero and sign
 
-Wire `TimeControlNode` to `model.timer.isPlayingProperty` in the view.
+Recording zeroes both carts where they stand (Capstone's default). *Change sign*
+is applied on the host; both live in `SmartCartChannel`, in that order, so an
+offset captured with the sign flipped still zeroes where the cart stood.
 
-### SimButtonOptions
+### Errors
 
-Spread flat button options into every push/round button and `TimeControlNode` (see `AGENTS.md`).
-Use `SIM_COMBO_BOX_OPTIONS` + `LIGHT_SURFACE_TEXT_FILL` for light control surfaces on dark panels.
+`connect()` never rejects: outcomes land on `connectionStateProperty` and
+`errorMessageProperty`. A cancelled picker returns to *Not connected* silently.
+Five failed reads in a row, or the cart dropping the link, disconnect the channel
+and say so in its panel.
 
-## Accessibility (reference implementation)
+### Testing without hardware
 
-The template is the **canonical OpenLyceum a11y reference**:
-
-- PDOM `accessibleName` on interactive nodes (prefer live `StringProperty`s).
-- `SimScreenSummaryContent` with a live `currentDetailsContent` `DerivedProperty` over model state.
-- Explicit `pdomOrder` + `SimKeyboardHelpContent`.
-- Strings under `a11y` in locale JSON → `StringManager.getA11yStrings()`.
-
-Full checklist: [Baton/ACCESSIBILITY.md](https://github.com/OpenLyceum/Baton/blob/main/ACCESSIBILITY.md).
-
-## Testing (fleet layout — keep when forking)
-
-| Path | Purpose |
-|---|---|
-| `vitest.config.ts` | `happy-dom`; `setupFiles: ["./tests/setup.ts"]`; `execArgv: ["--expose-gc"]` |
-| `tests/setup.ts` | Canvas/AudioContext mocks + `init()` before SceneryStack imports |
-| `tests/TimeModel.test.ts` | **Replace** with real model/physics tests mirroring `src/` |
-| `tests/memory-leak.test.ts` | WeakRef + `forceGC` dispose regression |
-| `tests/fuzz/fuzz.spec.ts` | Optional Playwright smoke via `?fuzz` |
-
-Run `npm test`. Expand `memory-leak.test.ts` when adding runtime-created nodes or Property links.
-
-## Multi-screen simulations
-
-Default is single-screen. To add screens, see **`doc/multi-screen.md`**: per-screen folders mirroring
-`src/sim-screen/`, `StringManager` screen-name getters, optional shared root model, a shared
-`src/common/{SimName}ScreenIcons.ts` module (`create{Screen}Icon()` factories wired as
-`homeScreenIcon` / `navigationBarIcon`), and register all screens in `main.ts`.
-
-## PWA
-
-After `npm run build`, the sim is installable offline via Workbox (`dist/manifest.webmanifest`).
-
-## Known template stubs (remove when forking)
-
-- `SimModel.step()` / `reset()` — empty placeholders until you add physics.
-- Placeholder play-area content in `SimScreenView` — replace with real UI.
-- `tests/TimeModel.test.ts` — sample only; add tests for your model under `tests/`.
+`TSmartCartDevice` is the seam; `tests/helpers/FakeSmartCart.ts` implements it.
+The headless fuzz browser has no Web Bluetooth, so the Connect buttons are
+disabled there and the screen shows the unsupported-browser message.

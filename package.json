@@ -1,22 +1,26 @@
 {
-  "name": "scenerystack-template",
+  "name": "cart-collisions",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "description": "GitHub template for OpenLyceum SceneryStack sims (rename + scaffold-screens for one or N screens).",
+  "description": "Collide and launch two PASCO Smart Carts on a track — spring-plunger explosions, Velcro (completely inelastic) and magnetic (elastic) collisions, with equal or unequal masses. Fit lines to position–time graphs, fill momentum and kinetic-energy tables, and stream real Smart Carts over Web Bluetooth.",
   "license": "AGPL-3.0-or-later",
   "repository": {
     "type": "git",
-    "url": "https://github.com/OpenLyceum/SceneryStackTemplate.git"
+    "url": "https://github.com/OpenLyceum/CartCollisions.git"
   },
   "keywords": [
-    "template",
     "simulation",
     "SceneryStack",
     "interactive",
     "physics",
     "education",
-    "pwa"
+    "pwa",
+    "momentum",
+    "collisions",
+    "kinetic-energy",
+    "pasco",
+    "smart-cart"
   ],
   "scripts": {
     "start": "vite",
@@ -36,13 +40,12 @@
     "test:fuzz:quick": "node scripts/test-fuzz.ts 10",
     "test:fuzz:long": "node scripts/test-fuzz.ts 300",
     "icons": "node scripts/generate-icons.ts",
-    "rename": "node scripts/rename-sim.ts",
-    "scaffold-screens": "node scripts/scaffold-screens.ts",
     "clean": "rm -rf dist",
     "prepare": "git rev-parse --is-inside-work-tree >/dev/null 2>&1 && git config core.hooksPath .githooks || true"
   },
   "dependencies": {
-    "scenerystack": "^3.0.0"
+    "scenerystack": "^3.0.0",
+    "pasco-ble": "^0.3.70"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.5",

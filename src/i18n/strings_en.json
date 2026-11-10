@@ -1,21 +1,185 @@
 {
-  "title": "SceneryStack Template",
+  "title": "Cart Collisions",
   "screens": {
-    "sim": "Sim"
+    "explosions": "Explosions",
+    "inelastic": "Inelastic",
+    "elastic": "Elastic",
+    "smartCarts": "Smart Carts"
+  },
+  "labels": {
+    "smartCart": "Smart Cart",
+    "redCart": "Red cart",
+    "blueCart": "Blue cart",
+    "red": "Red",
+    "blue": "Blue",
+    "position": "Position",
+    "velocity": "Velocity",
+    "force": "Force",
+    "timeAxis": "Time (s)",
+    "positionAxis": "Position (m)",
+    "velocityAxis": "Velocity (m/s)",
+    "forceAxis": "Force (N)",
+    "record": "Record",
+    "stop": "Stop",
+    "clear": "Clear",
+    "recording": "Recording…",
+    "massSetup": "Masses",
+    "equalMass": "Equal mass",
+    "unequalMass": "2 bars in blue cart",
+    "plungerSetting": "Plunger position",
+    "trigger": "Tap trigger",
+    "push": "Push red cart",
+    "pushSpeed": "Push speed",
+    "resetCarts": "Reset carts",
+    "changeSign": "Change sign",
+    "balance": "Balance",
+    "massPattern": "{{cart}}: {{mass}} kg",
+    "sendMasses": "Masses → table",
+    "fitTitle": "Best-fit line on the shaded interval",
+    "slopePattern": "{{cart}}: v = {{value}} ± {{uncertainty}} m/s",
+    "meanPattern": "{{cart}}: mean = {{value}} {{units}}",
+    "noFitPattern": "{{cart}}: not enough data",
+    "zoomToFit": "Zoom to interval",
+    "showAll": "Show all",
+    "before": "→ before",
+    "after": "→ after",
+    "rowPattern": "Fills: {{row}}",
+    "labTables": "Lab Tables",
+    "table1": "Data Table 1",
+    "table2": "Table 2",
+    "collisionType": "Collision type",
+    "check": "Check my calculations",
+    "showAnswers": "Show expected values",
+    "download": "Download CSV",
+    "clearTables": "Clear tables",
+    "empty": "–",
+    "keypadRangePattern": "Between {{min}} and {{max}}",
+    "conclusionTitle": "Conclusion",
+    "conclusion1": "In general, what did you learn about the conservation of momentum and kinetic energy in different types of collisions?",
+    "conclusion2": "Was momentum conserved for all types of collisions?",
+    "conclusion3": "Was energy conserved for all types of collisions? Where did the extra kinetic energy come from in the explosions?",
+    "conclusion4": "What happens to the initial kinetic energy that is lost in a collision?",
+    "experiment": "Run",
+    "explosion": "Explosion (plunger)",
+    "inelastic": "Inelastic (Velcro)",
+    "elastic": "Elastic (magnets)",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "connecting": "Connecting…",
+    "notConnected": "Not connected",
+    "livePositionPattern": "x = {{value}} m",
+    "connectionLost": "Connection lost. Connect again.",
+    "bluetoothUnsupported": "This browser has no Web Bluetooth. Use Chrome or Edge.",
+    "bluetoothInsecure": "Web Bluetooth needs a secure (https) page.",
+    "smartCartHint": "Turn the cart on, then Connect. Masses: use the balance and type them into the table.",
+    "rows": {
+      "explosionEqual": "Explosion: equal mass",
+      "explosionUnequal": "Explosion: unequal mass",
+      "inelasticEqual": "Completely inelastic: equal mass",
+      "inelasticUnequal": "Completely inelastic: unequal mass",
+      "elasticEqual": "Elastic: equal mass",
+      "elasticUnequal": "Elastic: unequal mass"
+    },
+    "columns": {
+      "massRed": "m<sub>r</sub> (kg)",
+      "massBlue": "m<sub>b</sub> (kg)",
+      "vRedInitial": "v<sub>ri</sub> (m/s)",
+      "vBlueInitial": "v<sub>bi</sub> (m/s)",
+      "vRedFinal": "v<sub>rf</sub> (m/s)",
+      "vBlueFinal": "v<sub>bf</sub> (m/s)",
+      "dvBlue": "Δv<sub>b</sub> (m/s)",
+      "dvRed": "Δv<sub>r</sub> (m/s)",
+      "dpBlue": "Δp<sub>b</sub> (kg·m/s)",
+      "dpRed": "Δp<sub>r</sub> (kg·m/s)",
+      "eRedInitial": "E<sub>ri</sub> (J)",
+      "eBlueInitial": "E<sub>bi</sub> (J)",
+      "eRedFinal": "E<sub>rf</sub> (J)",
+      "eBlueFinal": "E<sub>bf</sub> (J)",
+      "dE": "E<sub>f</sub> − E<sub>i</sub> (J)",
+      "dERatio": "(E<sub>f</sub> − E<sub>i</sub>)/E<sub>i</sub> (%)"
+    },
+    "columnNames": {
+      "massRed": "red mass",
+      "massBlue": "blue mass",
+      "vRedInitial": "red initial velocity",
+      "vBlueInitial": "blue initial velocity",
+      "vRedFinal": "red final velocity",
+      "vBlueFinal": "blue final velocity",
+      "dvBlue": "change in blue velocity",
+      "dvRed": "change in red velocity",
+      "dpBlue": "change in blue momentum",
+      "dpRed": "change in red momentum",
+      "eRedInitial": "red initial kinetic energy",
+      "eBlueInitial": "blue initial kinetic energy",
+      "eRedFinal": "red final kinetic energy",
+      "eBlueFinal": "blue final kinetic energy",
+      "dE": "change in total kinetic energy",
+      "dERatio": "fractional change in kinetic energy, in percent"
+    }
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "The play area shows the main simulation content.",
-      "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
-      "interactionHint": "Explore the simulation by interacting with its controls."
+    "cellPattern": "{{row}}, {{column}}",
+    "cellValuePattern": "{{row}}, {{column}}: {{value}}",
+    "redCartHelp": "Move the red cart along the track with the arrow keys while the carts are at rest.",
+    "blueCartHelp": "Move the blue cart along the track with the arrow keys while the carts are at rest.",
+    "fitStart": "Fit interval start",
+    "fitEnd": "Fit interval end",
+    "fitHelp": "Move with the left and right arrow keys to choose the part of the graph to fit.",
+    "graphQuantity": "Graph quantity",
+    "sendRedBefore": "Send red fit to the red initial velocity",
+    "sendRedAfter": "Send red fit to the red final velocity",
+    "sendBlueBefore": "Send blue fit to the blue initial velocity",
+    "sendBlueAfter": "Send blue fit to the blue final velocity",
+    "connectRed": "Connect red Smart Cart",
+    "connectBlue": "Connect blue Smart Cart",
+    "redChangeSign": "Change sign of red cart",
+    "blueChangeSign": "Change sign of blue cart",
+    "fitAnnouncementPattern": "Red {{red}}. Blue {{blue}}.",
+    "detailsPattern": "Red cart moving at {{vRed}} m/s, blue cart at {{vBlue}} m/s. Total momentum {{p}} kg·m/s, total kinetic energy {{e}} J. {{recording}}",
+    "hardwareDetailsPattern": "Red cart: {{red}}. Blue cart: {{blue}}. {{recording}}",
+    "recordingNow": "Recording.",
+    "notRecording": "Not recording.",
+    "keyboardHelp": {
+      "cartsTitle": "Move carts",
+      "moveCart": "Move cart along the track",
+      "moveCartSlowly": "Move cart in smaller steps",
+      "fitTitle": "Fit interval",
+      "moveFitEdge": "Move the selected interval edge"
     },
-    "currentDetails": "The simulation is in its initial state.",
-    "controls": {
-      "exampleControl": "Example control"
+    "explosions": {
+      "screenSummary": {
+        "playArea": "Two Smart Carts, red and blue, sit touching in the middle of a track. The red cart's spring plunger is latched against the blue cart. Below the track, a graph shows each cart's position, velocity or force against time.",
+        "controlArea": "Controls choose the masses and the plunger position, tap the trigger, record, and fit a line to part of the graph. The Lab Tables button opens Tables 1 and 2.",
+        "interactionHint": "Press Record, then Tap trigger. Fit the position graph after the launch to get each cart's velocity."
+      }
+    },
+    "inelastic": {
+      "screenSummary": {
+        "playArea": "Two Smart Carts with Velcro bumpers facing each other sit on a track; the blue cart is at rest. Below the track, a graph shows each cart's position, velocity or force against time.",
+        "controlArea": "Controls choose the masses and push speed, push the red cart, record, and fit a line to part of the graph. The Lab Tables button opens Tables 1 and 2.",
+        "interactionHint": "Press Record, then Push red cart. Fit before and after the collision to get the velocities."
+      }
+    },
+    "elastic": {
+      "screenSummary": {
+        "playArea": "Two Smart Carts with magnetic bumpers facing each other sit on a track; the blue cart is at rest. Below the track, a graph shows each cart's position, velocity or force against time.",
+        "controlArea": "Controls choose the masses and push speed, push the red cart, record, and fit a line to part of the graph. The Lab Tables button opens Tables 1 and 2.",
+        "interactionHint": "Press Record, then Push red cart. Fit before and after the collision to get the velocities."
+      }
+    },
+    "smartCarts": {
+      "screenSummary": {
+        "playArea": "A graph shows the position, velocity or force of two real PASCO Smart Carts against time.",
+        "controlArea": "Connect each Smart Cart over Bluetooth, choose which run you are doing, record, and fit a line to part of the graph. The Lab Tables button opens Tables 1 and 2.",
+        "interactionHint": "Connect a cart, press Record, perform the collision on your real track, then Stop and fit."
+      }
     }
   },
   "preferences": {
     "title": "Simulation",
-    "exampleToggle": "Example Toggle"
+    "sampleRate": "Smart Cart sample rate",
+    "sampleRatePattern": "{{value}} Hz",
+    "rollingFriction": "Track friction",
+    "blueCartReversed": "Blue cart reports the opposite sign (realistic)"
   }
 }

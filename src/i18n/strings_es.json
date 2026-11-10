@@ -1,21 +1,185 @@
 {
-  "title": "Plantilla de Simulación",
+  "title": "Colisiones de carritos",
   "screens": {
-    "sim": "Simulación"
+    "explosions": "Explosiones",
+    "inelastic": "Inelástica",
+    "elastic": "Elástica",
+    "smartCarts": "Smart Carts"
+  },
+  "labels": {
+    "smartCart": "Smart Cart",
+    "redCart": "Carrito rojo",
+    "blueCart": "Carrito azul",
+    "red": "Rojo",
+    "blue": "Azul",
+    "position": "Posición",
+    "velocity": "Velocidad",
+    "force": "Fuerza",
+    "timeAxis": "Tiempo (s)",
+    "positionAxis": "Posición (m)",
+    "velocityAxis": "Velocidad (m/s)",
+    "forceAxis": "Fuerza (N)",
+    "record": "Grabar",
+    "stop": "Detener",
+    "clear": "Borrar",
+    "recording": "Grabando…",
+    "massSetup": "Masas",
+    "equalMass": "Masas iguales",
+    "unequalMass": "2 barras en el carrito azul",
+    "plungerSetting": "Posición del émbolo",
+    "trigger": "Disparar",
+    "push": "Empujar el carrito rojo",
+    "pushSpeed": "Rapidez del empuje",
+    "resetCarts": "Recolocar carritos",
+    "changeSign": "Cambiar signo",
+    "balance": "Balanza",
+    "massPattern": "{{cart}}: {{mass}} kg",
+    "sendMasses": "Masas → tabla",
+    "fitTitle": "Recta de ajuste en el intervalo sombreado",
+    "slopePattern": "{{cart}}: v = {{value}} ± {{uncertainty}} m/s",
+    "meanPattern": "{{cart}}: media = {{value}} {{units}}",
+    "noFitPattern": "{{cart}}: datos insuficientes",
+    "zoomToFit": "Ampliar intervalo",
+    "showAll": "Mostrar todo",
+    "before": "→ antes",
+    "after": "→ después",
+    "rowPattern": "Llena: {{row}}",
+    "labTables": "Tablas del laboratorio",
+    "table1": "Tabla de datos 1",
+    "table2": "Tabla 2",
+    "collisionType": "Tipo de colisión",
+    "check": "Comprobar mis cálculos",
+    "showAnswers": "Mostrar valores esperados",
+    "download": "Descargar CSV",
+    "clearTables": "Borrar tablas",
+    "empty": "–",
+    "keypadRangePattern": "Entre {{min}} y {{max}}",
+    "conclusionTitle": "Conclusión",
+    "conclusion1": "En general, ¿qué aprendiste sobre la conservación del momento lineal y de la energía cinética en distintos tipos de colisiones?",
+    "conclusion2": "¿Se conservó el momento lineal en todos los tipos de colisiones?",
+    "conclusion3": "¿Se conservó la energía en todos los tipos de colisiones? ¿De dónde vino la energía cinética adicional en las explosiones?",
+    "conclusion4": "¿Qué le ocurre a la energía cinética inicial que se pierde en una colisión?",
+    "experiment": "Ensayo",
+    "explosion": "Explosión (émbolo)",
+    "inelastic": "Inelástica (velcro)",
+    "elastic": "Elástica (imanes)",
+    "connect": "Conectar",
+    "disconnect": "Desconectar",
+    "connecting": "Conectando…",
+    "notConnected": "No conectado",
+    "livePositionPattern": "x = {{value}} m",
+    "connectionLost": "Conexión perdida. Vuelve a conectar.",
+    "bluetoothUnsupported": "Este navegador no tiene Web Bluetooth. Usa Chrome o Edge.",
+    "bluetoothInsecure": "Web Bluetooth requiere una página segura (https).",
+    "smartCartHint": "Enciende el carrito y pulsa Conectar. Masas: usa la balanza y escríbelas en la tabla.",
+    "rows": {
+      "explosionEqual": "Explosión: masas iguales",
+      "explosionUnequal": "Explosión: masas distintas",
+      "inelasticEqual": "Perfectamente inelástica: masas iguales",
+      "inelasticUnequal": "Perfectamente inelástica: masas distintas",
+      "elasticEqual": "Elástica: masas iguales",
+      "elasticUnequal": "Elástica: masas distintas"
+    },
+    "columns": {
+      "massRed": "m<sub>r</sub> (kg)",
+      "massBlue": "m<sub>b</sub> (kg)",
+      "vRedInitial": "v<sub>ri</sub> (m/s)",
+      "vBlueInitial": "v<sub>bi</sub> (m/s)",
+      "vRedFinal": "v<sub>rf</sub> (m/s)",
+      "vBlueFinal": "v<sub>bf</sub> (m/s)",
+      "dvBlue": "Δv<sub>b</sub> (m/s)",
+      "dvRed": "Δv<sub>r</sub> (m/s)",
+      "dpBlue": "Δp<sub>b</sub> (kg·m/s)",
+      "dpRed": "Δp<sub>r</sub> (kg·m/s)",
+      "eRedInitial": "E<sub>ri</sub> (J)",
+      "eBlueInitial": "E<sub>bi</sub> (J)",
+      "eRedFinal": "E<sub>rf</sub> (J)",
+      "eBlueFinal": "E<sub>bf</sub> (J)",
+      "dE": "E<sub>f</sub> − E<sub>i</sub> (J)",
+      "dERatio": "(E<sub>f</sub> − E<sub>i</sub>)/E<sub>i</sub> (%)"
+    },
+    "columnNames": {
+      "massRed": "masa roja",
+      "massBlue": "masa azul",
+      "vRedInitial": "velocidad inicial roja",
+      "vBlueInitial": "velocidad inicial azul",
+      "vRedFinal": "velocidad final roja",
+      "vBlueFinal": "velocidad final azul",
+      "dvBlue": "cambio de velocidad azul",
+      "dvRed": "cambio de velocidad roja",
+      "dpBlue": "cambio de momento lineal azul",
+      "dpRed": "cambio de momento lineal rojo",
+      "eRedInitial": "energía cinética inicial roja",
+      "eBlueInitial": "energía cinética inicial azul",
+      "eRedFinal": "energía cinética final roja",
+      "eBlueFinal": "energía cinética final azul",
+      "dE": "cambio de la energía cinética total",
+      "dERatio": "cambio relativo de la energía cinética, en porcentaje"
+    }
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "El área de juego muestra el contenido principal de la simulación.",
-      "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
-      "interactionHint": "Explora la simulación interactuando con sus controles."
+    "cellPattern": "{{row}}, {{column}}",
+    "cellValuePattern": "{{row}}, {{column}}: {{value}}",
+    "redCartHelp": "Mueve el carrito rojo por el riel con las flechas cuando los carritos están en reposo.",
+    "blueCartHelp": "Mueve el carrito azul por el riel con las flechas cuando los carritos están en reposo.",
+    "fitStart": "Inicio del intervalo de ajuste",
+    "fitEnd": "Fin del intervalo de ajuste",
+    "fitHelp": "Muévelo con las flechas izquierda y derecha para elegir la parte del gráfico que se ajusta.",
+    "graphQuantity": "Magnitud del gráfico",
+    "sendRedBefore": "Enviar el ajuste rojo a la velocidad inicial roja",
+    "sendRedAfter": "Enviar el ajuste rojo a la velocidad final roja",
+    "sendBlueBefore": "Enviar el ajuste azul a la velocidad inicial azul",
+    "sendBlueAfter": "Enviar el ajuste azul a la velocidad final azul",
+    "connectRed": "Conectar el Smart Cart rojo",
+    "connectBlue": "Conectar el Smart Cart azul",
+    "redChangeSign": "Cambiar el signo del carrito rojo",
+    "blueChangeSign": "Cambiar el signo del carrito azul",
+    "fitAnnouncementPattern": "Rojo {{red}}. Azul {{blue}}.",
+    "detailsPattern": "Carrito rojo a {{vRed}} m/s, carrito azul a {{vBlue}} m/s. Momento lineal total {{p}} kg·m/s, energía cinética total {{e}} J. {{recording}}",
+    "hardwareDetailsPattern": "Carrito rojo: {{red}}. Carrito azul: {{blue}}. {{recording}}",
+    "recordingNow": "Grabando.",
+    "notRecording": "Sin grabar.",
+    "keyboardHelp": {
+      "cartsTitle": "Mover carritos",
+      "moveCart": "Mover el carrito por el riel",
+      "moveCartSlowly": "Mover en pasos más pequeños",
+      "fitTitle": "Intervalo de ajuste",
+      "moveFitEdge": "Mover el borde elegido del intervalo"
     },
-    "currentDetails": "La simulación está en su estado inicial.",
-    "controls": {
-      "exampleControl": "Control de ejemplo"
+    "explosions": {
+      "screenSummary": {
+        "playArea": "Dos Smart Carts, rojo y azul, se tocan en el centro de un riel. El émbolo de resorte del carrito rojo está armado contra el carrito azul. Bajo el riel, un gráfico muestra la posición, la velocidad o la fuerza de cada carrito en función del tiempo.",
+        "controlArea": "Los controles eligen las masas y la posición del émbolo, disparan, graban y ajustan una recta a parte del gráfico. El botón Tablas del laboratorio abre las tablas 1 y 2.",
+        "interactionHint": "Pulsa Grabar y luego Disparar. Ajusta el gráfico de posición tras el lanzamiento para obtener la velocidad de cada carrito."
+      }
+    },
+    "inelastic": {
+      "screenSummary": {
+        "playArea": "Dos Smart Carts con velcro enfrentados están en un riel; el carrito azul está en reposo. Bajo el riel, un gráfico muestra la posición, la velocidad o la fuerza de cada carrito en función del tiempo.",
+        "controlArea": "Los controles eligen las masas y la rapidez del empuje, empujan el carrito rojo, graban y ajustan una recta a parte del gráfico. El botón Tablas del laboratorio abre las tablas 1 y 2.",
+        "interactionHint": "Pulsa Grabar y luego Empujar el carrito rojo. Ajusta antes y después de la colisión para obtener las velocidades."
+      }
+    },
+    "elastic": {
+      "screenSummary": {
+        "playArea": "Dos Smart Carts con parachoques magnéticos enfrentados están en un riel; el carrito azul está en reposo. Bajo el riel, un gráfico muestra la posición, la velocidad o la fuerza de cada carrito en función del tiempo.",
+        "controlArea": "Los controles eligen las masas y la rapidez del empuje, empujan el carrito rojo, graban y ajustan una recta a parte del gráfico. El botón Tablas del laboratorio abre las tablas 1 y 2.",
+        "interactionHint": "Pulsa Grabar y luego Empujar el carrito rojo. Ajusta antes y después de la colisión para obtener las velocidades."
+      }
+    },
+    "smartCarts": {
+      "screenSummary": {
+        "playArea": "Un gráfico muestra la posición, la velocidad o la fuerza de dos Smart Carts PASCO reales en función del tiempo.",
+        "controlArea": "Conecta cada Smart Cart por Bluetooth, elige qué ensayo haces, graba y ajusta una recta a parte del gráfico. El botón Tablas del laboratorio abre las tablas 1 y 2.",
+        "interactionHint": "Conecta un carrito, pulsa Grabar, haz la colisión en tu riel real, luego Detener y ajusta."
+      }
     }
   },
   "preferences": {
     "title": "Simulación",
-    "exampleToggle": "Ejemplo de alternancia"
+    "sampleRate": "Frecuencia de muestreo del Smart Cart",
+    "sampleRatePattern": "{{value}} Hz",
+    "rollingFriction": "Fricción del riel",
+    "blueCartReversed": "El carrito azul informa el signo opuesto (realista)"
   }
 }

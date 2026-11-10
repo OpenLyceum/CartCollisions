@@ -1,21 +1,185 @@
 {
-  "title": "Modèle de Simulation",
+  "title": "Collisions de chariots",
   "screens": {
-    "sim": "Simulation"
+    "explosions": "Explosions",
+    "inelastic": "Inélastique",
+    "elastic": "Élastique",
+    "smartCarts": "Smart Carts"
+  },
+  "labels": {
+    "smartCart": "Smart Cart",
+    "redCart": "Chariot rouge",
+    "blueCart": "Chariot bleu",
+    "red": "Rouge",
+    "blue": "Bleu",
+    "position": "Position",
+    "velocity": "Vitesse",
+    "force": "Force",
+    "timeAxis": "Temps (s)",
+    "positionAxis": "Position (m)",
+    "velocityAxis": "Vitesse (m/s)",
+    "forceAxis": "Force (N)",
+    "record": "Enregistrer",
+    "stop": "Arrêter",
+    "clear": "Effacer",
+    "recording": "Enregistrement…",
+    "massSetup": "Masses",
+    "equalMass": "Masses égales",
+    "unequalMass": "2 barres dans le chariot bleu",
+    "plungerSetting": "Position du piston",
+    "trigger": "Déclencher",
+    "push": "Pousser le chariot rouge",
+    "pushSpeed": "Vitesse de poussée",
+    "resetCarts": "Replacer les chariots",
+    "changeSign": "Changer le signe",
+    "balance": "Balance",
+    "massPattern": "{{cart}} : {{mass}} kg",
+    "sendMasses": "Masses → tableau",
+    "fitTitle": "Droite de régression sur l’intervalle ombré",
+    "slopePattern": "{{cart}} : v = {{value}} ± {{uncertainty}} m/s",
+    "meanPattern": "{{cart}} : moyenne = {{value}} {{units}}",
+    "noFitPattern": "{{cart}} : pas assez de données",
+    "zoomToFit": "Zoom sur l’intervalle",
+    "showAll": "Tout afficher",
+    "before": "→ avant",
+    "after": "→ après",
+    "rowPattern": "Remplit : {{row}}",
+    "labTables": "Tableaux du labo",
+    "table1": "Tableau de données 1",
+    "table2": "Tableau 2",
+    "collisionType": "Type de collision",
+    "check": "Vérifier mes calculs",
+    "showAnswers": "Afficher les valeurs attendues",
+    "download": "Télécharger CSV",
+    "clearTables": "Effacer les tableaux",
+    "empty": "–",
+    "keypadRangePattern": "Entre {{min}} et {{max}}",
+    "conclusionTitle": "Conclusion",
+    "conclusion1": "De façon générale, qu’avez-vous appris sur la conservation de la quantité de mouvement et de l’énergie cinétique dans différents types de collisions?",
+    "conclusion2": "La quantité de mouvement a-t-elle été conservée dans tous les types de collisions?",
+    "conclusion3": "L’énergie a-t-elle été conservée dans tous les types de collisions? D’où vient l’énergie cinétique supplémentaire dans les explosions?",
+    "conclusion4": "Qu’arrive-t-il à l’énergie cinétique initiale perdue lors d’une collision?",
+    "experiment": "Essai",
+    "explosion": "Explosion (piston)",
+    "inelastic": "Inélastique (velcro)",
+    "elastic": "Élastique (aimants)",
+    "connect": "Connecter",
+    "disconnect": "Déconnecter",
+    "connecting": "Connexion…",
+    "notConnected": "Non connecté",
+    "livePositionPattern": "x = {{value}} m",
+    "connectionLost": "Connexion perdue. Connectez de nouveau.",
+    "bluetoothUnsupported": "Ce navigateur n’a pas Web Bluetooth. Utilisez Chrome ou Edge.",
+    "bluetoothInsecure": "Web Bluetooth exige une page sécurisée (https).",
+    "smartCartHint": "Allumez le chariot, puis Connecter. Masses : utilisez la balance et entrez-les dans le tableau.",
+    "rows": {
+      "explosionEqual": "Explosion : masses égales",
+      "explosionUnequal": "Explosion : masses inégales",
+      "inelasticEqual": "Parfaitement inélastique : masses égales",
+      "inelasticUnequal": "Parfaitement inélastique : masses inégales",
+      "elasticEqual": "Élastique : masses égales",
+      "elasticUnequal": "Élastique : masses inégales"
+    },
+    "columns": {
+      "massRed": "m<sub>r</sub> (kg)",
+      "massBlue": "m<sub>b</sub> (kg)",
+      "vRedInitial": "v<sub>ri</sub> (m/s)",
+      "vBlueInitial": "v<sub>bi</sub> (m/s)",
+      "vRedFinal": "v<sub>rf</sub> (m/s)",
+      "vBlueFinal": "v<sub>bf</sub> (m/s)",
+      "dvBlue": "Δv<sub>b</sub> (m/s)",
+      "dvRed": "Δv<sub>r</sub> (m/s)",
+      "dpBlue": "Δp<sub>b</sub> (kg·m/s)",
+      "dpRed": "Δp<sub>r</sub> (kg·m/s)",
+      "eRedInitial": "E<sub>ri</sub> (J)",
+      "eBlueInitial": "E<sub>bi</sub> (J)",
+      "eRedFinal": "E<sub>rf</sub> (J)",
+      "eBlueFinal": "E<sub>bf</sub> (J)",
+      "dE": "E<sub>f</sub> − E<sub>i</sub> (J)",
+      "dERatio": "(E<sub>f</sub> − E<sub>i</sub>)/E<sub>i</sub> (%)"
+    },
+    "columnNames": {
+      "massRed": "masse rouge",
+      "massBlue": "masse bleue",
+      "vRedInitial": "vitesse initiale rouge",
+      "vBlueInitial": "vitesse initiale bleue",
+      "vRedFinal": "vitesse finale rouge",
+      "vBlueFinal": "vitesse finale bleue",
+      "dvBlue": "variation de vitesse bleue",
+      "dvRed": "variation de vitesse rouge",
+      "dpBlue": "variation de quantité de mouvement bleue",
+      "dpRed": "variation de quantité de mouvement rouge",
+      "eRedInitial": "énergie cinétique initiale rouge",
+      "eBlueInitial": "énergie cinétique initiale bleue",
+      "eRedFinal": "énergie cinétique finale rouge",
+      "eBlueFinal": "énergie cinétique finale bleue",
+      "dE": "variation de l’énergie cinétique totale",
+      "dERatio": "variation relative de l’énergie cinétique, en pour cent"
+    }
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
-      "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
-      "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+    "cellPattern": "{{row}}, {{column}}",
+    "cellValuePattern": "{{row}}, {{column}} : {{value}}",
+    "redCartHelp": "Déplacez le chariot rouge sur le rail avec les flèches lorsque les chariots sont au repos.",
+    "blueCartHelp": "Déplacez le chariot bleu sur le rail avec les flèches lorsque les chariots sont au repos.",
+    "fitStart": "Début de l’intervalle d’ajustement",
+    "fitEnd": "Fin de l’intervalle d’ajustement",
+    "fitHelp": "Déplacez avec les flèches gauche et droite pour choisir la partie du graphique à ajuster.",
+    "graphQuantity": "Grandeur du graphique",
+    "sendRedBefore": "Envoyer l’ajustement rouge à la vitesse initiale rouge",
+    "sendRedAfter": "Envoyer l’ajustement rouge à la vitesse finale rouge",
+    "sendBlueBefore": "Envoyer l’ajustement bleu à la vitesse initiale bleue",
+    "sendBlueAfter": "Envoyer l’ajustement bleu à la vitesse finale bleue",
+    "connectRed": "Connecter le Smart Cart rouge",
+    "connectBlue": "Connecter le Smart Cart bleu",
+    "redChangeSign": "Changer le signe du chariot rouge",
+    "blueChangeSign": "Changer le signe du chariot bleu",
+    "fitAnnouncementPattern": "Rouge {{red}}. Bleu {{blue}}.",
+    "detailsPattern": "Chariot rouge à {{vRed}} m/s, chariot bleu à {{vBlue}} m/s. Quantité de mouvement totale {{p}} kg·m/s, énergie cinétique totale {{e}} J. {{recording}}",
+    "hardwareDetailsPattern": "Chariot rouge : {{red}}. Chariot bleu : {{blue}}. {{recording}}",
+    "recordingNow": "Enregistrement en cours.",
+    "notRecording": "Aucun enregistrement.",
+    "keyboardHelp": {
+      "cartsTitle": "Déplacer les chariots",
+      "moveCart": "Déplacer le chariot sur le rail",
+      "moveCartSlowly": "Déplacer par plus petits pas",
+      "fitTitle": "Intervalle d’ajustement",
+      "moveFitEdge": "Déplacer la borne choisie de l’intervalle"
     },
-    "currentDetails": "La simulation est dans son état initial.",
-    "controls": {
-      "exampleControl": "Contrôle d'exemple"
+    "explosions": {
+      "screenSummary": {
+        "playArea": "Deux Smart Carts, rouge et bleu, se touchent au milieu d’un rail. Le piston à ressort du chariot rouge est armé contre le chariot bleu. Sous le rail, un graphique montre la position, la vitesse ou la force de chaque chariot en fonction du temps.",
+        "controlArea": "Les commandes choisissent les masses et la position du piston, déclenchent, enregistrent et ajustent une droite sur une partie du graphique. Le bouton Tableaux du labo ouvre les tableaux 1 et 2.",
+        "interactionHint": "Appuyez sur Enregistrer, puis Déclencher. Ajustez le graphique de position après le lancement pour obtenir la vitesse de chaque chariot."
+      }
+    },
+    "inelastic": {
+      "screenSummary": {
+        "playArea": "Deux Smart Carts munis de velcro face à face sont sur un rail; le chariot bleu est au repos. Sous le rail, un graphique montre la position, la vitesse ou la force de chaque chariot en fonction du temps.",
+        "controlArea": "Les commandes choisissent les masses et la vitesse de poussée, poussent le chariot rouge, enregistrent et ajustent une droite sur une partie du graphique. Le bouton Tableaux du labo ouvre les tableaux 1 et 2.",
+        "interactionHint": "Appuyez sur Enregistrer, puis Pousser le chariot rouge. Ajustez avant et après la collision pour obtenir les vitesses."
+      }
+    },
+    "elastic": {
+      "screenSummary": {
+        "playArea": "Deux Smart Carts munis de pare-chocs magnétiques face à face sont sur un rail; le chariot bleu est au repos. Sous le rail, un graphique montre la position, la vitesse ou la force de chaque chariot en fonction du temps.",
+        "controlArea": "Les commandes choisissent les masses et la vitesse de poussée, poussent le chariot rouge, enregistrent et ajustent une droite sur une partie du graphique. Le bouton Tableaux du labo ouvre les tableaux 1 et 2.",
+        "interactionHint": "Appuyez sur Enregistrer, puis Pousser le chariot rouge. Ajustez avant et après la collision pour obtenir les vitesses."
+      }
+    },
+    "smartCarts": {
+      "screenSummary": {
+        "playArea": "Un graphique montre la position, la vitesse ou la force de deux vrais Smart Carts PASCO en fonction du temps.",
+        "controlArea": "Connectez chaque Smart Cart par Bluetooth, choisissez l’essai en cours, enregistrez et ajustez une droite sur une partie du graphique. Le bouton Tableaux du labo ouvre les tableaux 1 et 2.",
+        "interactionHint": "Connectez un chariot, appuyez sur Enregistrer, réalisez la collision sur votre vrai rail, puis Arrêter et ajustez."
+      }
     }
   },
   "preferences": {
     "title": "Simulation",
-    "exampleToggle": "Exemple de bascule"
+    "sampleRate": "Fréquence d’échantillonnage du Smart Cart",
+    "sampleRatePattern": "{{value}} Hz",
+    "rollingFriction": "Frottement du rail",
+    "blueCartReversed": "Le chariot bleu rapporte le signe opposé (réaliste)"
   }
 }

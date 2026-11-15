@@ -68,7 +68,10 @@ const int16 = (low: number, high: number) => {
   return value >= 0x8000 ? value - 0x10000 : value;
 };
 
-/** Signed count changes in a position packet (after the sequence byte). */
+/**
+ * Signed count changes in a position packet (after the sequence byte).
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function positionCountChanges(data: readonly number[]): number[] {
   const changes: number[] = [];
   for (let i = 1; i + 1 < data.length; i += 2) {

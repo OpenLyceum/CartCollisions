@@ -80,6 +80,7 @@ function gapBetween(state: Readonly<CartsState>): number {
 /**
  * Magnetic repulsion between the bumpers for a gap `gap` (m), in N. Shifted so it
  * reaches zero at the cutoff instead of jumping there; still a conservative force.
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function magnetForce(gap: number): number {
   if (gap >= MAGNET_CUTOFF) {
@@ -170,7 +171,10 @@ export function totalKineticEnergy(state: Readonly<CartsState>, parameters: Cart
   return 0.5 * parameters.massRed * state.vRed ** 2 + 0.5 * parameters.massBlue * state.vBlue ** 2;
 }
 
-/** Energy stored in a released-from-setting plunger, in J (½ k x²). */
+/**
+ * Energy stored in a released-from-setting plunger, in J (½ k x²).
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function plungerEnergy(extension: number): number {
   return 0.5 * PLUNGER_STIFFNESS * extension * extension;
 }

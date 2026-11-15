@@ -9,7 +9,10 @@ import { toFixed } from "scenerystack/dot";
 import { type ColumnId, quantityOf, type RowId, TABLE_1_COLUMNS, TABLE_2_COLUMNS } from "../model/labTables.js";
 import { DECIMALS } from "./formatting.js";
 
-/** Both tables' columns, in order, with Table 1's Δv columns kept in Table 1. */
+/**
+ * Both tables' columns, in order, with Table 1's Δv columns kept in Table 1.
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export const CSV_COLUMNS: readonly ColumnId[] = [...TABLE_1_COLUMNS, ...TABLE_2_COLUMNS];
 
 const quote = (text: string) => `"${text.replace(/"/g, '""')}"`;

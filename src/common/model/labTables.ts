@@ -97,7 +97,7 @@ const ABSOLUTE_TOLERANCE: Record<Quantity, number> = {
 };
 
 /** Relative tolerance for a calculated cell — allows for rounding the inputs to 3 figures. */
-export const RELATIVE_TOLERANCE = 0.02;
+const RELATIVE_TOLERANCE = 0.02;
 
 export type MeasuredValues = { readonly [K in MeasuredColumn]: number | null };
 export type DerivedValues = { readonly [K in DerivedColumn]: number | null };

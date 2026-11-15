@@ -25,12 +25,12 @@
 
 import { ENCODER_RESOLUTION } from "../../CartCollisionsConstants.js";
 
-export const SET_SAMPLE_PERIOD = 0x01;
-export const START_SAMPLING = 0x06;
-export const STOP_SAMPLING = 0x07;
+const SET_SAMPLE_PERIOD = 0x01;
+const START_SAMPLING = 0x06;
+const STOP_SAMPLING = 0x07;
 
 /** Streamed packets carry a five-bit sequence number; anything at or above is a reply or event. */
-export const STREAM_SEQUENCE_MODULUS = 0x20;
+const STREAM_SEQUENCE_MODULUS = 0x20;
 
 /** Acknowledge every this many packets, or the cart stops sending. */
 export const STREAM_ACK_INTERVAL = 8;

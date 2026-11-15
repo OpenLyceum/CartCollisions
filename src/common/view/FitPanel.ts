@@ -26,7 +26,7 @@ const FONT = new PhetFont(12);
 const SMALL_FONT = new PhetFont(11);
 
 /** The velocity a fit gives, or null when it gives none. */
-export function velocityFromFit(fit: LineFit | null, quantity: GraphQuantityValue): number | null {
+function velocityFromFit(fit: LineFit | null, quantity: GraphQuantityValue): number | null {
   if (fit === null) {
     return null;
   }

@@ -32,7 +32,7 @@ import { RecordControls } from "./RecordControls.js";
 import { TimeGraphNode } from "./TimeGraphNode.js";
 
 /** Bottom of the apparatus band, where the graph's controls begin. */
-export const PLAY_AREA_BOTTOM = 150;
+const PLAY_AREA_BOTTOM = 150;
 
 /** Left edge of the plotting area (room for the y axis labels). */
 const GRAPH_LEFT = 78;

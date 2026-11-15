@@ -73,7 +73,7 @@ export type InteractionForces = {
   readonly rightStopOnBlue: number;
 };
 
-export function gapBetween(state: Readonly<CartsState>): number {
+function gapBetween(state: Readonly<CartsState>): number {
   return state.xBlue - state.xRed - CART_LENGTH;
 }
 
@@ -91,7 +91,7 @@ export function magnetForce(gap: number): number {
 }
 
 /** The forces acting between the carts and from the stops, for the current state. */
-export function interactionForces(state: Readonly<CartsState>, parameters: CartsParameters): InteractionForces {
+function interactionForces(state: Readonly<CartsState>, parameters: CartsParameters): InteractionForces {
   const gap = gapBetween(state);
   const closingSpeed = state.vRed - state.vBlue; // > 0 when the carts approach
   let onBlue = 0;

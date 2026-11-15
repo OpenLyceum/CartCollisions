@@ -11,7 +11,7 @@ import { TRACK_LENGTH } from "../../CartCollisionsConstants.js";
 import type { TrackTransform } from "./TrackTransform.js";
 
 /** Height of the track beam, in view pixels. */
-export const TRACK_HEIGHT = 14;
+const TRACK_HEIGHT = 14;
 
 const STOP_WIDTH = 10;
 const STOP_HEIGHT = 34;

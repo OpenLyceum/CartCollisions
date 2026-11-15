@@ -53,7 +53,7 @@ const isDerived = (column: ColumnId): column is DerivedColumn =>
   (DERIVED_COLUMNS as readonly string[]).includes(column);
 
 /** Header text without markup, for accessible names and the CSV. */
-export const plainHeader = (header: string): string => header.replace(/<sub>(.*?)<\/sub>/g, "_$1");
+const plainHeader = (header: string): string => header.replace(/<sub>(.*?)<\/sub>/g, "_$1");
 
 class TableCellNode extends RectangularPushButton {
   private readonly disposeTableCellNode: () => void;

@@ -35,11 +35,7 @@ const LABEL_FONT = new PhetFont(TIME_GRAPH_NODE_SETTINGS.LABEL_FONT_SIZE);
 const TICK_FONT = new PhetFont(TIME_GRAPH_NODE_SETTINGS.TICK_FONT_SIZE);
 
 /** Smallest y span shown per quantity, so a cart at rest is not magnified into noise. */
-const MIN_Y_SPAN: Record<GraphQuantityValue, number> = {
-  position: 0.1,
-  velocity: 0.2,
-  force: 2,
-};
+const MIN_Y_SPAN: Record<GraphQuantityValue, number> = TIME_GRAPH_NODE_SETTINGS.MIN_Y_SPAN;
 
 export type TimeGraphNodeOptions = {
   readonly viewWidth: number;

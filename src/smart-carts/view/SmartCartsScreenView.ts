@@ -23,7 +23,7 @@ import type { SmartCartsModel } from "../model/SmartCartsModel.js";
 import { SmartCartPanel } from "./SmartCartPanel.js";
 import { SmartCartsScreenSummaryContent } from "./SmartCartsScreenSummaryContent.js";
 
-const FONT = new PhetFont(SMART_CARTS_SCREEN_VIEW_SETTINGS.FONT_FONT_SIZE);
+const FONT = new PhetFont(SMART_CARTS_SCREEN_VIEW_SETTINGS.FONT_SIZE);
 const TITLE_FONT = new PhetFont({ size: SMART_CARTS_SCREEN_VIEW_SETTINGS.TITLE_FONT_SIZE, weight: "bold" });
 
 export class SmartCartsScreenView extends LabScreenView {

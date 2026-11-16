@@ -23,7 +23,7 @@ import { GraphQuantity, type GraphQuantityValue } from "../model/GraphState.js";
 import type { TLabModel } from "../model/LabModel.js";
 import type { MeasuredColumn } from "../model/labTables.js";
 
-const FONT = new PhetFont(FIT_PANEL_SETTINGS.FONT_FONT_SIZE);
+const FONT = new PhetFont(FIT_PANEL_SETTINGS.FONT_SIZE);
 const SMALL_FONT = new PhetFont(FIT_PANEL_SETTINGS.SMALL_FONT_SIZE);
 
 /** The velocity a fit gives, or null when it gives none. */

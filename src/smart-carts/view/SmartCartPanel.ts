@@ -22,7 +22,7 @@ import { StringManager } from "../../i18n/StringManager.js";
 import cartCollisionsQueryParameters from "../../preferences/cartCollisionsQueryParameters.js";
 import { ConnectionState, type SmartCartChannel } from "../model/SmartCartChannel.js";
 
-const FONT = new PhetFont(SMART_CART_PANEL_SETTINGS.FONT_FONT_SIZE);
+const FONT = new PhetFont(SMART_CART_PANEL_SETTINGS.FONT_SIZE);
 
 export type SmartCartPanelOptions = {
   readonly title: TReadOnlyProperty<string>;
@@ -121,7 +121,7 @@ export class SmartCartPanel extends CartCollisionsPanel {
           }),
           new Text(status, { font: FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: innerWidth }),
           new Text(error, {
-            font: new PhetFont(SMART_CART_PANEL_SETTINGS.PHET_FONT_FONT_SIZE),
+            font: new PhetFont(SMART_CART_PANEL_SETTINGS.STATUS_FONT_SIZE),
             fill: CartCollisionsColors.warningColorProperty,
             maxWidth: innerWidth,
           }),
@@ -130,7 +130,7 @@ export class SmartCartPanel extends CartCollisionsPanel {
           ...(cartCollisionsQueryParameters.showDiagnostics
             ? [
                 new Text(channel.diagnosticProperty, {
-                  font: new PhetFont(SMART_CART_PANEL_SETTINGS.PHET_FONT_FONT_SIZE_SEGMENT_2),
+                  font: new PhetFont(SMART_CART_PANEL_SETTINGS.DIAGNOSTIC_FONT_SIZE),
                   fill: CartCollisionsColors.warningColorProperty,
                   maxWidth: innerWidth,
                 }),

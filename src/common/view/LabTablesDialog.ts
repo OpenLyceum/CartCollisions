@@ -120,7 +120,7 @@ class TableCellNode extends RectangularPushButton {
       content: new VBox({ spacing: 0, children: [valueText, expectedText], excludeInvisibleChildrenFromBounds: true }),
       minWidth: CELL_WIDTH,
       maxWidth: CELL_WIDTH,
-      minHeight: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_MIN_HEIGHT,
+      minHeight: LAB_TABLES_DIALOG_SETTINGS.CELL_MIN_HEIGHT,
       xMargin: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_X_MARGIN,
       yMargin: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_Y_MARGIN,
       accessibleName,

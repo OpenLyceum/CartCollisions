@@ -160,8 +160,10 @@ export const CART_COLLISIONS_PANEL_SETTINGS = {
 
 /** Settings for common/CartCollisionsScreenIcons.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const CART_COLLISIONS_SCREEN_ICONS_SETTINGS = {
-  TRACK_X_SEGMENT_2: 14, // px
-  TRACK_HEIGHT_SEGMENT_2: 62, // px
+  /** Left vertical stop post x, px. */
+  LEFT_STOP_X: 14, // px
+  /** Vertical stop post height, px. */
+  STOP_HEIGHT: 62, // px
 
   CART_Y_OFFSET: 14, // px
   CART_X_OFFSET: 32, // px
@@ -220,7 +222,7 @@ export const LAB_TABLES_SETTINGS = {
 export const BALANCE_PANEL_SETTINGS = {
   SEND_BUTTON_MAX_WIDTH_OFFSET: 40, // px
 
-  FONT_FONT_SIZE: 12,
+  FONT_SIZE: 12,
   CONSTRUCTOR_SPACING: 4,
   CONSTRUCTOR_FONT_SIZE: 12,
 } as const;
@@ -251,7 +253,7 @@ export const EXPERIMENT_CONTROL_PANEL_SETTINGS = {
 
   ACTION_BUTTON_MAX_WIDTH_OFFSET: 20, // px
 
-  FONT_FONT_SIZE: 12,
+  FONT_SIZE: 12,
   TITLE_FONT_SIZE: 12,
   CREATE_MASS_MODE_RADIO_BUTTONS_SPACING: 5,
   CREATE_MASS_MODE_RADIO_BUTTONS_RADIUS: 6,
@@ -271,7 +273,7 @@ export const EXPERIMENT_CONTROL_PANEL_SETTINGS = {
 export const FIT_PANEL_SETTINGS = {
   READOUT_MAX_WIDTH_OFFSET: 140, // px
 
-  FONT_FONT_SIZE: 12,
+  FONT_SIZE: 12,
   SMALL_FONT_SIZE: 11,
   TITLE_FONT_SIZE: 12,
   BUTTON_MAX_WIDTH: 60,
@@ -316,7 +318,7 @@ export const LAB_TABLES_DIALOG_SETTINGS = {
   /** Largest magnitude a student may type into any cell. */
   ENTRY_LIMIT: 1000,
   EXPECTED_TEXT_FONT_SIZE: 9,
-  CONSTRUCTOR_MIN_HEIGHT: 22,
+  CELL_MIN_HEIGHT: 22,
   CONSTRUCTOR_X_MARGIN: 3,
   CONSTRUCTOR_Y_MARGIN: 2,
   GRID_X_SPACING: 3,
@@ -334,7 +336,7 @@ export const LAB_TABLES_DIALOG_SETTINGS = {
 
 /** Settings for common/view/RecordControls.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const RECORD_CONTROLS_SETTINGS = {
-  FONT_FONT_SIZE: 13,
+  FONT_SIZE: 13,
   DOT_RADIUS: 6,
   SQUARE_X: -5,
   SQUARE_Y: -5,
@@ -355,6 +357,12 @@ export const TIME_GRAPH_NODE_SETTINGS = {
 
   LABEL_FONT_SIZE: 11,
   TICK_FONT_SIZE: 10,
+  /** Smallest y span shown per quantity, so a cart at rest is not magnified into noise. */
+  MIN_Y_SPAN: {
+    position: 0.1,
+    velocity: 0.2,
+    force: 2,
+  },
   /** Chart transform range min (in the source module’s documented units). */
   CHART_TRANSFORM_RANGE_MIN: -0.1,
   /** Chart transform range max (in the source module’s documented units). */
@@ -401,7 +409,7 @@ export const VIRTUAL_LAB_SCREEN_VIEW_SETTINGS = {
 
 /** Settings for preferences/CartCollisionsPreferencesNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const CART_COLLISIONS_PREFERENCES_NODE_SETTINGS = {
-  FONT_FONT_SIZE: 14,
+  FONT_SIZE: 14,
   HEADER_FONT_SIZE: 18,
   SAMPLE_RATE_RADIO_SPACING: 16,
   /** Friction control delta (dimensionless). */
@@ -457,12 +465,12 @@ export const SMART_CART_STREAM_SETTINGS = {
 /** Settings for smart-carts/view/SmartCartPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const SMART_CART_PANEL_SETTINGS = {
   ITEM_1_SPACING: 10, // px
-  PHET_FONT_FONT_SIZE: 11, // px
-  PHET_FONT_FONT_SIZE_SEGMENT_2: 10, // px
+  STATUS_FONT_SIZE: 11, // px
+  DIAGNOSTIC_FONT_SIZE: 10, // px
 
   CHANGE_SIGN_CHECKBOX_MAX_WIDTH_OFFSET: 30, // px
 
-  FONT_FONT_SIZE: 12,
+  FONT_SIZE: 12,
   CONNECT_BUTTON_FONT_SIZE: 13,
   CONNECT_BUTTON_MAX_WIDTH: 100,
   CONSTRUCTOR_SPACING: 5,
@@ -476,7 +484,7 @@ export const SMART_CARTS_SCREEN_VIEW_SETTINGS = {
   CONSTRUCTOR_TOP_OFFSET: 6, // px
   RADIO_LABEL_MAX_WIDTH_OFFSET: 50, // px
 
-  FONT_FONT_SIZE: 12,
+  FONT_SIZE: 12,
   TITLE_FONT_SIZE: 12,
   HINT_FONT_SIZE: 11,
   EXPERIMENT_RADIO_SPACING: 5,

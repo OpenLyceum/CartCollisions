@@ -24,7 +24,7 @@ import { CartCollisionsPanel } from "../CartCollisionsPanel.js";
 import type { CartCollisionsModel } from "../model/CartCollisionsModel.js";
 import { Experiment, MassMode, type MassModeValue } from "../model/LabModel.js";
 
-const FONT = new PhetFont(EXPERIMENT_CONTROL_PANEL_SETTINGS.FONT_FONT_SIZE);
+const FONT = new PhetFont(EXPERIMENT_CONTROL_PANEL_SETTINGS.FONT_SIZE);
 const TITLE_FONT = new PhetFont({ size: EXPERIMENT_CONTROL_PANEL_SETTINGS.TITLE_FONT_SIZE, weight: "bold" });
 const INNER_WIDTH = CONTROL_COLUMN_WIDTH - 24;
 

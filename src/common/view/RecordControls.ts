@@ -15,7 +15,7 @@ import { StringManager } from "../../i18n/StringManager.js";
 import { FLAT_PANEL_PUSH_BUTTON_OPTIONS, LIGHT_SURFACE_TEXT_FILL } from "../CartCollisionsButtonOptions.js";
 import type { TLabModel } from "../model/LabModel.js";
 
-const FONT = new PhetFont({ size: RECORD_CONTROLS_SETTINGS.FONT_FONT_SIZE, weight: "bold" });
+const FONT = new PhetFont({ size: RECORD_CONTROLS_SETTINGS.FONT_SIZE, weight: "bold" });
 
 export class RecordControls extends HBox {
   public readonly recordButton: RectangularPushButton;

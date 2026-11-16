@@ -53,10 +53,10 @@ function track(): Node {
         { fill: CartCollisionsColors.trackColorProperty },
       ),
       new Rectangle(
-        CART_COLLISIONS_SCREEN_ICONS_SETTINGS.TRACK_X_SEGMENT_2,
+        CART_COLLISIONS_SCREEN_ICONS_SETTINGS.LEFT_STOP_X,
         TRACK_Y - 40,
         CART_COLLISIONS_SCREEN_ICONS_SETTINGS.TRACK_WIDTH,
-        CART_COLLISIONS_SCREEN_ICONS_SETTINGS.TRACK_HEIGHT_SEGMENT_2,
+        CART_COLLISIONS_SCREEN_ICONS_SETTINGS.STOP_HEIGHT,
         {
           fill: CartCollisionsColors.hardwareColorProperty,
         },
@@ -65,7 +65,7 @@ function track(): Node {
         W - 28,
         TRACK_Y - 40,
         CART_COLLISIONS_SCREEN_ICONS_SETTINGS.TRACK_WIDTH,
-        CART_COLLISIONS_SCREEN_ICONS_SETTINGS.TRACK_HEIGHT_SEGMENT_2,
+        CART_COLLISIONS_SCREEN_ICONS_SETTINGS.STOP_HEIGHT,
         {
           fill: CartCollisionsColors.hardwareColorProperty,
         },

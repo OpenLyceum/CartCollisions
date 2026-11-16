@@ -19,7 +19,7 @@ import { FLAT_PANEL_PUSH_BUTTON_OPTIONS, LIGHT_SURFACE_TEXT_FILL } from "../Cart
 import { CartCollisionsPanel } from "../CartCollisionsPanel.js";
 import type { CartCollisionsModel } from "../model/CartCollisionsModel.js";
 
-const FONT = new PhetFont(BALANCE_PANEL_SETTINGS.FONT_FONT_SIZE);
+const FONT = new PhetFont(BALANCE_PANEL_SETTINGS.FONT_SIZE);
 
 export class BalancePanel extends CartCollisionsPanel {
   public readonly sendButton: RectangularPushButton;

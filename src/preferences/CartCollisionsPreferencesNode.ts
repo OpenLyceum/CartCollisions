@@ -22,7 +22,7 @@ export class CartCollisionsPreferencesNode extends VBox {
 
     // The Preferences dialog is always white, so use the dark "light control surface" text color.
     const fill = CartCollisionsColors.controlSurfaceTextColorProperty;
-    const font = new PhetFont(CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.FONT_FONT_SIZE);
+    const font = new PhetFont(CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.FONT_SIZE);
 
     const header = new Text(prefStrings.titleStringProperty, {
       font: new PhetFont({ size: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.HEADER_FONT_SIZE, weight: "bold" }),

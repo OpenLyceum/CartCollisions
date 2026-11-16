@@ -60,7 +60,7 @@ export class CartNode extends Node {
     });
     const label = new Text(StringManager.getInstance().getLabels().smartCartStringProperty, {
       font: new PhetFont({ size: CART_NODE_SETTINGS.LABEL_FONT_SIZE, weight: "bold" }),
-      fill: "white",
+      fill: CartCollisionsColors.cartLabelColorProperty,
       centerX: 0,
       centerY: bodyBottom - BODY_HEIGHT / 2,
       maxWidth: width - CART_NODE_SETTINGS.LABEL_MAX_WIDTH_OFFSET,

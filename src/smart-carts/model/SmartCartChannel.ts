@@ -1,3 +1,4 @@
+import { toFixed } from "scenerystack/dot";
 import { SMART_CART_CHANNEL_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * SmartCartChannel.ts
@@ -150,7 +151,7 @@ export class SmartCartChannel {
       this.windowStart = now;
       this.samplesInWindow = 0;
       const detail = this.device.diagnostic ?? "";
-      this.diagnosticProperty.value = `${detail}${detail ? " · " : ""}${this.sampleRate.toFixed(0)} samples/s`;
+      this.diagnosticProperty.value = `${detail}${detail ? " · " : ""}${toFixed(this.sampleRate, 0)} samples/s`;
     }
   }
 

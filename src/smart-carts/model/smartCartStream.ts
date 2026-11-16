@@ -1,3 +1,4 @@
+import { SMART_CART_STREAM_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * smartCartStream.ts
  *
@@ -25,18 +26,18 @@
 
 import { ENCODER_RESOLUTION } from "../../CartCollisionsConstants.js";
 
-const SET_SAMPLE_PERIOD = 0x01;
-const START_SAMPLING = 0x06;
-const STOP_SAMPLING = 0x07;
+const SET_SAMPLE_PERIOD: number = SMART_CART_STREAM_SETTINGS.SET_SAMPLE_PERIOD;
+const START_SAMPLING: number = SMART_CART_STREAM_SETTINGS.START_SAMPLING;
+const STOP_SAMPLING: number = SMART_CART_STREAM_SETTINGS.STOP_SAMPLING;
 
 /** Streamed packets carry a five-bit sequence number; anything at or above is a reply or event. */
-const STREAM_SEQUENCE_MODULUS = 0x20;
+const STREAM_SEQUENCE_MODULUS: number = SMART_CART_STREAM_SETTINGS.STREAM_SEQUENCE_MODULUS;
 
 /** Acknowledge every this many packets, or the cart stops sending. */
-export const STREAM_ACK_INTERVAL = 8;
+export const STREAM_ACK_INTERVAL: number = SMART_CART_STREAM_SETTINGS.STREAM_ACK_INTERVAL;
 
 export function setSamplePeriodCommand(periodMilliseconds: number): number[] {
-  const us = Math.round(periodMilliseconds * 1000);
+  const us = Math.round(periodMilliseconds * SMART_CART_STREAM_SETTINGS.MICROSECONDS_PER_MILLISECOND);
   return [SET_SAMPLE_PERIOD, us & 0xff, (us >>> 8) & 0xff, (us >>> 16) & 0xff, (us >>> 24) & 0xff, 0, 0];
 }
 
@@ -85,7 +86,10 @@ export function forceSamples(data: readonly number[]): number[] {
   const forces: number[] = [];
   for (let i = 1; i + 1 < data.length; i += 2) {
     const raw = (data[i] ?? 0) | ((data[i + 1] ?? 0) << 8);
-    forces.push(((32768 - raw) * 100) / (32768 - 1000));
+    forces.push(
+      ((SMART_CART_STREAM_SETTINGS.FORCE_RAW_ZERO - raw) * SMART_CART_STREAM_SETTINGS.FORCE_REFERENCE_NEWTONS) /
+        (SMART_CART_STREAM_SETTINGS.FORCE_RAW_ZERO - SMART_CART_STREAM_SETTINGS.FORCE_REFERENCE_CODE),
+    );
   }
   return forces;
 }

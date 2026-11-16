@@ -1,3 +1,4 @@
+import { EXPERIMENT_CONTROL_PANEL_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * ExperimentControlPanel.ts
  *
@@ -23,8 +24,8 @@ import { CartCollisionsPanel } from "../CartCollisionsPanel.js";
 import type { CartCollisionsModel } from "../model/CartCollisionsModel.js";
 import { Experiment, MassMode, type MassModeValue } from "../model/LabModel.js";
 
-const FONT = new PhetFont(12);
-const TITLE_FONT = new PhetFont({ size: 12, weight: "bold" });
+const FONT = new PhetFont(EXPERIMENT_CONTROL_PANEL_SETTINGS.FONT_FONT_SIZE);
+const TITLE_FONT = new PhetFont({ size: EXPERIMENT_CONTROL_PANEL_SETTINGS.TITLE_FONT_SIZE, weight: "bold" });
 const INNER_WIDTH = CONTROL_COLUMN_WIDTH - 24;
 
 const label = (
@@ -49,7 +50,11 @@ export function createMassModeRadioButtons(property: Property<MassModeValue>) {
         options: { accessibleName: labels.unequalMassStringProperty },
       },
     ],
-    { spacing: 5, radioButtonOptions: { radius: 6 }, accessibleName: labels.massSetupStringProperty },
+    {
+      spacing: EXPERIMENT_CONTROL_PANEL_SETTINGS.CREATE_MASS_MODE_RADIO_BUTTONS_SPACING,
+      radioButtonOptions: { radius: EXPERIMENT_CONTROL_PANEL_SETTINGS.CREATE_MASS_MODE_RADIO_BUTTONS_RADIUS },
+      accessibleName: labels.massSetupStringProperty,
+    },
   );
 }
 
@@ -71,9 +76,9 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
       new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
         content: new Text(string, {
-          font: new PhetFont({ size: 13, weight: "bold" }),
+          font: new PhetFont({ size: EXPERIMENT_CONTROL_PANEL_SETTINGS.ACTION_BUTTON_FONT_SIZE, weight: "bold" }),
           fill: LIGHT_SURFACE_TEXT_FILL,
-          maxWidth: INNER_WIDTH - 20,
+          maxWidth: INNER_WIDTH - EXPERIMENT_CONTROL_PANEL_SETTINGS.ACTION_BUTTON_MAX_WIDTH_OFFSET,
         }),
         listener,
         accessibleName: string,
@@ -100,8 +105,8 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
         })),
         {
           orientation: "horizontal",
-          spacing: 12,
-          radioButtonOptions: { radius: 6 },
+          spacing: EXPERIMENT_CONTROL_PANEL_SETTINGS.PLUNGER_RADIO_SPACING,
+          radioButtonOptions: { radius: EXPERIMENT_CONTROL_PANEL_SETTINGS.PLUNGER_RADIO_RADIUS },
           accessibleName: labels.plungerSettingStringProperty,
         },
       );
@@ -109,7 +114,16 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
       derived.push(canTrigger);
       const triggerButton = actionButton(labels.triggerStringProperty, () => model.trigger(), canTrigger);
       children.push(
-        new HBox({ spacing: 8, children: [label(labels.plungerSettingStringProperty, 110), plungerRadio] }),
+        new HBox({
+          spacing: EXPERIMENT_CONTROL_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+          children: [
+            label(
+              labels.plungerSettingStringProperty,
+              EXPERIMENT_CONTROL_PANEL_SETTINGS.PLUNGER_SETTING_LABEL_MAX_WIDTH,
+            ),
+            plungerRadio,
+          ],
+        }),
         triggerButton,
       );
       traversal.push(plungerRadio, triggerButton);
@@ -120,10 +134,14 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
         model.pushSpeedProperty.range,
         {
           ...CART_COLLISIONS_NUMBER_CONTROL_OPTIONS,
-          delta: 0.05,
-          titleNodeOptions: { font: FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: 110 },
+          delta: EXPERIMENT_CONTROL_PANEL_SETTINGS.PUSH_SPEED_CONTROL_DELTA,
+          titleNodeOptions: {
+            font: FONT,
+            fill: CartCollisionsColors.textColorProperty,
+            maxWidth: EXPERIMENT_CONTROL_PANEL_SETTINGS.PUSH_SPEED_CONTROL_MAX_WIDTH,
+          },
           numberDisplayOptions: {
-            decimalPlaces: 2,
+            decimalPlaces: EXPERIMENT_CONTROL_PANEL_SETTINGS.PUSH_SPEED_CONTROL_DECIMAL_PLACES,
             valuePattern: "{{value}} m/s",
             textOptions: { font: FONT },
           },
@@ -150,7 +168,13 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
     ) =>
       new Checkbox(
         property,
-        new HBox({ spacing: 4, children: [label(cart, 70, fill), label(labels.changeSignStringProperty, 110)] }),
+        new HBox({
+          spacing: EXPERIMENT_CONTROL_PANEL_SETTINGS.CHANGE_SIGN_SPACING,
+          children: [
+            label(cart, EXPERIMENT_CONTROL_PANEL_SETTINGS.CHANGE_SIGN_MAX_WIDTH, fill),
+            label(labels.changeSignStringProperty, EXPERIMENT_CONTROL_PANEL_SETTINGS.CHANGE_SIGN_LABEL_MAX_WIDTH),
+          ],
+        }),
         { ...CART_COLLISIONS_CHECKBOX_OPTIONS, accessibleName: name },
       );
     const redSign = changeSign(
@@ -169,7 +193,7 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
     children.push(resetCartsButton, redSign, blueSign);
     traversal.push(resetCartsButton, redSign, blueSign);
 
-    super(new VBox({ align: "left", spacing: 7, children }), {
+    super(new VBox({ align: "left", spacing: EXPERIMENT_CONTROL_PANEL_SETTINGS.SPACING, children }), {
       minWidth: CONTROL_COLUMN_WIDTH,
       maxWidth: CONTROL_COLUMN_WIDTH,
     });

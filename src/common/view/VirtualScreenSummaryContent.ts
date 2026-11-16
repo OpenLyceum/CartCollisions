@@ -1,3 +1,4 @@
+import { VIRTUAL_SCREEN_SUMMARY_CONTENT_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * VirtualScreenSummaryContent.ts
  *
@@ -28,10 +29,16 @@ export class VirtualScreenSummaryContent extends ScreenSummaryContent {
 
     const rounded = (property: TReadOnlyProperty<number>, decimals: number) =>
       new DerivedProperty([property], (value) => toFixed(value, decimals));
-    const vRed = rounded(model.redVelocityProperty, 2);
-    const vBlue = rounded(model.blueVelocityProperty, 2);
-    const p = rounded(model.totalMomentumProperty, 3);
-    const e = rounded(model.totalKineticEnergyProperty, 3);
+    const vRed = rounded(model.redVelocityProperty, VIRTUAL_SCREEN_SUMMARY_CONTENT_SETTINGS.V_RED_DECIMALS);
+    const vBlue = rounded(model.blueVelocityProperty, VIRTUAL_SCREEN_SUMMARY_CONTENT_SETTINGS.V_BLUE_DECIMALS);
+    const p = rounded(
+      model.totalMomentumProperty,
+      VIRTUAL_SCREEN_SUMMARY_CONTENT_SETTINGS.TOTAL_MOMENTUM_ROUNDED_DECIMALS,
+    );
+    const e = rounded(
+      model.totalKineticEnergyProperty,
+      VIRTUAL_SCREEN_SUMMARY_CONTENT_SETTINGS.TOTAL_KINETIC_ENERGY_ROUNDED_DECIMALS,
+    );
 
     const details = new DerivedProperty(
       [

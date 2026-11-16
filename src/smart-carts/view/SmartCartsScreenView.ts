@@ -1,3 +1,4 @@
+import { SMART_CARTS_SCREEN_VIEW_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * SmartCartsScreenView.ts
  *
@@ -22,8 +23,8 @@ import type { SmartCartsModel } from "../model/SmartCartsModel.js";
 import { SmartCartPanel } from "./SmartCartPanel.js";
 import { SmartCartsScreenSummaryContent } from "./SmartCartsScreenSummaryContent.js";
 
-const FONT = new PhetFont(12);
-const TITLE_FONT = new PhetFont({ size: 12, weight: "bold" });
+const FONT = new PhetFont(SMART_CARTS_SCREEN_VIEW_SETTINGS.FONT_FONT_SIZE);
+const TITLE_FONT = new PhetFont({ size: SMART_CARTS_SCREEN_VIEW_SETTINGS.TITLE_FONT_SIZE, weight: "bold" });
 
 export class SmartCartsScreenView extends LabScreenView {
   public constructor(model: SmartCartsModel, options: ScreenViewOptions) {
@@ -53,7 +54,7 @@ export class SmartCartsScreenView extends LabScreenView {
     });
     redPanel.left = SCREEN_VIEW_MARGIN;
     redPanel.top = SCREEN_VIEW_MARGIN;
-    bluePanel.left = redPanel.right + 12;
+    bluePanel.left = redPanel.right + SMART_CARTS_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
     bluePanel.top = SCREEN_VIEW_MARGIN;
 
     const hint = new Text(
@@ -63,13 +64,13 @@ export class SmartCartsScreenView extends LabScreenView {
           ? labels.smartCartHintStringProperty
           : labels.bluetoothUnsupportedStringProperty,
       {
-        font: new PhetFont(11),
+        font: new PhetFont(SMART_CARTS_SCREEN_VIEW_SETTINGS.HINT_FONT_SIZE),
         fill: bluetoothAvailable ? CartCollisionsColors.textColorProperty : CartCollisionsColors.warningColorProperty,
         maxWidth: this.leftAreaRight - 2 * SCREEN_VIEW_MARGIN,
         left: SCREEN_VIEW_MARGIN,
       },
     );
-    hint.top = Math.max(redPanel.bottom, bluePanel.bottom) + 6;
+    hint.top = Math.max(redPanel.bottom, bluePanel.bottom) + SMART_CARTS_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
 
     this.addChild(redPanel);
     this.addChild(bluePanel);
@@ -80,7 +81,7 @@ export class SmartCartsScreenView extends LabScreenView {
       new Text(string, {
         font: FONT,
         fill: CartCollisionsColors.textColorProperty,
-        maxWidth: CONTROL_COLUMN_WIDTH - 50,
+        maxWidth: CONTROL_COLUMN_WIDTH - SMART_CARTS_SCREEN_VIEW_SETTINGS.RADIO_LABEL_MAX_WIDTH_OFFSET,
       });
     const experimentRadio = new AquaRadioButtonGroup<ExperimentValue>(
       model.experimentProperty,
@@ -101,13 +102,17 @@ export class SmartCartsScreenView extends LabScreenView {
           options: { accessibleName: labels.elasticStringProperty },
         },
       ],
-      { spacing: 5, radioButtonOptions: { radius: 6 }, accessibleName: labels.experimentStringProperty },
+      {
+        spacing: SMART_CARTS_SCREEN_VIEW_SETTINGS.EXPERIMENT_RADIO_SPACING,
+        radioButtonOptions: { radius: SMART_CARTS_SCREEN_VIEW_SETTINGS.EXPERIMENT_RADIO_RADIUS },
+        accessibleName: labels.experimentStringProperty,
+      },
     );
     const massRadio = createMassModeRadioButtons(model.massModeProperty);
     const runPanel = new CartCollisionsPanel(
       new VBox({
         align: "left",
-        spacing: 6,
+        spacing: SMART_CARTS_SCREEN_VIEW_SETTINGS.RUN_PANEL_SPACING,
         children: [
           new Text(labels.experimentStringProperty, { font: TITLE_FONT, fill: CartCollisionsColors.textColorProperty }),
           experimentRadio,

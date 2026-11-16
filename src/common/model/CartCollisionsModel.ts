@@ -1,3 +1,4 @@
+import { CART_COLLISIONS_MODEL_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * CartCollisionsModel.ts
  *
@@ -60,10 +61,10 @@ import type { RowId } from "./labTables.js";
 import { Recording } from "./Recording.js";
 
 /** A frame longer than this (a backgrounded tab) is truncated, in s. */
-const MAX_FRAME = 1 / 20;
+const MAX_FRAME: number = CART_COLLISIONS_MODEL_SETTINGS.MAX_FRAME_DT;
 
 /** Below this speed a cart counts as at rest, in m/s. */
-const REST_SPEED = 1e-4;
+const REST_SPEED: number = CART_COLLISIONS_MODEL_SETTINGS.REST_SPEED;
 
 const BUMPER_FOR: Record<ExperimentValue, BumperValue> = {
   [Experiment.EXPLOSION]: Bumper.PLUNGER,
@@ -296,7 +297,7 @@ export class CartCollisionsModel implements TModel, TLabModel {
         this.detectImpact(forces.onBlue !== 0 || forces.leftStopOnRed !== 0 || forces.rightStopOnBlue !== 0);
         if (this.isRecordingWritable.value) {
           this.recordingTime += PHYSICS_TIME_STEP;
-          if (this.recordingTime + 1e-9 >= this.nextSampleTime) {
+          if (this.recordingTime + CART_COLLISIONS_MODEL_SETTINGS.SAMPLE_TIME_EPSILON >= this.nextSampleTime) {
             this.takeSample(forces.onBlue);
           }
           if (this.shouldAutoStop()) {

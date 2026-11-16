@@ -1,3 +1,4 @@
+import { CART_COLLISIONS_QUERY_PARAMETERS_SETTINGS } from "../CartCollisionsConstants.js";
 /**
  * cartCollisionsQueryParameters.ts
  *
@@ -53,7 +54,7 @@ const cartCollisionsQueryParameters = QueryStringMachine.getAll({
   /** Sampling period of a real Smart Cart on the Smart Carts screen, in ms. */
   smartCartPeriod: {
     type: "number",
-    defaultValue: 20,
+    defaultValue: CART_COLLISIONS_QUERY_PARAMETERS_SETTINGS.CART_COLLISIONS_QUERY_PARAMETERS_DEFAULT_VALUE,
     isValidValue: (value: number) => value >= 2 && value <= 1000,
     public: true,
   },

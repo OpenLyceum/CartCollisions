@@ -1,3 +1,4 @@
+import { ACQUISITION_UNITS } from "../../CartCollisionsConstants.js";
 /**
  * SmartCartsModel.ts
  *
@@ -88,7 +89,7 @@ export class SmartCartsModel implements TModel, TLabModel {
     if (!this.isRecordingWritable.value) {
       return;
     }
-    const time = (sample.timeMs - this.startTimeMs) / 1000;
+    const time = (sample.timeMs - this.startTimeMs) / ACQUISITION_UNITS.MILLISECONDS_PER_SECOND;
     if (time < 0) {
       return;
     }

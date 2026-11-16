@@ -135,6 +135,380 @@ export const HARDWARE_POLL_INTERVAL_MS = 20;
 /** A real Smart Cart's sampling period on the Smart Carts screen, in ms (50 Hz). */
 export const HARDWARE_STREAM_PERIOD_MS = 20;
 
+/** Settings for common/CartCollisionsControlOptions.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const CART_COLLISIONS_CONTROL_OPTIONS_SETTINGS = {
+  SLIDER_THUMB_SIZE_WIDTH: 12,
+  SLIDER_THUMB_SIZE_HEIGHT: 22,
+  STANDALONE_SLIDER_TRACK_SIZE_WIDTH: 150,
+  STANDALONE_SLIDER_TRACK_SIZE_HEIGHT: 3,
+  NUMBER_CONTROL_SLIDER_TRACK_SIZE_WIDTH: 110,
+  NUMBER_CONTROL_SLIDER_TRACK_SIZE_HEIGHT: 3,
+  CHECKBOX_BOX_WIDTH: 16,
+  /** Cart collisions number control options scale (dimensionless). */
+  CART_COLLISIONS_NUMBER_CONTROL_OPTIONS_SCALE: 0.75,
+  CART_COLLISIONS_NUMBER_CONTROL_OPTIONS_SLIDER_PADDING: 4,
+  CART_COLLISIONS_NUMBER_CONTROL_OPTIONS_ARROW_BUTTON_SPACING: 3,
+  CART_COLLISIONS_NUMBER_CONTROL_OPTIONS_VERTICAL_SPACING: 4,
+  CART_COLLISIONS_CHECKBOX_OPTIONS_SPACING: 4,
+} as const;
+
+/** Settings for common/CartCollisionsPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const CART_COLLISIONS_PANEL_SETTINGS = {
+  OPTIONS_X_MARGIN: 12,
+  OPTIONS_Y_MARGIN: 10,
+} as const;
+
+/** Settings for common/CartCollisionsScreenIcons.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const CART_COLLISIONS_SCREEN_ICONS_SETTINGS = {
+  TRACK_X_SEGMENT_2: 14, // px
+  TRACK_HEIGHT_SEGMENT_2: 62, // px
+
+  CART_Y_OFFSET: 14, // px
+  CART_X_OFFSET: 32, // px
+  BURST_Y_OFFSET: 57, // px
+  WAVES_Y_OFFSET: 120, // px
+
+  TRACK_Y: 250,
+  CART_W: 150,
+  CART_H: 70,
+  CART_CORNER_RADIUS: 8,
+  CART_RADIUS: 14,
+  CART_X: 32,
+  TRACK_X: 20,
+  TRACK_HEIGHT: 22,
+  TRACK_WIDTH: 14,
+  ARROW_HEAD_HEIGHT: 26,
+  ARROW_HEAD_WIDTH: 34,
+  ARROW_TAIL_WIDTH: 12,
+  BURST_RADIUS: 34,
+  VELCRO_WIDTH: 12,
+  MAGNET_WIDTH: 10,
+  CREATE_SMART_CARTS_ICON_LINE_WIDTH: 12,
+} as const;
+
+/** Settings for common/model/CartCollisionsModel.ts. */
+export const CART_COLLISIONS_MODEL_SETTINGS = {
+  /** Largest physics interval advanced for a rendered frame (s). */
+  MAX_FRAME_DT: 1 / 20,
+  /** Tolerance at a sampling boundary (s). */
+  SAMPLE_TIME_EPSILON: 1e-9,
+  /** Below this speed a cart counts as at rest, in m/s. */
+  REST_SPEED: 1e-4,
+} as const;
+
+/** Settings for common/model/GraphState.ts. */
+export const GRAPH_STATE_SETTINGS = {
+  /** Shortest visible time window, in s. */
+  MIN_ZOOM_SPAN: 0.1,
+  /** Time range max (s). */
+  TIME_RANGE_MAX: 3,
+  /** Fit start default (s). */
+  FIT_START_DEFAULT: 0.5,
+  /** Fit end default (s). */
+  FIT_END_DEFAULT: 1.0,
+} as const;
+
+/** Settings for common/model/labTables.ts. */
+export const LAB_TABLES_SETTINGS = {
+  /** Smallest initial energy for calculating a percentage change (J). */
+  MIN_INITIAL_ENERGY: 1e-12,
+  /** Relative tolerance for a calculated cell — allows for rounding the inputs to 3 figures. */
+  RELATIVE_TOLERANCE: 0.02,
+} as const;
+
+/** Settings for common/view/BalancePanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const BALANCE_PANEL_SETTINGS = {
+  SEND_BUTTON_MAX_WIDTH_OFFSET: 40, // px
+
+  FONT_FONT_SIZE: 12,
+  CONSTRUCTOR_SPACING: 4,
+  CONSTRUCTOR_FONT_SIZE: 12,
+} as const;
+
+/** Settings for common/view/CartNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const CART_NODE_SETTINGS = {
+  PLUNGER_HEIGHT: 12, // px
+
+  LABEL_MAX_WIDTH_OFFSET: 16, // px
+
+  BODY_HEIGHT: 30,
+  WHEEL_RADIUS: 6,
+  BAR_HEIGHT: 9,
+  BUMPER_WIDTH: 5,
+  BODY_CORNER_RADIUS: 4,
+  LABEL_FONT_SIZE: 9,
+  CONSTRUCTOR_LINE_WIDTH: 0.5,
+  CHILDREN_LINE_WIDTH: 0.5,
+  SHAPE_HEIGHT: 4,
+} as const;
+
+/** Settings for common/view/ExperimentControlPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const EXPERIMENT_CONTROL_PANEL_SETTINGS = {
+  PLUNGER_SETTING_LABEL_MAX_WIDTH: 110, // px
+  CHANGE_SIGN_MAX_WIDTH: 70, // px
+  CHANGE_SIGN_LABEL_MAX_WIDTH: 110, // px
+  SPACING: 7, // px
+
+  ACTION_BUTTON_MAX_WIDTH_OFFSET: 20, // px
+
+  FONT_FONT_SIZE: 12,
+  TITLE_FONT_SIZE: 12,
+  CREATE_MASS_MODE_RADIO_BUTTONS_SPACING: 5,
+  CREATE_MASS_MODE_RADIO_BUTTONS_RADIUS: 6,
+  ACTION_BUTTON_FONT_SIZE: 13,
+  PLUNGER_RADIO_SPACING: 12,
+  PLUNGER_RADIO_RADIUS: 6,
+  CONSTRUCTOR_SPACING: 8,
+  /** Push speed control delta (dimensionless). */
+  PUSH_SPEED_CONTROL_DELTA: 0.05,
+  PUSH_SPEED_CONTROL_MAX_WIDTH: 110,
+  /** Push speed control decimal places (dimensionless). */
+  PUSH_SPEED_CONTROL_DECIMAL_PLACES: 2,
+  CHANGE_SIGN_SPACING: 4,
+} as const;
+
+/** Settings for common/view/FitPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const FIT_PANEL_SETTINGS = {
+  READOUT_MAX_WIDTH_OFFSET: 140, // px
+
+  FONT_FONT_SIZE: 12,
+  SMALL_FONT_SIZE: 11,
+  TITLE_FONT_SIZE: 12,
+  BUTTON_MAX_WIDTH: 60,
+  BUTTON_X_MARGIN: 5,
+  BUTTON_Y_MARGIN: 2,
+  GRID_X_SPACING: 6,
+  GRID_Y_SPACING: 4,
+  CONSTRUCTOR_SPACING: 5,
+} as const;
+
+/** Settings for common/view/LabScreenView.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const LAB_SCREEN_VIEW_SETTINGS = {
+  CONSTRUCTOR_TOP_OFFSET: 40, // px
+  CONSTRUCTOR_MAX_WIDTH_OFFSET: 30, // px
+  CONSTRUCTOR_MIN_WIDTH_OFFSET: 60, // px
+  RECORDING_TEXT_TOP_OFFSET: 18, // px
+
+  /** Bottom of the apparatus band, where the graph's controls begin. */
+  PLAY_AREA_BOTTOM: 150,
+  /** Left edge of the plotting area (room for the y axis labels). */
+  GRAPH_LEFT: 78,
+  /** Left edge of the plotting area (room for the y axis labels). */
+  GRAPH_WIDTH: 590,
+  /** Left edge of the plotting area (room for the y axis labels). */
+  GRAPH_HEIGHT: 235,
+  LAB_TABLES_BUTTON_FONT_SIZE: 14,
+  CONTROL_COLUMN_SPACING: 10,
+  RECORDING_TEXT_FONT_SIZE: 12,
+} as const;
+
+/** Settings for common/view/LabTablesDialog.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const LAB_TABLES_DIALOG_SETTINGS = {
+  VALUE_TEXT_MAX_WIDTH_OFFSET: 8, // px
+  EXPECTED_TEXT_MAX_WIDTH_OFFSET: 8, // px
+  QUESTIONS_LINE_WRAP: 800, // px
+
+  CELL_WIDTH: 74,
+  ROW_LABEL_WIDTH: 190,
+  CELL_FONT_SIZE: 11,
+  HEADER_FONT_SIZE: 11,
+  TITLE_FONT_SIZE: 14,
+  /** Largest magnitude a student may type into any cell. */
+  ENTRY_LIMIT: 1000,
+  EXPECTED_TEXT_FONT_SIZE: 9,
+  CONSTRUCTOR_MIN_HEIGHT: 22,
+  CONSTRUCTOR_X_MARGIN: 3,
+  CONSTRUCTOR_Y_MARGIN: 2,
+  GRID_X_SPACING: 3,
+  GRID_Y_SPACING: 3,
+  CREATE_TABLE_SPACING: 4,
+  CHECKBOX_OPTIONS_BOX_WIDTH: 14,
+  CHECKBOX_MAX_WIDTH: 200,
+  PUSH_BUTTON_MAX_WIDTH: 140,
+  CONTROLS_SPACING: 16,
+  QUESTION_FONT_SIZE: 11,
+  QUESTIONS_SPACING: 3,
+  CONSTRUCTOR_SPACING: 10,
+  CONSTRUCTOR_FONT_SIZE: 18,
+} as const;
+
+/** Settings for common/view/RecordControls.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const RECORD_CONTROLS_SETTINGS = {
+  FONT_FONT_SIZE: 13,
+  DOT_RADIUS: 6,
+  SQUARE_X: -5,
+  SQUARE_Y: -5,
+  SQUARE_WIDTH: 10,
+  SQUARE_HEIGHT: 10,
+  RECORD_BUTTON_SPACING: 6,
+  RECORD_BUTTON_MAX_WIDTH: 80,
+  RECORD_BUTTON_MIN_WIDTH: 100,
+  CLEAR_BUTTON_MAX_WIDTH: 70,
+  CONSTRUCTOR_SPACING: 8,
+} as const;
+
+/** Settings for common/view/TimeGraphNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const TIME_GRAPH_NODE_SETTINGS = {
+  FIT_LINES_LINE_DASH_DASH: 6, // px
+  CONSTRUCTOR_FIT_LINES_LINE_DASH_DASH: 3, // px
+  LAYOUT_TOP_OFFSET: 18, // px
+
+  LABEL_FONT_SIZE: 11,
+  TICK_FONT_SIZE: 10,
+  /** Chart transform range min (in the source module’s documented units). */
+  CHART_TRANSFORM_RANGE_MIN: -0.1,
+  /** Chart transform range max (in the source module’s documented units). */
+  CHART_TRANSFORM_RANGE_MAX: 0.1,
+  GRID_OPTIONS_LINE_WIDTH: 0.5,
+  ZERO_LINE_LINE_WIDTH: 0.5,
+  RED_PLOT_LINE_WIDTH: 2,
+  BLUE_PLOT_LINE_WIDTH: 2,
+  FIT_LINES_LINE_WIDTH: 2,
+  HANDLE_X: -6,
+  HANDLE_WIDTH: 12,
+  HANDLE_LINE_WIDTH: 2,
+  HANDLE_RADIUS: 6,
+  HANDLE_Y: 4,
+  RADIO_LABEL_MAX_WIDTH: 90,
+  QUANTITY_RADIO_BUTTONS_SPACING: 14,
+  QUANTITY_RADIO_BUTTONS_RADIUS: 6,
+  SMALL_BUTTON_MAX_WIDTH: 110,
+  SMALL_BUTTON_X_MARGIN: 6,
+  SMALL_BUTTON_Y_MARGIN: 3,
+  ZOOM_BUTTONS_SPACING: 6,
+  RIGHT_RIGHT: -38,
+  BOTTOM_BOTTOM: -6,
+} as const;
+
+/** Settings for common/view/TrackNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const TRACK_NODE_SETTINGS = {
+  /** Height of the track beam, in view pixels. */
+  TRACK_HEIGHT: 14,
+  /** Height of the track beam, in view pixels. */
+  STOP_WIDTH: 10,
+  /** Height of the track beam, in view pixels. */
+  STOP_HEIGHT: 34,
+  BEAM_LINE_WIDTH: 0.5,
+  LABEL_FONT_SIZE: 8,
+  STOP_CORNER_RADIUS: 2,
+} as const;
+
+/** Settings for common/view/VirtualLabScreenView.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const VIRTUAL_LAB_SCREEN_VIEW_SETTINGS = {
+  /** y of the track's top surface. */
+  TRACK_TOP: 100,
+} as const;
+
+/** Settings for preferences/CartCollisionsPreferencesNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const CART_COLLISIONS_PREFERENCES_NODE_SETTINGS = {
+  FONT_FONT_SIZE: 14,
+  HEADER_FONT_SIZE: 18,
+  SAMPLE_RATE_RADIO_SPACING: 16,
+  /** Friction control delta (dimensionless). */
+  FRICTION_CONTROL_DELTA: 0.001,
+  /** Friction control decimal places (dimensionless). */
+  FRICTION_CONTROL_DECIMAL_PLACES: 3,
+  REVERSED_CHECKBOX_SPACING: 8,
+  CONSTRUCTOR_SPACING: 12,
+} as const;
+
+/** Settings for smart-carts/model/BluetoothSmartCart.ts. */
+export const BLUETOOTH_SMART_CART_SETTINGS = {
+  /** Maximum Bluetooth connection wait (ms). */
+  CONNECTION_TIMEOUT_MS: 15000,
+  /** PASCO sensor ids of the cart's position and force channels (datasheets). */
+  POSITION_SENSOR_ID: 2027,
+  /** PASCO sensor ids of the cart's position and force channels (datasheets). */
+  FORCE_SENSOR_ID: 2025,
+} as const;
+
+/** Settings for smart-carts/model/SmartCartChannel.ts. */
+export const SMART_CART_CHANNEL_SETTINGS = {
+  /** Window used to report sample rate (ms). */
+  RATE_WINDOW_MS: 1000,
+  /** Milliseconds in one second. */
+  MILLISECONDS_PER_SECOND: 1000,
+  /** Consecutive failed reads after which the link is considered lost. */
+  MAX_FAILURES: 5,
+} as const;
+
+/** Settings for smart-carts/model/smartCartStream.ts. */
+export const SMART_CART_STREAM_SETTINGS = {
+  /** Microseconds in one millisecond. */
+  MICROSECONDS_PER_MILLISECOND: 1000,
+  /** Raw force code at zero force (encoder counts). */
+  FORCE_RAW_ZERO: 32768,
+  /** Raw code at the calibration reference force (encoder counts). */
+  FORCE_REFERENCE_CODE: 1000,
+  /** Reference force used by the upstream Smart Cart calibration (N). */
+  FORCE_REFERENCE_NEWTONS: 100,
+  /** Set sample period (protocol byte). */
+  SET_SAMPLE_PERIOD: 0x01,
+  /** Start sampling (protocol byte). */
+  START_SAMPLING: 0x06,
+  /** Stop sampling (protocol byte). */
+  STOP_SAMPLING: 0x07,
+  /** Streamed packets carry a five-bit sequence number; anything at or above is a reply or event. */
+  STREAM_SEQUENCE_MODULUS: 0x20,
+  /** Acknowledge every this many packets, or the cart stops sending. */
+  STREAM_ACK_INTERVAL: 8,
+} as const;
+
+/** Settings for smart-carts/view/SmartCartPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const SMART_CART_PANEL_SETTINGS = {
+  ITEM_1_SPACING: 10, // px
+  PHET_FONT_FONT_SIZE: 11, // px
+  PHET_FONT_FONT_SIZE_SEGMENT_2: 10, // px
+
+  CHANGE_SIGN_CHECKBOX_MAX_WIDTH_OFFSET: 30, // px
+
+  FONT_FONT_SIZE: 12,
+  CONNECT_BUTTON_FONT_SIZE: 13,
+  CONNECT_BUTTON_MAX_WIDTH: 100,
+  CONSTRUCTOR_SPACING: 5,
+  CONSTRUCTOR_FONT_SIZE: 14,
+  CONSTRUCTOR_MAX_WIDTH: 110,
+} as const;
+
+/** Settings for smart-carts/view/SmartCartsScreenView.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const SMART_CARTS_SCREEN_VIEW_SETTINGS = {
+  CONSTRUCTOR_LEFT_OFFSET: 12, // px
+  CONSTRUCTOR_TOP_OFFSET: 6, // px
+  RADIO_LABEL_MAX_WIDTH_OFFSET: 50, // px
+
+  FONT_FONT_SIZE: 12,
+  TITLE_FONT_SIZE: 12,
+  HINT_FONT_SIZE: 11,
+  EXPERIMENT_RADIO_SPACING: 5,
+  EXPERIMENT_RADIO_RADIUS: 6,
+  RUN_PANEL_SPACING: 6,
+} as const;
+
+/** Numerical settings; units are specified per value. */
+export const ACQUISITION_UNITS = {
+  /** Milliseconds in one second. */
+  MILLISECONDS_PER_SECOND: 1000,
+} as const;
+
+/** Numerical settings; units are specified per value. */
+export const COLLISION_PHYSICS_SETTINGS = {
+  /** Extra wall-contact damping relative to cart contact (dimensionless). */
+  BUMPER_DAMPING_FACTOR: 4,
+} as const;
+
+/** Component dimensions in px; ratios and control steps are dimensionless; precision counts digits. */
+export const CART_COLLISIONS_QUERY_PARAMETERS_SETTINGS = {
+  CART_COLLISIONS_QUERY_PARAMETERS_DEFAULT_VALUE: 20, // dimensionless
+} as const;
+
+/** Component dimensions in px; ratios and control steps are dimensionless; precision counts digits. */
+export const VIRTUAL_SCREEN_SUMMARY_CONTENT_SETTINGS = {
+  V_RED_DECIMALS: 2, // digits
+  V_BLUE_DECIMALS: 2, // digits
+  TOTAL_MOMENTUM_ROUNDED_DECIMALS: 3, // digits
+  TOTAL_KINETIC_ENERGY_ROUNDED_DECIMALS: 3, // digits
+} as const;
+
 CartCollisionsNamespace.register("CartCollisionsConstants", {
   SCREEN_VIEW_MARGIN,
   TRACK_LENGTH,

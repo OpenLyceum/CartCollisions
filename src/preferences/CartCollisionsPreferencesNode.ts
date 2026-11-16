@@ -1,3 +1,4 @@
+import { CART_COLLISIONS_PREFERENCES_NODE_SETTINGS } from "../CartCollisionsConstants.js";
 /**
  * CartCollisionsPreferencesNode.ts
  *
@@ -21,10 +22,10 @@ export class CartCollisionsPreferencesNode extends VBox {
 
     // The Preferences dialog is always white, so use the dark "light control surface" text color.
     const fill = CartCollisionsColors.controlSurfaceTextColorProperty;
-    const font = new PhetFont(14);
+    const font = new PhetFont(CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.FONT_FONT_SIZE);
 
     const header = new Text(prefStrings.titleStringProperty, {
-      font: new PhetFont({ size: 18, weight: "bold" }),
+      font: new PhetFont({ size: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.HEADER_FONT_SIZE, weight: "bold" }),
       fill,
     });
 
@@ -35,7 +36,11 @@ export class CartCollisionsPreferencesNode extends VBox {
         createNode: () => new Text(`${rate} Hz`, { font, fill }),
         options: { accessibleName: `${rate} Hz` },
       })),
-      { orientation: "horizontal", spacing: 16, accessibleName: prefStrings.sampleRateStringProperty },
+      {
+        orientation: "horizontal",
+        spacing: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.SAMPLE_RATE_RADIO_SPACING,
+        accessibleName: prefStrings.sampleRateStringProperty,
+      },
     );
 
     const frictionControl = new NumberControl(
@@ -43,9 +48,11 @@ export class CartCollisionsPreferencesNode extends VBox {
       preferencesModel.rollingFrictionProperty,
       preferencesModel.rollingFrictionProperty.range,
       {
-        delta: 0.001,
+        delta: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.FRICTION_CONTROL_DELTA,
         titleNodeOptions: { font, fill },
-        numberDisplayOptions: { decimalPlaces: 3 },
+        numberDisplayOptions: {
+          decimalPlaces: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.FRICTION_CONTROL_DECIMAL_PLACES,
+        },
         ...(tandem && { tandem: tandem.createTandem("rollingFrictionControl") }),
       },
     );
@@ -56,7 +63,7 @@ export class CartCollisionsPreferencesNode extends VBox {
       {
         checkboxColor: fill,
         checkboxColorBackground: CartCollisionsColors.controlSurfaceColorProperty,
-        spacing: 8,
+        spacing: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.REVERSED_CHECKBOX_SPACING,
         accessibleName: prefStrings.blueCartReversedStringProperty,
         ...(tandem && { tandem: tandem.createTandem("blueCartReversedCheckbox") }),
       },
@@ -64,7 +71,7 @@ export class CartCollisionsPreferencesNode extends VBox {
 
     super({
       align: "left",
-      spacing: 12,
+      spacing: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.CONSTRUCTOR_SPACING,
       children: [
         header,
         new Text(prefStrings.sampleRateStringProperty, { font, fill }),

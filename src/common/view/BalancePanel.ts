@@ -1,3 +1,4 @@
+import { BALANCE_PANEL_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * BalancePanel.ts
  *
@@ -18,7 +19,7 @@ import { FLAT_PANEL_PUSH_BUTTON_OPTIONS, LIGHT_SURFACE_TEXT_FILL } from "../Cart
 import { CartCollisionsPanel } from "../CartCollisionsPanel.js";
 import type { CartCollisionsModel } from "../model/CartCollisionsModel.js";
 
-const FONT = new PhetFont(12);
+const FONT = new PhetFont(BALANCE_PANEL_SETTINGS.FONT_FONT_SIZE);
 
 export class BalancePanel extends CartCollisionsPanel {
   public readonly sendButton: RectangularPushButton;
@@ -36,7 +37,7 @@ export class BalancePanel extends CartCollisionsPanel {
       content: new Text(labels.sendMassesStringProperty, {
         font: FONT,
         fill: LIGHT_SURFACE_TEXT_FILL,
-        maxWidth: CONTROL_COLUMN_WIDTH - 40,
+        maxWidth: CONTROL_COLUMN_WIDTH - BALANCE_PANEL_SETTINGS.SEND_BUTTON_MAX_WIDTH_OFFSET,
       }),
       accessibleName: labels.sendMassesStringProperty,
       listener: () => {
@@ -49,10 +50,10 @@ export class BalancePanel extends CartCollisionsPanel {
     super(
       new VBox({
         align: "left",
-        spacing: 4,
+        spacing: BALANCE_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
         children: [
           new Text(labels.balanceStringProperty, {
-            font: new PhetFont({ size: 12, weight: "bold" }),
+            font: new PhetFont({ size: BALANCE_PANEL_SETTINGS.CONSTRUCTOR_FONT_SIZE, weight: "bold" }),
             fill: CartCollisionsColors.textColorProperty,
           }),
           new Text(reading(labels.redCartStringProperty, model.massRedProperty), {

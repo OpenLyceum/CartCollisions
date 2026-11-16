@@ -1,3 +1,4 @@
+import { FIT_PANEL_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * FitPanel.ts
  *
@@ -22,8 +23,8 @@ import { GraphQuantity, type GraphQuantityValue } from "../model/GraphState.js";
 import type { TLabModel } from "../model/LabModel.js";
 import type { MeasuredColumn } from "../model/labTables.js";
 
-const FONT = new PhetFont(12);
-const SMALL_FONT = new PhetFont(11);
+const FONT = new PhetFont(FIT_PANEL_SETTINGS.FONT_FONT_SIZE);
+const SMALL_FONT = new PhetFont(FIT_PANEL_SETTINGS.SMALL_FONT_SIZE);
 
 /** The velocity a fit gives, or null when it gives none. */
 function velocityFromFit(fit: LineFit | null, quantity: GraphQuantityValue): number | null {
@@ -46,7 +47,7 @@ export class FitPanel extends CartCollisionsPanel {
     const graph = model.graph;
 
     const title = new Text(labels.fitTitleStringProperty, {
-      font: new PhetFont({ size: 12, weight: "bold" }),
+      font: new PhetFont({ size: FIT_PANEL_SETTINGS.TITLE_FONT_SIZE, weight: "bold" }),
       fill: CartCollisionsColors.textColorProperty,
       maxWidth: width,
     });
@@ -97,7 +98,10 @@ export class FitPanel extends CartCollisionsPanel {
           });
         },
       );
-      return { property: text, node: new Text(text, { font: FONT, fill, maxWidth: width - 140 }) };
+      return {
+        property: text,
+        node: new Text(text, { font: FONT, fill, maxWidth: width - FIT_PANEL_SETTINGS.READOUT_MAX_WIDTH_OFFSET }),
+      };
     };
 
     const red = readout(labels.redStringProperty, (fits) => fits.red, CartCollisionsColors.redCartColorProperty);
@@ -126,12 +130,16 @@ export class FitPanel extends CartCollisionsPanel {
     ) =>
       new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-        content: new Text(label, { font: SMALL_FONT, fill: LIGHT_SURFACE_TEXT_FILL, maxWidth: 60 }),
+        content: new Text(label, {
+          font: SMALL_FONT,
+          fill: LIGHT_SURFACE_TEXT_FILL,
+          maxWidth: FIT_PANEL_SETTINGS.BUTTON_MAX_WIDTH,
+        }),
         listener,
         enabledProperty,
         accessibleName,
-        xMargin: 5,
-        yMargin: 2,
+        xMargin: FIT_PANEL_SETTINGS.BUTTON_X_MARGIN,
+        yMargin: FIT_PANEL_SETTINGS.BUTTON_Y_MARGIN,
       });
 
     const redBefore = button(labels.beforeStringProperty, a11y.sendRedBeforeStringProperty, redEnabled, () =>
@@ -148,8 +156,8 @@ export class FitPanel extends CartCollisionsPanel {
     );
 
     const grid = new GridBox({
-      xSpacing: 6,
-      ySpacing: 4,
+      xSpacing: FIT_PANEL_SETTINGS.GRID_X_SPACING,
+      ySpacing: FIT_PANEL_SETTINGS.GRID_Y_SPACING,
       xAlign: "left",
       rows: [
         [red.node, redBefore, redAfter],
@@ -157,10 +165,13 @@ export class FitPanel extends CartCollisionsPanel {
       ],
     });
 
-    super(new VBox({ align: "left", spacing: 5, children: [title, grid, rowText] }), {
-      minWidth: width,
-      maxWidth: width,
-    });
+    super(
+      new VBox({ align: "left", spacing: FIT_PANEL_SETTINGS.CONSTRUCTOR_SPACING, children: [title, grid, rowText] }),
+      {
+        minWidth: width,
+        maxWidth: width,
+      },
+    );
 
     this.sendButtons = [redBefore, redAfter, blueBefore, blueAfter];
 

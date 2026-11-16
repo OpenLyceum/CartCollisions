@@ -1,3 +1,4 @@
+import { CART_COLLISIONS_PANEL_SETTINGS } from "../CartCollisionsConstants.js";
 /**
  * CartCollisionsPanel.ts
  *
@@ -40,8 +41,8 @@ export class CartCollisionsPanel extends Panel {
         fill: CartCollisionsColors.panelBackgroundColorProperty,
         stroke: CartCollisionsColors.panelBorderColorProperty,
         cornerRadius: PANEL_CORNER_RADIUS,
-        xMargin: 12,
-        yMargin: 10,
+        xMargin: CART_COLLISIONS_PANEL_SETTINGS.OPTIONS_X_MARGIN,
+        yMargin: CART_COLLISIONS_PANEL_SETTINGS.OPTIONS_Y_MARGIN,
       },
       providedOptions,
     );

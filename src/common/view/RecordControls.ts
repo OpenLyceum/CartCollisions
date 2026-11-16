@@ -1,3 +1,4 @@
+import { RECORD_CONTROLS_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * RecordControls.ts
  *
@@ -14,7 +15,7 @@ import { StringManager } from "../../i18n/StringManager.js";
 import { FLAT_PANEL_PUSH_BUTTON_OPTIONS, LIGHT_SURFACE_TEXT_FILL } from "../CartCollisionsButtonOptions.js";
 import type { TLabModel } from "../model/LabModel.js";
 
-const FONT = new PhetFont({ size: 13, weight: "bold" });
+const FONT = new PhetFont({ size: RECORD_CONTROLS_SETTINGS.FONT_FONT_SIZE, weight: "bold" });
 
 export class RecordControls extends HBox {
   public readonly recordButton: RectangularPushButton;
@@ -28,8 +29,14 @@ export class RecordControls extends HBox {
       [model.isRecordingProperty, labels.recordStringProperty, labels.stopStringProperty],
       (recording, record, stop) => (recording ? stop : record),
     );
-    const dot = new Circle(6, { fill: CartCollisionsColors.redCartColorProperty });
-    const square = new Rectangle(-5, -5, 10, 10, { fill: LIGHT_SURFACE_TEXT_FILL });
+    const dot = new Circle(RECORD_CONTROLS_SETTINGS.DOT_RADIUS, { fill: CartCollisionsColors.redCartColorProperty });
+    const square = new Rectangle(
+      RECORD_CONTROLS_SETTINGS.SQUARE_X,
+      RECORD_CONTROLS_SETTINGS.SQUARE_Y,
+      RECORD_CONTROLS_SETTINGS.SQUARE_WIDTH,
+      RECORD_CONTROLS_SETTINGS.SQUARE_HEIGHT,
+      { fill: LIGHT_SURFACE_TEXT_FILL },
+    );
     const iconLink = (recording: boolean) => {
       dot.visible = !recording;
       square.visible = recording;
@@ -39,24 +46,36 @@ export class RecordControls extends HBox {
     const recordButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
       content: new HBox({
-        spacing: 6,
-        children: [dot, square, new Text(recordLabel, { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL, maxWidth: 80 })],
+        spacing: RECORD_CONTROLS_SETTINGS.RECORD_BUTTON_SPACING,
+        children: [
+          dot,
+          square,
+          new Text(recordLabel, {
+            font: FONT,
+            fill: LIGHT_SURFACE_TEXT_FILL,
+            maxWidth: RECORD_CONTROLS_SETTINGS.RECORD_BUTTON_MAX_WIDTH,
+          }),
+        ],
         excludeInvisibleChildrenFromBounds: true,
       }),
       enabledProperty: model.canRecordProperty,
       accessibleName: recordLabel,
       listener: () => (model.isRecordingProperty.value ? model.stop() : model.record()),
-      minWidth: 100,
+      minWidth: RECORD_CONTROLS_SETTINGS.RECORD_BUTTON_MIN_WIDTH,
     });
 
     const clearButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-      content: new Text(labels.clearStringProperty, { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL, maxWidth: 70 }),
+      content: new Text(labels.clearStringProperty, {
+        font: FONT,
+        fill: LIGHT_SURFACE_TEXT_FILL,
+        maxWidth: RECORD_CONTROLS_SETTINGS.CLEAR_BUTTON_MAX_WIDTH,
+      }),
       accessibleName: labels.clearStringProperty,
       listener: () => model.clear(),
     });
 
-    super({ spacing: 8, children: [recordButton, clearButton] });
+    super({ spacing: RECORD_CONTROLS_SETTINGS.CONSTRUCTOR_SPACING, children: [recordButton, clearButton] });
     this.recordButton = recordButton;
     this.clearButton = clearButton;
 

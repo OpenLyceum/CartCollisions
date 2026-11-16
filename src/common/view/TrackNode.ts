@@ -1,3 +1,4 @@
+import { TRACK_NODE_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * TrackNode.ts
  *
@@ -11,10 +12,10 @@ import { TRACK_LENGTH } from "../../CartCollisionsConstants.js";
 import type { TrackTransform } from "./TrackTransform.js";
 
 /** Height of the track beam, in view pixels. */
-const TRACK_HEIGHT = 14;
+const TRACK_HEIGHT: number = TRACK_NODE_SETTINGS.TRACK_HEIGHT;
 
-const STOP_WIDTH = 10;
-const STOP_HEIGHT = 34;
+const STOP_WIDTH: number = TRACK_NODE_SETTINGS.STOP_WIDTH;
+const STOP_HEIGHT: number = TRACK_NODE_SETTINGS.STOP_HEIGHT;
 
 export class TrackNode extends Node {
   public constructor(transform: TrackTransform, trackTop: number) {
@@ -24,7 +25,7 @@ export class TrackNode extends Node {
     const beam = new Rectangle(left - STOP_WIDTH, trackTop, right - left + 2 * STOP_WIDTH, TRACK_HEIGHT, {
       fill: CartCollisionsColors.trackColorProperty,
       stroke: CartCollisionsColors.rulerColorProperty,
-      lineWidth: 0.5,
+      lineWidth: TRACK_NODE_SETTINGS.BEAM_LINE_WIDTH,
     });
 
     const ruler = new Node();
@@ -40,7 +41,7 @@ export class TrackNode extends Node {
       );
       if (major) {
         const label = new Text(`${cm}`, {
-          font: new PhetFont(8),
+          font: new PhetFont(TRACK_NODE_SETTINGS.LABEL_FONT_SIZE),
           fill: CartCollisionsColors.rulerColorProperty,
           bottom: trackTop + TRACK_HEIGHT - 0.5,
         });
@@ -59,7 +60,7 @@ export class TrackNode extends Node {
     const stop = (x: number) =>
       new Rectangle(x, trackTop - STOP_HEIGHT + TRACK_HEIGHT, STOP_WIDTH, STOP_HEIGHT, {
         fill: CartCollisionsColors.hardwareColorProperty,
-        cornerRadius: 2,
+        cornerRadius: TRACK_NODE_SETTINGS.STOP_CORNER_RADIUS,
       });
 
     super({ children: [beam, ruler, stop(left - STOP_WIDTH), stop(right)] });

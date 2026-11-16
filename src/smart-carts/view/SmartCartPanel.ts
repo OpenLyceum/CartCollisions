@@ -1,3 +1,4 @@
+import { SMART_CART_PANEL_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * SmartCartPanel.ts
  *
@@ -21,7 +22,7 @@ import { StringManager } from "../../i18n/StringManager.js";
 import cartCollisionsQueryParameters from "../../preferences/cartCollisionsQueryParameters.js";
 import { ConnectionState, type SmartCartChannel } from "../model/SmartCartChannel.js";
 
-const FONT = new PhetFont(12);
+const FONT = new PhetFont(SMART_CART_PANEL_SETTINGS.FONT_FONT_SIZE);
 
 export type SmartCartPanelOptions = {
   readonly title: TReadOnlyProperty<string>;
@@ -76,9 +77,9 @@ export class SmartCartPanel extends CartCollisionsPanel {
     const connectButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
       content: new Text(buttonLabel, {
-        font: new PhetFont({ size: 13, weight: "bold" }),
+        font: new PhetFont({ size: SMART_CART_PANEL_SETTINGS.CONNECT_BUTTON_FONT_SIZE, weight: "bold" }),
         fill: LIGHT_SURFACE_TEXT_FILL,
-        maxWidth: 100,
+        maxWidth: SMART_CART_PANEL_SETTINGS.CONNECT_BUTTON_MAX_WIDTH,
       }),
       enabledProperty: canPress,
       accessibleName: options.connectAccessibleName,
@@ -97,7 +98,7 @@ export class SmartCartPanel extends CartCollisionsPanel {
       new Text(labels.changeSignStringProperty, {
         font: FONT,
         fill: CartCollisionsColors.textColorProperty,
-        maxWidth: innerWidth - 30,
+        maxWidth: innerWidth - SMART_CART_PANEL_SETTINGS.CHANGE_SIGN_CHECKBOX_MAX_WIDTH_OFFSET,
       }),
       { ...CART_COLLISIONS_CHECKBOX_OPTIONS, accessibleName: options.changeSignAccessibleName },
     );
@@ -105,22 +106,22 @@ export class SmartCartPanel extends CartCollisionsPanel {
     super(
       new VBox({
         align: "left",
-        spacing: 5,
+        spacing: SMART_CART_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
         children: [
           new HBox({
-            spacing: 10,
+            spacing: SMART_CART_PANEL_SETTINGS.ITEM_1_SPACING,
             children: [
               new Text(options.title, {
-                font: new PhetFont({ size: 14, weight: "bold" }),
+                font: new PhetFont({ size: SMART_CART_PANEL_SETTINGS.CONSTRUCTOR_FONT_SIZE, weight: "bold" }),
                 fill: options.titleFill,
-                maxWidth: 110,
+                maxWidth: SMART_CART_PANEL_SETTINGS.CONSTRUCTOR_MAX_WIDTH,
               }),
               connectButton,
             ],
           }),
           new Text(status, { font: FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: innerWidth }),
           new Text(error, {
-            font: new PhetFont(11),
+            font: new PhetFont(SMART_CART_PANEL_SETTINGS.PHET_FONT_FONT_SIZE),
             fill: CartCollisionsColors.warningColorProperty,
             maxWidth: innerWidth,
           }),
@@ -129,7 +130,7 @@ export class SmartCartPanel extends CartCollisionsPanel {
           ...(cartCollisionsQueryParameters.showDiagnostics
             ? [
                 new Text(channel.diagnosticProperty, {
-                  font: new PhetFont(10),
+                  font: new PhetFont(SMART_CART_PANEL_SETTINGS.PHET_FONT_FONT_SIZE_SEGMENT_2),
                   fill: CartCollisionsColors.warningColorProperty,
                   maxWidth: innerWidth,
                 }),

@@ -1,3 +1,4 @@
+import { COLLISION_PHYSICS_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * collisionPhysics.ts
  *
@@ -115,10 +116,22 @@ function interactionForces(state: Readonly<CartsState>, parameters: CartsParamet
   const redLeftEdge = state.xRed - CART_LENGTH / 2;
   const blueRightEdge = state.xBlue + CART_LENGTH / 2;
   const leftStopOnRed =
-    redLeftEdge < 0 ? Math.max(0, CONTACT_STIFFNESS * -redLeftEdge - CONTACT_DAMPING * 4 * state.vRed) : 0;
+    redLeftEdge < 0
+      ? Math.max(
+          0,
+          CONTACT_STIFFNESS * -redLeftEdge -
+            CONTACT_DAMPING * COLLISION_PHYSICS_SETTINGS.BUMPER_DAMPING_FACTOR * state.vRed,
+        )
+      : 0;
   const rightOverlap = blueRightEdge - TRACK_LENGTH;
   const rightStopOnBlue =
-    rightOverlap > 0 ? Math.min(0, -CONTACT_STIFFNESS * rightOverlap - CONTACT_DAMPING * 4 * state.vBlue) : 0;
+    rightOverlap > 0
+      ? Math.min(
+          0,
+          -CONTACT_STIFFNESS * rightOverlap -
+            CONTACT_DAMPING * COLLISION_PHYSICS_SETTINGS.BUMPER_DAMPING_FACTOR * state.vBlue,
+        )
+      : 0;
 
   return { onBlue, leftStopOnRed, rightStopOnBlue };
 }

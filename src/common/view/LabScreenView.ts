@@ -1,3 +1,4 @@
+import { LAB_SCREEN_VIEW_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * LabScreenView.ts
  *
@@ -32,13 +33,13 @@ import { RecordControls } from "./RecordControls.js";
 import { TimeGraphNode } from "./TimeGraphNode.js";
 
 /** Bottom of the apparatus band, where the graph's controls begin. */
-const PLAY_AREA_BOTTOM = 150;
+const PLAY_AREA_BOTTOM: number = LAB_SCREEN_VIEW_SETTINGS.PLAY_AREA_BOTTOM;
 
 /** Left edge of the plotting area (room for the y axis labels). */
-const GRAPH_LEFT = 78;
+const GRAPH_LEFT: number = LAB_SCREEN_VIEW_SETTINGS.GRAPH_LEFT;
 const GRAPH_TOP = PLAY_AREA_BOTTOM + 32;
-const GRAPH_WIDTH = 590;
-const GRAPH_HEIGHT = 235;
+const GRAPH_WIDTH: number = LAB_SCREEN_VIEW_SETTINGS.GRAPH_WIDTH;
+const GRAPH_HEIGHT: number = LAB_SCREEN_VIEW_SETTINGS.GRAPH_HEIGHT;
 
 export type LabScreenViewOptions = ScreenViewOptions;
 
@@ -69,7 +70,7 @@ export class LabScreenView extends ScreenView {
     this.graphNode.x = GRAPH_LEFT;
     this.graphNode.y = GRAPH_TOP;
     this.fitPanel.left = SCREEN_VIEW_MARGIN;
-    this.fitPanel.top = GRAPH_TOP + GRAPH_HEIGHT + 40;
+    this.fitPanel.top = GRAPH_TOP + GRAPH_HEIGHT + LAB_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
 
     this.recordControls = new RecordControls(labModel);
 
@@ -77,18 +78,18 @@ export class LabScreenView extends ScreenView {
     this.labTablesButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
       content: new Text(labels.labTablesStringProperty, {
-        font: new PhetFont({ size: 14, weight: "bold" }),
+        font: new PhetFont({ size: LAB_SCREEN_VIEW_SETTINGS.LAB_TABLES_BUTTON_FONT_SIZE, weight: "bold" }),
         fill: LIGHT_SURFACE_TEXT_FILL,
-        maxWidth: CONTROL_COLUMN_WIDTH - 30,
+        maxWidth: CONTROL_COLUMN_WIDTH - LAB_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_MAX_WIDTH_OFFSET,
       }),
       accessibleName: labels.labTablesStringProperty,
       listener: () => labTablesDialog.show(),
-      minWidth: CONTROL_COLUMN_WIDTH - 60,
+      minWidth: CONTROL_COLUMN_WIDTH - LAB_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_MIN_WIDTH_OFFSET,
     });
 
     this.controlColumn = new VBox({
       align: "center",
-      spacing: 10,
+      spacing: LAB_SCREEN_VIEW_SETTINGS.CONTROL_COLUMN_SPACING,
       children: [this.recordControls, this.labTablesButton],
     });
     this.controlColumn.boundsProperty.link(() => {
@@ -108,10 +109,10 @@ export class LabScreenView extends ScreenView {
 
     // Recording text, beside the graph's x axis label.
     const recordingText = new Text(labels.recordingStringProperty, {
-      font: new PhetFont({ size: 12, weight: "bold" }),
+      font: new PhetFont({ size: LAB_SCREEN_VIEW_SETTINGS.RECORDING_TEXT_FONT_SIZE, weight: "bold" }),
       fill: CartCollisionsColors.redCartColorProperty,
       right: GRAPH_LEFT + GRAPH_WIDTH,
-      top: GRAPH_TOP + GRAPH_HEIGHT + 18,
+      top: GRAPH_TOP + GRAPH_HEIGHT + LAB_SCREEN_VIEW_SETTINGS.RECORDING_TEXT_TOP_OFFSET,
     });
     labModel.isRecordingProperty.link((recording) => {
       recordingText.visible = recording;

@@ -1,3 +1,4 @@
+import { LAB_TABLES_DIALOG_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * LabTablesDialog.ts
  *
@@ -39,15 +40,15 @@ import {
 import { formatQuantity } from "./formatting.js";
 import { labTablesCsv } from "./labTablesCsv.js";
 
-const CELL_WIDTH = 74;
-const ROW_LABEL_WIDTH = 190;
-const CELL_FONT = new PhetFont(11);
-const HEADER_FONT = new PhetFont({ size: 11, weight: "bold" });
-const TITLE_FONT = new PhetFont({ size: 14, weight: "bold" });
+const CELL_WIDTH: number = LAB_TABLES_DIALOG_SETTINGS.CELL_WIDTH;
+const ROW_LABEL_WIDTH: number = LAB_TABLES_DIALOG_SETTINGS.ROW_LABEL_WIDTH;
+const CELL_FONT = new PhetFont(LAB_TABLES_DIALOG_SETTINGS.CELL_FONT_SIZE);
+const HEADER_FONT = new PhetFont({ size: LAB_TABLES_DIALOG_SETTINGS.HEADER_FONT_SIZE, weight: "bold" });
+const TITLE_FONT = new PhetFont({ size: LAB_TABLES_DIALOG_SETTINGS.TITLE_FONT_SIZE, weight: "bold" });
 const DIALOG_TEXT_FILL = CartCollisionsColors.controlSurfaceTextColorProperty;
 
 /** Largest magnitude a student may type into any cell. */
-const ENTRY_LIMIT = 1000;
+const ENTRY_LIMIT: number = LAB_TABLES_DIALOG_SETTINGS.ENTRY_LIMIT;
 
 const isDerived = (column: ColumnId): column is DerivedColumn =>
   (DERIVED_COLUMNS as readonly string[]).includes(column);
@@ -64,11 +65,15 @@ class TableCellNode extends RectangularPushButton {
     const valueProperty = row.cells[column];
     const quantity = quantityOf(column);
 
-    const valueText = new Text("", { font: CELL_FONT, fill: LIGHT_SURFACE_TEXT_FILL, maxWidth: CELL_WIDTH - 8 });
-    const expectedText = new Text("", {
-      font: new PhetFont(9),
+    const valueText = new Text("", {
+      font: CELL_FONT,
       fill: LIGHT_SURFACE_TEXT_FILL,
-      maxWidth: CELL_WIDTH - 8,
+      maxWidth: CELL_WIDTH - LAB_TABLES_DIALOG_SETTINGS.VALUE_TEXT_MAX_WIDTH_OFFSET,
+    });
+    const expectedText = new Text("", {
+      font: new PhetFont(LAB_TABLES_DIALOG_SETTINGS.EXPECTED_TEXT_FONT_SIZE),
+      fill: LIGHT_SURFACE_TEXT_FILL,
+      maxWidth: CELL_WIDTH - LAB_TABLES_DIALOG_SETTINGS.EXPECTED_TEXT_MAX_WIDTH_OFFSET,
     });
 
     // Everything the cell's appearance depends on, including the row's inputs.
@@ -115,9 +120,9 @@ class TableCellNode extends RectangularPushButton {
       content: new VBox({ spacing: 0, children: [valueText, expectedText], excludeInvisibleChildrenFromBounds: true }),
       minWidth: CELL_WIDTH,
       maxWidth: CELL_WIDTH,
-      minHeight: 22,
-      xMargin: 3,
-      yMargin: 2,
+      minHeight: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_MIN_HEIGHT,
+      xMargin: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_X_MARGIN,
+      yMargin: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_Y_MARGIN,
       accessibleName,
       listener: () => {
         keypadDialog.beginEdit(
@@ -183,10 +188,15 @@ function createTable(
     }),
     ...columns.map((column) => new TableCellNode(notebook.rows[rowId], column, notebook, keypadDialog)),
   ]);
-  const grid = new GridBox({ xSpacing: 3, ySpacing: 3, xAlign: "center", rows: [header, ...rows] });
+  const grid = new GridBox({
+    xSpacing: LAB_TABLES_DIALOG_SETTINGS.GRID_X_SPACING,
+    ySpacing: LAB_TABLES_DIALOG_SETTINGS.GRID_Y_SPACING,
+    xAlign: "center",
+    rows: [header, ...rows],
+  });
   return new VBox({
     align: "left",
-    spacing: 4,
+    spacing: LAB_TABLES_DIALOG_SETTINGS.CREATE_TABLE_SPACING,
     children: [new Text(title, { font: TITLE_FONT, fill: DIALOG_TEXT_FILL }), grid],
   });
 }
@@ -206,13 +216,21 @@ export class LabTablesDialog extends Dialog {
     const checkboxOptions = {
       checkboxColor: DIALOG_TEXT_FILL,
       checkboxColorBackground: CartCollisionsColors.controlSurfaceColorProperty,
-      boxWidth: 14,
+      boxWidth: LAB_TABLES_DIALOG_SETTINGS.CHECKBOX_OPTIONS_BOX_WIDTH,
     };
     const checkbox = (property: typeof notebook.checkProperty, label: TReadOnlyProperty<string>) =>
-      new Checkbox(property, new Text(label, { font: CELL_FONT, fill: DIALOG_TEXT_FILL, maxWidth: 200 }), {
-        ...checkboxOptions,
-        accessibleName: label,
-      });
+      new Checkbox(
+        property,
+        new Text(label, {
+          font: CELL_FONT,
+          fill: DIALOG_TEXT_FILL,
+          maxWidth: LAB_TABLES_DIALOG_SETTINGS.CHECKBOX_MAX_WIDTH,
+        }),
+        {
+          ...checkboxOptions,
+          accessibleName: label,
+        },
+      );
 
     const downloadCsv = () => {
       const csv = labTablesCsv(
@@ -237,13 +255,17 @@ export class LabTablesDialog extends Dialog {
       new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
         baseColor: CartCollisionsColors.panelBorderColorProperty,
-        content: new Text(label, { font: CELL_FONT, fill: "white", maxWidth: 140 }),
+        content: new Text(label, {
+          font: CELL_FONT,
+          fill: "white",
+          maxWidth: LAB_TABLES_DIALOG_SETTINGS.PUSH_BUTTON_MAX_WIDTH,
+        }),
         accessibleName: label,
         listener,
       });
 
     const controls = new HBox({
-      spacing: 16,
+      spacing: LAB_TABLES_DIALOG_SETTINGS.CONTROLS_SPACING,
       children: [
         checkbox(notebook.checkProperty, labels.checkStringProperty),
         checkbox(notebook.showAnswersProperty, labels.showAnswersStringProperty),
@@ -252,10 +274,10 @@ export class LabTablesDialog extends Dialog {
       ],
     });
 
-    const questionFont = new PhetFont(11);
+    const questionFont = new PhetFont(LAB_TABLES_DIALOG_SETTINGS.QUESTION_FONT_SIZE);
     const questions = new VBox({
       align: "left",
-      spacing: 3,
+      spacing: LAB_TABLES_DIALOG_SETTINGS.QUESTIONS_SPACING,
       children: [
         new Text(labels.conclusionTitleStringProperty, { font: HEADER_FONT, fill: DIALOG_TEXT_FILL }),
         ...[
@@ -268,22 +290,29 @@ export class LabTablesDialog extends Dialog {
             new RichText(new DerivedProperty([question], (text) => `${i + 1}. ${text}`), {
               font: questionFont,
               fill: DIALOG_TEXT_FILL,
-              lineWrap: 800,
+              lineWrap: LAB_TABLES_DIALOG_SETTINGS.QUESTIONS_LINE_WRAP,
             }),
         ),
       ],
     });
 
-    super(new VBox({ align: "left", spacing: 10, children: [table1, table2, controls, questions] }), {
-      title: new Text(labels.labTablesStringProperty, {
-        font: new PhetFont({ size: 18, weight: "bold" }),
-        fill: DIALOG_TEXT_FILL,
+    super(
+      new VBox({
+        align: "left",
+        spacing: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_SPACING,
+        children: [table1, table2, controls, questions],
       }),
-      fill: CartCollisionsColors.controlSurfaceColorProperty,
-      leftMargin: 16,
-      topMargin: 10,
-      bottomMargin: 12,
-      isDisposable: false,
-    });
+      {
+        title: new Text(labels.labTablesStringProperty, {
+          font: new PhetFont({ size: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_FONT_SIZE, weight: "bold" }),
+          fill: DIALOG_TEXT_FILL,
+        }),
+        fill: CartCollisionsColors.controlSurfaceColorProperty,
+        leftMargin: 16,
+        topMargin: 10,
+        bottomMargin: 12,
+        isDisposable: false,
+      },
+    );
   }
 }

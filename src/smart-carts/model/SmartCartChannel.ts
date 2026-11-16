@@ -1,3 +1,4 @@
+import { SMART_CART_CHANNEL_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * SmartCartChannel.ts
  *
@@ -39,7 +40,7 @@ export type ChannelSample = {
 };
 
 /** Consecutive failed reads after which the link is considered lost. */
-const MAX_FAILURES = 5;
+const MAX_FAILURES: number = SMART_CART_CHANNEL_SETTINGS.MAX_FAILURES;
 
 export type Clock = () => number;
 
@@ -143,8 +144,9 @@ export class SmartCartChannel {
 
     this.samplesInWindow++;
     const now = this.clock();
-    if (now - this.windowStart >= 1000) {
-      this.sampleRate = (1000 * this.samplesInWindow) / (now - this.windowStart);
+    if (now - this.windowStart >= SMART_CART_CHANNEL_SETTINGS.RATE_WINDOW_MS) {
+      this.sampleRate =
+        (SMART_CART_CHANNEL_SETTINGS.MILLISECONDS_PER_SECOND * this.samplesInWindow) / (now - this.windowStart);
       this.windowStart = now;
       this.samplesInWindow = 0;
       const detail = this.device.diagnostic ?? "";

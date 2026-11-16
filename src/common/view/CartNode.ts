@@ -1,3 +1,4 @@
+import { CART_NODE_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * CartNode.ts
  *
@@ -19,10 +20,10 @@ import { StringManager } from "../../i18n/StringManager.js";
 import { Bumper, type BumperValue } from "../model/collisionPhysics.js";
 import type { TrackTransform } from "./TrackTransform.js";
 
-const BODY_HEIGHT = 30;
-const WHEEL_RADIUS = 6;
-const BAR_HEIGHT = 9;
-const BUMPER_WIDTH = 5;
+const BODY_HEIGHT: number = CART_NODE_SETTINGS.BODY_HEIGHT;
+const WHEEL_RADIUS: number = CART_NODE_SETTINGS.WHEEL_RADIUS;
+const BAR_HEIGHT: number = CART_NODE_SETTINGS.BAR_HEIGHT;
+const BUMPER_WIDTH: number = CART_NODE_SETTINGS.BUMPER_WIDTH;
 
 export type CartNodeOptions = {
   readonly color: "red" | "blue";
@@ -55,14 +56,14 @@ export class CartNode extends Node {
       fill,
       stroke: CartCollisionsColors.hardwareColorProperty,
       lineWidth: 1,
-      cornerRadius: 4,
+      cornerRadius: CART_NODE_SETTINGS.BODY_CORNER_RADIUS,
     });
     const label = new Text(StringManager.getInstance().getLabels().smartCartStringProperty, {
-      font: new PhetFont({ size: 9, weight: "bold" }),
+      font: new PhetFont({ size: CART_NODE_SETTINGS.LABEL_FONT_SIZE, weight: "bold" }),
       fill: "white",
       centerX: 0,
       centerY: bodyBottom - BODY_HEIGHT / 2,
-      maxWidth: width - 16,
+      maxWidth: width - CART_NODE_SETTINGS.LABEL_MAX_WIDTH_OFFSET,
     });
     const wheels = [-halfWidth + 14, halfWidth - 14].map(
       (x) =>
@@ -90,7 +91,7 @@ export class CartNode extends Node {
         new Rectangle(bumperX, bumperY, BUMPER_WIDTH, BODY_HEIGHT * 0.5, {
           fill: CartCollisionsColors.magnetColorProperty,
           stroke: CartCollisionsColors.hardwareColorProperty,
-          lineWidth: 0.5,
+          lineWidth: CART_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH,
         }),
       );
     }
@@ -130,7 +131,7 @@ export class CartNode extends Node {
                 {
                   fill: CartCollisionsColors.massBarColorProperty,
                   stroke: CartCollisionsColors.hardwareColorProperty,
-                  lineWidth: 0.5,
+                  lineWidth: CART_NODE_SETTINGS.CHILDREN_LINE_WIDTH,
                   cornerRadius: 1,
                 },
               ),
@@ -144,11 +145,11 @@ export class CartNode extends Node {
         Multilink.multilink([options.plungerReleasedProperty, options.plungerSettingProperty], (released, setting) => {
           const extension = released ? transform.modelToViewDelta(PLUNGER_COMPRESSIONS[setting - 1] ?? 0) : 1.5;
           const rodY = bumperY + BODY_HEIGHT * 0.2;
-          plunger.shape = Shape.rect(halfWidth, rodY, extension, 4).rect(
+          plunger.shape = Shape.rect(halfWidth, rodY, extension, CART_NODE_SETTINGS.SHAPE_HEIGHT).rect(
             halfWidth + extension - 2,
             rodY - 4,
             3 * facing,
-            12,
+            CART_NODE_SETTINGS.PLUNGER_HEIGHT,
           );
         }),
       );

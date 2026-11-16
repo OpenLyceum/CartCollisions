@@ -1,3 +1,4 @@
+import { GRAPH_STATE_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * GraphState.ts
  *
@@ -38,7 +39,7 @@ export type FitResults = {
 };
 
 /** Shortest visible time window, in s. */
-const MIN_ZOOM_SPAN = 0.1;
+const MIN_ZOOM_SPAN: number = GRAPH_STATE_SETTINGS.MIN_ZOOM_SPAN;
 
 export class GraphState {
   public readonly quantityProperty = new Property<GraphQuantityValue>(GraphQuantity.POSITION);
@@ -47,7 +48,7 @@ export class GraphState {
   public readonly fitEndProperty: NumberProperty;
 
   /** Visible time window of the graph, in s. */
-  public readonly timeRangeProperty = new Property<Range>(new Range(0, 3));
+  public readonly timeRangeProperty = new Property<Range>(new Range(0, GRAPH_STATE_SETTINGS.TIME_RANGE_MAX));
 
   /** Bumped whenever the recording changes, so fits recompute. */
   private readonly revisionProperty = new NumberProperty(0);
@@ -61,8 +62,11 @@ export class GraphState {
   public constructor(recording: Recording) {
     this.recording = recording;
     const timeRange = new Range(0, MAX_RECORDING_TIME);
-    this.fitStartProperty = new NumberProperty(0.5, { range: timeRange, units: "s" });
-    this.fitEndProperty = new NumberProperty(1.0, { range: timeRange, units: "s" });
+    this.fitStartProperty = new NumberProperty(GRAPH_STATE_SETTINGS.FIT_START_DEFAULT, {
+      range: timeRange,
+      units: "s",
+    });
+    this.fitEndProperty = new NumberProperty(GRAPH_STATE_SETTINGS.FIT_END_DEFAULT, { range: timeRange, units: "s" });
 
     this.fitResultsProperty = new DerivedProperty(
       [this.fitStartProperty, this.fitEndProperty, this.quantityProperty, this.revisionProperty],

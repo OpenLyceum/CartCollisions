@@ -1,3 +1,4 @@
+import { LAB_TABLES_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * labTables.ts
  *
@@ -97,7 +98,7 @@ const ABSOLUTE_TOLERANCE: Record<Quantity, number> = {
 };
 
 /** Relative tolerance for a calculated cell — allows for rounding the inputs to 3 figures. */
-const RELATIVE_TOLERANCE = 0.02;
+const RELATIVE_TOLERANCE: number = LAB_TABLES_SETTINGS.RELATIVE_TOLERANCE;
 
 export type MeasuredValues = { readonly [K in MeasuredColumn]: number | null };
 export type DerivedValues = { readonly [K in DerivedColumn]: number | null };
@@ -122,7 +123,10 @@ export function computeDerived(m: MeasuredValues): DerivedValues {
   const initial = eRedInitial === null || eBlueInitial === null ? null : eRedInitial + eBlueInitial;
   const final = eRedFinal === null || eBlueFinal === null ? null : eRedFinal + eBlueFinal;
   const dE = difference(final, initial);
-  const dERatio = dE === null || initial === null || Math.abs(initial) < 1e-12 ? null : (100 * dE) / initial;
+  const dERatio =
+    dE === null || initial === null || Math.abs(initial) < LAB_TABLES_SETTINGS.MIN_INITIAL_ENERGY
+      ? null
+      : (100 * dE) / initial;
   return {
     dvBlue,
     dvRed,

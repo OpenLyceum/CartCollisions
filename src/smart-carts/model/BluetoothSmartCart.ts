@@ -1,3 +1,4 @@
+import { BLUETOOTH_SMART_CART_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * BluetoothSmartCart.ts
  *
@@ -49,8 +50,8 @@ export function preloadPascoBle(): Promise<PascoBleModule> {
 const SMART_CART_PREFIX = "Smart Cart";
 
 /** PASCO sensor ids of the cart's position and force channels (datasheets). */
-const POSITION_SENSOR_ID = 2027;
-const FORCE_SENSOR_ID = 2025;
+const POSITION_SENSOR_ID: number = BLUETOOTH_SMART_CART_SETTINGS.POSITION_SENSOR_ID;
+const FORCE_SENSOR_ID: number = BLUETOOTH_SMART_CART_SETTINGS.FORCE_SENSOR_ID;
 
 /** The parts of pasco-ble's internals this subclass relies on. */
 type ChannelInfo = {
@@ -124,7 +125,9 @@ export class BluetoothSmartCart implements TSmartCartDevice {
   public async connect(): Promise<void> {
     const module = await preloadPascoBle();
     const StreamingPascoDevice = createStreamingDeviceClass(module);
-    const device = new StreamingPascoDevice({ connectionTimeout: 15000 }) as unknown as StreamingDevice;
+    const device = new StreamingPascoDevice({
+      connectionTimeout: BLUETOOTH_SMART_CART_SETTINGS.CONNECTION_TIMEOUT_MS,
+    }) as unknown as StreamingDevice;
     const found = await device.scan(SMART_CART_PREFIX);
     const chosen = found[0];
     if (chosen === undefined) {

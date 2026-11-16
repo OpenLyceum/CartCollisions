@@ -1,3 +1,4 @@
+import { VIRTUAL_LAB_SCREEN_VIEW_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * VirtualLabScreenView.ts
  *
@@ -17,7 +18,7 @@ import { TrackNode } from "./TrackNode.js";
 import { TrackTransform } from "./TrackTransform.js";
 
 /** y of the track's top surface. */
-const TRACK_TOP = 100;
+const TRACK_TOP: number = VIRTUAL_LAB_SCREEN_VIEW_SETTINGS.TRACK_TOP;
 
 export class VirtualLabScreenView extends LabScreenView {
   public constructor(model: CartCollisionsModel, options: LabScreenViewOptions) {

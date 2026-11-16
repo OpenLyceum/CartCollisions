@@ -1,3 +1,4 @@
+import { TIME_GRAPH_NODE_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * TimeGraphNode.ts
  *
@@ -30,8 +31,8 @@ import { GraphQuantity, type GraphQuantityValue, type GraphState, valuesFor } fr
 import type { CartTrace, Recording } from "../model/Recording.js";
 import { decimalsFor, niceStep } from "./formatting.js";
 
-const LABEL_FONT = new PhetFont(11);
-const TICK_FONT = new PhetFont(10);
+const LABEL_FONT = new PhetFont(TIME_GRAPH_NODE_SETTINGS.LABEL_FONT_SIZE);
+const TICK_FONT = new PhetFont(TIME_GRAPH_NODE_SETTINGS.TICK_FONT_SIZE);
 
 /** Smallest y span shown per quantity, so a cart at rest is not magnified into noise. */
 const MIN_Y_SPAN: Record<GraphQuantityValue, number> = {
@@ -65,7 +66,10 @@ export class TimeGraphNode extends Node {
       viewWidth,
       viewHeight,
       modelXRange: graph.timeRangeProperty.value,
-      modelYRange: new Range(-0.1, 0.1),
+      modelYRange: new Range(
+        TIME_GRAPH_NODE_SETTINGS.CHART_TRANSFORM_RANGE_MIN,
+        TIME_GRAPH_NODE_SETTINGS.CHART_TRANSFORM_RANGE_MAX,
+      ),
     });
 
     const chartRectangle = new ChartRectangle(chartTransform, {
@@ -74,10 +78,16 @@ export class TimeGraphNode extends Node {
       cursor: "crosshair",
     });
 
-    const gridOptions = { stroke: CartCollisionsColors.chartGridColorProperty, lineWidth: 0.5 };
+    const gridOptions = {
+      stroke: CartCollisionsColors.chartGridColorProperty,
+      lineWidth: TIME_GRAPH_NODE_SETTINGS.GRID_OPTIONS_LINE_WIDTH,
+    };
     const xGrid = new GridLineSet(chartTransform, Orientation.HORIZONTAL, 1, gridOptions);
     const yGrid = new GridLineSet(chartTransform, Orientation.VERTICAL, 0.05, gridOptions);
-    const zeroLine = new Line(0, 0, viewWidth, 0, { stroke: CartCollisionsColors.textColorProperty, lineWidth: 0.5 });
+    const zeroLine = new Line(0, 0, viewWidth, 0, {
+      stroke: CartCollisionsColors.textColorProperty,
+      lineWidth: TIME_GRAPH_NODE_SETTINGS.ZERO_LINE_LINE_WIDTH,
+    });
 
     let xDecimals = 0;
     let yDecimals = 2;
@@ -102,11 +112,11 @@ export class TimeGraphNode extends Node {
 
     const redPlot = new LinePlot(chartTransform, [], {
       stroke: CartCollisionsColors.redCartColorProperty,
-      lineWidth: 2,
+      lineWidth: TIME_GRAPH_NODE_SETTINGS.RED_PLOT_LINE_WIDTH,
     });
     const bluePlot = new LinePlot(chartTransform, [], {
       stroke: CartCollisionsColors.blueCartColorProperty,
-      lineWidth: 2,
+      lineWidth: TIME_GRAPH_NODE_SETTINGS.BLUE_PLOT_LINE_WIDTH,
     });
 
     // ── Fit interval ─────────────────────────────────────────────────────────
@@ -116,8 +126,11 @@ export class TimeGraphNode extends Node {
     });
     const fitLines = new Path(null, {
       stroke: CartCollisionsColors.fitLineColorProperty,
-      lineWidth: 2,
-      lineDash: [6, 3],
+      lineWidth: TIME_GRAPH_NODE_SETTINGS.FIT_LINES_LINE_WIDTH,
+      lineDash: [
+        TIME_GRAPH_NODE_SETTINGS.FIT_LINES_LINE_DASH_DASH,
+        TIME_GRAPH_NODE_SETTINGS.CONSTRUCTOR_FIT_LINES_LINE_DASH_DASH,
+      ],
       pickable: false,
     });
 
@@ -130,12 +143,20 @@ export class TimeGraphNode extends Node {
         accessibleHelpText: a11y.fitHelpStringProperty,
         children: [
           // Wide transparent strip so the edge is easy to grab.
-          new Rectangle(-6, 0, 12, viewHeight, { fill: "transparent" }),
-          new Line(0, 0, 0, viewHeight, { stroke: CartCollisionsColors.fitLineColorProperty, lineWidth: 2 }),
-          new Path(Shape.regularPolygon(3, 6).transformed(Matrix3.rotation2(Math.PI / 2)), {
-            fill: CartCollisionsColors.fitLineColorProperty,
-            y: 4,
+          new Rectangle(TIME_GRAPH_NODE_SETTINGS.HANDLE_X, 0, TIME_GRAPH_NODE_SETTINGS.HANDLE_WIDTH, viewHeight, {
+            fill: "transparent",
           }),
+          new Line(0, 0, 0, viewHeight, {
+            stroke: CartCollisionsColors.fitLineColorProperty,
+            lineWidth: TIME_GRAPH_NODE_SETTINGS.HANDLE_LINE_WIDTH,
+          }),
+          new Path(
+            Shape.regularPolygon(3, TIME_GRAPH_NODE_SETTINGS.HANDLE_RADIUS).transformed(Matrix3.rotation2(Math.PI / 2)),
+            {
+              fill: CartCollisionsColors.fitLineColorProperty,
+              y: TIME_GRAPH_NODE_SETTINGS.HANDLE_Y,
+            },
+          ),
         ],
       });
       return handle;
@@ -207,7 +228,11 @@ export class TimeGraphNode extends Node {
 
     // ── Quantity selector and zoom ───────────────────────────────────────────
     const radioLabel = (string: typeof labels.positionStringProperty) =>
-      new Text(string, { font: LABEL_FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: 90 });
+      new Text(string, {
+        font: LABEL_FONT,
+        fill: CartCollisionsColors.textColorProperty,
+        maxWidth: TIME_GRAPH_NODE_SETTINGS.RADIO_LABEL_MAX_WIDTH,
+      });
     const quantityItems = [
       {
         value: GraphQuantity.POSITION,
@@ -231,22 +256,26 @@ export class TimeGraphNode extends Node {
     ];
     const quantityRadioButtons = new AquaRadioButtonGroup<GraphQuantityValue>(graph.quantityProperty, quantityItems, {
       orientation: "horizontal",
-      spacing: 14,
-      radioButtonOptions: { radius: 6 },
+      spacing: TIME_GRAPH_NODE_SETTINGS.QUANTITY_RADIO_BUTTONS_SPACING,
+      radioButtonOptions: { radius: TIME_GRAPH_NODE_SETTINGS.QUANTITY_RADIO_BUTTONS_RADIUS },
       accessibleName: a11y.graphQuantityStringProperty,
     });
 
     const smallButton = (string: typeof labels.zoomToFitStringProperty, listener: () => void) =>
       new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-        content: new Text(string, { font: LABEL_FONT, fill: LIGHT_SURFACE_TEXT_FILL, maxWidth: 110 }),
+        content: new Text(string, {
+          font: LABEL_FONT,
+          fill: LIGHT_SURFACE_TEXT_FILL,
+          maxWidth: TIME_GRAPH_NODE_SETTINGS.SMALL_BUTTON_MAX_WIDTH,
+        }),
         listener,
         accessibleName: string,
-        xMargin: 6,
-        yMargin: 3,
+        xMargin: TIME_GRAPH_NODE_SETTINGS.SMALL_BUTTON_X_MARGIN,
+        yMargin: TIME_GRAPH_NODE_SETTINGS.SMALL_BUTTON_Y_MARGIN,
       });
     const zoomButtons = new HBox({
-      spacing: 6,
+      spacing: TIME_GRAPH_NODE_SETTINGS.ZOOM_BUTTONS_SPACING,
       children: [
         smallButton(labels.zoomToFitStringProperty, () => graph.zoomToFit()),
         smallButton(labels.showAllStringProperty, () => graph.zoomAll()),
@@ -382,12 +411,12 @@ export class TimeGraphNode extends Node {
 
     // ── Layout (plot origin at 0,0) ──────────────────────────────────────────
     const layout = () => {
-      yAxisLabel.right = -38;
+      yAxisLabel.right = TIME_GRAPH_NODE_SETTINGS.RIGHT_RIGHT;
       yAxisLabel.centerY = viewHeight / 2;
       xAxisLabel.centerX = viewWidth / 2;
-      xAxisLabel.top = viewHeight + 18;
+      xAxisLabel.top = viewHeight + TIME_GRAPH_NODE_SETTINGS.LAYOUT_TOP_OFFSET;
       quantityRadioButtons.left = 0;
-      quantityRadioButtons.bottom = -6;
+      quantityRadioButtons.bottom = TIME_GRAPH_NODE_SETTINGS.BOTTOM_BOTTOM;
       zoomButtons.right = viewWidth;
       zoomButtons.bottom = -4;
     };

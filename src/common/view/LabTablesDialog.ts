@@ -257,7 +257,7 @@ export class LabTablesDialog extends Dialog {
         baseColor: CartCollisionsColors.panelBorderColorProperty,
         content: new Text(label, {
           font: CELL_FONT,
-          fill: "white",
+          fill: CartCollisionsColors.accentButtonTextColorProperty,
           maxWidth: LAB_TABLES_DIALOG_SETTINGS.PUSH_BUTTON_MAX_WIDTH,
         }),
         accessibleName: label,

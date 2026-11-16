@@ -185,6 +185,20 @@ const CartCollisionsColors = {
     default: "#ffb74d",
     projector: "#e65100",
   }),
+
+  // ── Moved from views (no-inline-color) ─────────────────────────────────────
+
+  /** "Smart Cart" label drawn on the cart body. */
+  cartLabelColorProperty: new ProfileColorProperty(CartCollisionsNamespace, "cartLabel", {
+    default: "#ffffff",
+    projector: "#ffffff",
+  }),
+
+  /** Label on push buttons whose base color is the panel border. */
+  accentButtonTextColorProperty: new ProfileColorProperty(CartCollisionsNamespace, "accentButtonText", {
+    default: "#ffffff",
+    projector: "#ffffff",
+  }),
 };
 
 export default CartCollisionsColors;

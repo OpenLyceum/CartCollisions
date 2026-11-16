@@ -48,8 +48,8 @@
     "test:architecture": "node --test tests/architecture.node-test.ts"
   },
   "dependencies": {
-    "pasco-ble": "0.3.70",
-    "scenerystack": "^3.0.0"
+    "scenerystack": "^3.0.0",
+    "pasco-ble": "0.3.70"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.7",

@@ -165,13 +165,10 @@ export class FitPanel extends CartCollisionsPanel {
       ],
     });
 
-    super(
-      new VBox({ align: "left", spacing: FIT_PANEL_SETTINGS.CONSTRUCTOR_SPACING, children: [title, grid, rowText] }),
-      {
-        minWidth: width,
-        maxWidth: width,
-      },
-    );
+    super(new VBox({ align: "left", spacing: FIT_PANEL_SETTINGS.CONTENT_SPACING, children: [title, grid, rowText] }), {
+      minWidth: width,
+      maxWidth: width,
+    });
 
     this.sendButtons = [redBefore, redAfter, blueBefore, blueAfter];
 

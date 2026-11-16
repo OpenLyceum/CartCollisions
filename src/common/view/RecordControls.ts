@@ -75,7 +75,7 @@ export class RecordControls extends HBox {
       listener: () => model.clear(),
     });
 
-    super({ spacing: RECORD_CONTROLS_SETTINGS.CONSTRUCTOR_SPACING, children: [recordButton, clearButton] });
+    super({ spacing: RECORD_CONTROLS_SETTINGS.SPACING, children: [recordButton, clearButton] });
     this.recordButton = recordButton;
     this.clearButton = clearButton;
 

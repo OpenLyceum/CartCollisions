@@ -50,10 +50,10 @@ export class BalancePanel extends CartCollisionsPanel {
     super(
       new VBox({
         align: "left",
-        spacing: BALANCE_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+        spacing: BALANCE_PANEL_SETTINGS.SPACING,
         children: [
           new Text(labels.balanceStringProperty, {
-            font: new PhetFont({ size: BALANCE_PANEL_SETTINGS.CONSTRUCTOR_FONT_SIZE, weight: "bold" }),
+            font: new PhetFont({ size: BALANCE_PANEL_SETTINGS.TITLE_FONT_SIZE, weight: "bold" }),
             fill: CartCollisionsColors.textColorProperty,
           }),
           new Text(reading(labels.redCartStringProperty, model.massRedProperty), {

@@ -71,7 +71,7 @@ export class CartCollisionsPreferencesNode extends VBox {
 
     super({
       align: "left",
-      spacing: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.CONSTRUCTOR_SPACING,
+      spacing: CART_COLLISIONS_PREFERENCES_NODE_SETTINGS.SPACING,
       children: [
         header,
         new Text(prefStrings.sampleRateStringProperty, { font, fill }),

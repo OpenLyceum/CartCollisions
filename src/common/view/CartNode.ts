@@ -91,7 +91,7 @@ export class CartNode extends Node {
         new Rectangle(bumperX, bumperY, BUMPER_WIDTH, BODY_HEIGHT * 0.5, {
           fill: CartCollisionsColors.magnetColorProperty,
           stroke: CartCollisionsColors.hardwareColorProperty,
-          lineWidth: CART_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH,
+          lineWidth: CART_NODE_SETTINGS.OUTLINE_LINE_WIDTH,
         }),
       );
     }

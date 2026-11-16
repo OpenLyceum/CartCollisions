@@ -115,7 +115,7 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
       const triggerButton = actionButton(labels.triggerStringProperty, () => model.trigger(), canTrigger);
       children.push(
         new HBox({
-          spacing: EXPERIMENT_CONTROL_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+          spacing: EXPERIMENT_CONTROL_PANEL_SETTINGS.CONTENT_SPACING,
           children: [
             label(
               labels.plungerSettingStringProperty,

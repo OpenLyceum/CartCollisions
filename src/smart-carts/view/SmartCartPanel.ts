@@ -106,15 +106,15 @@ export class SmartCartPanel extends CartCollisionsPanel {
     super(
       new VBox({
         align: "left",
-        spacing: SMART_CART_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+        spacing: SMART_CART_PANEL_SETTINGS.SPACING,
         children: [
           new HBox({
             spacing: SMART_CART_PANEL_SETTINGS.ITEM_1_SPACING,
             children: [
               new Text(options.title, {
-                font: new PhetFont({ size: SMART_CART_PANEL_SETTINGS.CONSTRUCTOR_FONT_SIZE, weight: "bold" }),
+                font: new PhetFont({ size: SMART_CART_PANEL_SETTINGS.TITLE_FONT_SIZE, weight: "bold" }),
                 fill: options.titleFill,
-                maxWidth: SMART_CART_PANEL_SETTINGS.CONSTRUCTOR_MAX_WIDTH,
+                maxWidth: SMART_CART_PANEL_SETTINGS.TITLE_MAX_WIDTH,
               }),
               connectButton,
             ],

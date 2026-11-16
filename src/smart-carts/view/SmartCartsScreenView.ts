@@ -54,7 +54,7 @@ export class SmartCartsScreenView extends LabScreenView {
     });
     redPanel.left = SCREEN_VIEW_MARGIN;
     redPanel.top = SCREEN_VIEW_MARGIN;
-    bluePanel.left = redPanel.right + SMART_CARTS_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
+    bluePanel.left = redPanel.right + SMART_CARTS_SCREEN_VIEW_SETTINGS.PANEL_GAP;
     bluePanel.top = SCREEN_VIEW_MARGIN;
 
     const hint = new Text(
@@ -70,7 +70,7 @@ export class SmartCartsScreenView extends LabScreenView {
         left: SCREEN_VIEW_MARGIN,
       },
     );
-    hint.top = Math.max(redPanel.bottom, bluePanel.bottom) + SMART_CARTS_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
+    hint.top = Math.max(redPanel.bottom, bluePanel.bottom) + SMART_CARTS_SCREEN_VIEW_SETTINGS.HINT_TOP_GAP;
 
     this.addChild(redPanel);
     this.addChild(bluePanel);

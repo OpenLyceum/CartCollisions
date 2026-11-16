@@ -223,8 +223,8 @@ export const BALANCE_PANEL_SETTINGS = {
   SEND_BUTTON_MAX_WIDTH_OFFSET: 40, // px
 
   FONT_SIZE: 12,
-  CONSTRUCTOR_SPACING: 4,
-  CONSTRUCTOR_FONT_SIZE: 12,
+  SPACING: 4,
+  TITLE_FONT_SIZE: 12,
 } as const;
 
 /** Settings for common/view/CartNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
@@ -239,7 +239,7 @@ export const CART_NODE_SETTINGS = {
   BUMPER_WIDTH: 5,
   BODY_CORNER_RADIUS: 4,
   LABEL_FONT_SIZE: 9,
-  CONSTRUCTOR_LINE_WIDTH: 0.5,
+  OUTLINE_LINE_WIDTH: 0.5,
   CHILDREN_LINE_WIDTH: 0.5,
   SHAPE_HEIGHT: 4,
 } as const;
@@ -260,7 +260,7 @@ export const EXPERIMENT_CONTROL_PANEL_SETTINGS = {
   ACTION_BUTTON_FONT_SIZE: 13,
   PLUNGER_RADIO_SPACING: 12,
   PLUNGER_RADIO_RADIUS: 6,
-  CONSTRUCTOR_SPACING: 8,
+  CONTENT_SPACING: 8,
   /** Push speed control delta (dimensionless). */
   PUSH_SPEED_CONTROL_DELTA: 0.05,
   PUSH_SPEED_CONTROL_MAX_WIDTH: 110,
@@ -281,14 +281,14 @@ export const FIT_PANEL_SETTINGS = {
   BUTTON_Y_MARGIN: 2,
   GRID_X_SPACING: 6,
   GRID_Y_SPACING: 4,
-  CONSTRUCTOR_SPACING: 5,
+  CONTENT_SPACING: 5,
 } as const;
 
 /** Settings for common/view/LabScreenView.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const LAB_SCREEN_VIEW_SETTINGS = {
-  CONSTRUCTOR_TOP_OFFSET: 40, // px
-  CONSTRUCTOR_MAX_WIDTH_OFFSET: 30, // px
-  CONSTRUCTOR_MIN_WIDTH_OFFSET: 60, // px
+  FIT_PANEL_TOP_GAP: 40, // px
+  LAB_TABLES_MAX_WIDTH_INSET: 30, // px
+  CONTROL_COLUMN_MIN_WIDTH_INSET: 60, // px
   RECORDING_TEXT_TOP_OFFSET: 18, // px
 
   /** Bottom of the apparatus band, where the graph's controls begin. */
@@ -319,8 +319,8 @@ export const LAB_TABLES_DIALOG_SETTINGS = {
   ENTRY_LIMIT: 1000,
   EXPECTED_TEXT_FONT_SIZE: 9,
   CELL_MIN_HEIGHT: 22,
-  CONSTRUCTOR_X_MARGIN: 3,
-  CONSTRUCTOR_Y_MARGIN: 2,
+  CELL_X_MARGIN: 3,
+  CELL_Y_MARGIN: 2,
   GRID_X_SPACING: 3,
   GRID_Y_SPACING: 3,
   CREATE_TABLE_SPACING: 4,
@@ -330,8 +330,8 @@ export const LAB_TABLES_DIALOG_SETTINGS = {
   CONTROLS_SPACING: 16,
   QUESTION_FONT_SIZE: 11,
   QUESTIONS_SPACING: 3,
-  CONSTRUCTOR_SPACING: 10,
-  CONSTRUCTOR_FONT_SIZE: 18,
+  TITLE_SPACING: 10,
+  DIALOG_TITLE_FONT_SIZE: 18,
 } as const;
 
 /** Settings for common/view/RecordControls.ts. Layout lengths are in px; counts and ratios are dimensionless. */
@@ -346,13 +346,13 @@ export const RECORD_CONTROLS_SETTINGS = {
   RECORD_BUTTON_MAX_WIDTH: 80,
   RECORD_BUTTON_MIN_WIDTH: 100,
   CLEAR_BUTTON_MAX_WIDTH: 70,
-  CONSTRUCTOR_SPACING: 8,
+  SPACING: 8,
 } as const;
 
 /** Settings for common/view/TimeGraphNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const TIME_GRAPH_NODE_SETTINGS = {
   FIT_LINES_LINE_DASH_DASH: 6, // px
-  CONSTRUCTOR_FIT_LINES_LINE_DASH_DASH: 3, // px
+  FIT_LINES_LINE_DASH_GAP: 3, // px
   LAYOUT_TOP_OFFSET: 18, // px
 
   LABEL_FONT_SIZE: 11,
@@ -384,8 +384,8 @@ export const TIME_GRAPH_NODE_SETTINGS = {
   SMALL_BUTTON_X_MARGIN: 6,
   SMALL_BUTTON_Y_MARGIN: 3,
   ZOOM_BUTTONS_SPACING: 6,
-  RIGHT_RIGHT: -38,
-  BOTTOM_BOTTOM: -6,
+  Y_AXIS_LABEL_RIGHT: -38,
+  QUANTITY_RADIO_BOTTOM: -6,
 } as const;
 
 /** Settings for common/view/TrackNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
@@ -417,7 +417,7 @@ export const CART_COLLISIONS_PREFERENCES_NODE_SETTINGS = {
   /** Friction control decimal places (dimensionless). */
   FRICTION_CONTROL_DECIMAL_PLACES: 3,
   REVERSED_CHECKBOX_SPACING: 8,
-  CONSTRUCTOR_SPACING: 12,
+  SPACING: 12,
 } as const;
 
 /** Settings for smart-carts/model/BluetoothSmartCart.ts. */
@@ -473,15 +473,15 @@ export const SMART_CART_PANEL_SETTINGS = {
   FONT_SIZE: 12,
   CONNECT_BUTTON_FONT_SIZE: 13,
   CONNECT_BUTTON_MAX_WIDTH: 100,
-  CONSTRUCTOR_SPACING: 5,
-  CONSTRUCTOR_FONT_SIZE: 14,
-  CONSTRUCTOR_MAX_WIDTH: 110,
+  SPACING: 5,
+  TITLE_FONT_SIZE: 14,
+  TITLE_MAX_WIDTH: 110,
 } as const;
 
 /** Settings for smart-carts/view/SmartCartsScreenView.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const SMART_CARTS_SCREEN_VIEW_SETTINGS = {
-  CONSTRUCTOR_LEFT_OFFSET: 12, // px
-  CONSTRUCTOR_TOP_OFFSET: 6, // px
+  PANEL_GAP: 12, // px
+  HINT_TOP_GAP: 6, // px
   RADIO_LABEL_MAX_WIDTH_OFFSET: 50, // px
 
   FONT_SIZE: 12,

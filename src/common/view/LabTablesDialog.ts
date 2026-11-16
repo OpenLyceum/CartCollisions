@@ -121,8 +121,8 @@ class TableCellNode extends RectangularPushButton {
       minWidth: CELL_WIDTH,
       maxWidth: CELL_WIDTH,
       minHeight: LAB_TABLES_DIALOG_SETTINGS.CELL_MIN_HEIGHT,
-      xMargin: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_X_MARGIN,
-      yMargin: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_Y_MARGIN,
+      xMargin: LAB_TABLES_DIALOG_SETTINGS.CELL_X_MARGIN,
+      yMargin: LAB_TABLES_DIALOG_SETTINGS.CELL_Y_MARGIN,
       accessibleName,
       listener: () => {
         keypadDialog.beginEdit(
@@ -299,12 +299,12 @@ export class LabTablesDialog extends Dialog {
     super(
       new VBox({
         align: "left",
-        spacing: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_SPACING,
+        spacing: LAB_TABLES_DIALOG_SETTINGS.TITLE_SPACING,
         children: [table1, table2, controls, questions],
       }),
       {
         title: new Text(labels.labTablesStringProperty, {
-          font: new PhetFont({ size: LAB_TABLES_DIALOG_SETTINGS.CONSTRUCTOR_FONT_SIZE, weight: "bold" }),
+          font: new PhetFont({ size: LAB_TABLES_DIALOG_SETTINGS.DIALOG_TITLE_FONT_SIZE, weight: "bold" }),
           fill: DIALOG_TEXT_FILL,
         }),
         fill: CartCollisionsColors.controlSurfaceColorProperty,

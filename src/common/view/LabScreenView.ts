@@ -70,7 +70,7 @@ export class LabScreenView extends ScreenView {
     this.graphNode.x = GRAPH_LEFT;
     this.graphNode.y = GRAPH_TOP;
     this.fitPanel.left = SCREEN_VIEW_MARGIN;
-    this.fitPanel.top = GRAPH_TOP + GRAPH_HEIGHT + LAB_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
+    this.fitPanel.top = GRAPH_TOP + GRAPH_HEIGHT + LAB_SCREEN_VIEW_SETTINGS.FIT_PANEL_TOP_GAP;
 
     this.recordControls = new RecordControls(labModel);
 
@@ -80,11 +80,11 @@ export class LabScreenView extends ScreenView {
       content: new Text(labels.labTablesStringProperty, {
         font: new PhetFont({ size: LAB_SCREEN_VIEW_SETTINGS.LAB_TABLES_BUTTON_FONT_SIZE, weight: "bold" }),
         fill: LIGHT_SURFACE_TEXT_FILL,
-        maxWidth: CONTROL_COLUMN_WIDTH - LAB_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_MAX_WIDTH_OFFSET,
+        maxWidth: CONTROL_COLUMN_WIDTH - LAB_SCREEN_VIEW_SETTINGS.LAB_TABLES_MAX_WIDTH_INSET,
       }),
       accessibleName: labels.labTablesStringProperty,
       listener: () => labTablesDialog.show(),
-      minWidth: CONTROL_COLUMN_WIDTH - LAB_SCREEN_VIEW_SETTINGS.CONSTRUCTOR_MIN_WIDTH_OFFSET,
+      minWidth: CONTROL_COLUMN_WIDTH - LAB_SCREEN_VIEW_SETTINGS.CONTROL_COLUMN_MIN_WIDTH_INSET,
     });
 
     this.controlColumn = new VBox({

@@ -68,6 +68,9 @@ fits.
   `scaffold-screens` scripts, which `check-template-drift --fix` removes from a sim.
 - `TimeModel` removed: the model keeps its own substep clock (the physics needs
   0.2 ms substeps and samples on that grid).
+- `memory-leak:CartTrace` — no dispose() of its own; inventory window matches Recording.dispose in the same file.
+- `memory-leak:TableCellNode` — file-private class inside LabTablesDialog; not importable from the leak suite.
+- `memory-leak:FitPanel` — dispose leaves the panel reachable from long-lived GraphState/DerivedProperty wiring under keepAlive; needs ScreenView-owned soak.
 
 ### Template-owned files (drift-checked)
 

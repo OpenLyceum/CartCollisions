@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { dotRandom } from "scenerystack/dot";
+import { beforeEach, describe, expect, it } from "vitest";
 import { CartCollisionsModel } from "../src/common/model/CartCollisionsModel.js";
 import { fitLine } from "../src/common/model/fitMath.js";
 import { Experiment, type ExperimentValue, MassMode } from "../src/common/model/LabModel.js";
@@ -21,6 +22,13 @@ const advance = (model: CartCollisionsModel, seconds: number) => {
 };
 
 describe("CartCollisionsModel", () => {
+  // Each cart's mass carries ±MASS_TOLERANCE of random lab-to-lab spread, which moves the
+  // post-collision velocities by more than the fits' tolerance. A fixed seed keeps the
+  // fitted slopes deterministic in any test order.
+  beforeEach(() => {
+    dotRandom.setSeed(1);
+  });
+
   it("samples at the chosen rate, zeroed at the start of the recording", () => {
     const model = bench(Experiment.ELASTIC);
     model.record();

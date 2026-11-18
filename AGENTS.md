@@ -64,8 +64,6 @@ fits.
 
 ## Compliance carve-outs
 
-- `tests/generators.test.ts` removed: it tested the template's `rename` /
-  `scaffold-screens` scripts, which `check-template-drift --fix` removes from a sim.
 - `TimeModel` removed: the model keeps its own substep clock (the physics needs
   0.2 ms substeps and samples on that grid).
 - `memory-leak:CartTrace` — no dispose() of its own; inventory window matches Recording.dispose in the same file.

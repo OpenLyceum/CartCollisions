@@ -18,7 +18,6 @@ import { BLUETOOTH_SMART_CART_SETTINGS } from "../../CartCollisionsConstants.js"
  * wording only).
  */
 
-import type { PASCOBLEDevice as PascoDevice } from "pasco-ble";
 import {
   DeviceSelectionCancelled,
   type SmartCartReading,
@@ -57,21 +56,6 @@ const SMART_CART_PREFIX = "Smart Cart";
 const POSITION_SENSOR_ID: number = BLUETOOTH_SMART_CART_SETTINGS.POSITION_SENSOR_ID;
 const FORCE_SENSOR_ID: number = BLUETOOTH_SMART_CART_SETTINGS.FORCE_SENSOR_ID;
 
-/** The parts of pasco-ble's internals this subclass relies on. */
-type ChannelInfo = {
-  readonly id: number;
-  // biome-ignore lint/style/useNamingConvention: pasco-ble's own field name
-  readonly sensor_id: number;
-};
-
-/** What the streaming subclass adds to pasco-ble's device. */
-type StreamingDevice = PascoDevice & {
-  channels(): readonly ChannelInfo[];
-  sendCommand(serviceId: number, command: number[]): Promise<void>;
-  sendStreamAck(serviceId: number, command: number[]): Promise<void>;
-  streamHandler: ((serviceId: number, data: number[]) => void) | null;
-};
-
 /**
  * Builds the subclass once the library has loaded. Periodic packets on a sensor
  * service go to `streamHandler` and are *not* passed on: pasco-ble would decode
@@ -81,10 +65,8 @@ function createStreamingDeviceClass(module: PascoBleModule) {
   return class StreamingPascoDevice extends module.PASCOBLEDevice {
     public streamHandler: ((serviceId: number, data: number[]) => void) | null = null;
 
-    public channels(): readonly ChannelInfo[] {
-      return (
-        this as unknown as { _sensorManager: { state: { getChannels(): readonly ChannelInfo[] } } }
-      )._sensorManager.state.getChannels();
+    public channels() {
+      return this._sensorManager.state.getChannels();
     }
 
     public sendCommand(serviceId: number, command: number[]): Promise<void> {
@@ -92,10 +74,7 @@ function createStreamingDeviceClass(module: PascoBleModule) {
     }
 
     public sendStreamAck(serviceId: number, command: number[]): Promise<void> {
-      return (this as unknown as { _protocol: { sendAck(s: number, c: number[]): Promise<void> } })._protocol.sendAck(
-        serviceId,
-        command,
-      );
+      return this._protocol.sendAck(serviceId, command);
     }
 
     protected override _handleNotification(serviceId: number, data: number[]): void {
@@ -107,6 +86,8 @@ function createStreamingDeviceClass(module: PascoBleModule) {
     }
   };
 }
+
+type StreamingDevice = InstanceType<ReturnType<typeof createStreamingDeviceClass>>;
 
 export class BluetoothSmartCart implements TSmartCartDevice {
   private device: StreamingDevice | null = null;
@@ -131,7 +112,7 @@ export class BluetoothSmartCart implements TSmartCartDevice {
     const StreamingPascoDevice = createStreamingDeviceClass(module);
     const device = new StreamingPascoDevice({
       connectionTimeout: BLUETOOTH_SMART_CART_SETTINGS.CONNECTION_TIMEOUT_MS,
-    }) as unknown as StreamingDevice;
+    });
     const found = await device.scan(SMART_CART_PREFIX);
     const chosen = found[0];
     if (chosen === undefined) {

@@ -47,7 +47,9 @@ const cartCollisionsQueryParameters = QueryStringMachine.getAll({
 
   /** Show each Smart Cart's stream statistics (encoder counts, packets, missed packets). */
   showDiagnostics: {
-    type: "flag",
+    type: "custom",
+    defaultValue: false,
+    parse: (value: string | null): boolean => value === null || value === "true",
     public: true,
   },
 

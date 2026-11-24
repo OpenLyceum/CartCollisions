@@ -38,6 +38,7 @@ import {
   NOMINAL_CART_MASS,
   PHYSICS_TIME_STEP,
   PLUNGER_COMPRESSIONS,
+  plungerCompression,
   TRACK_CENTER,
   TRACK_LENGTH,
   UNEQUAL_MASS_BAR_COUNT,
@@ -190,7 +191,7 @@ export class CartCollisionsModel implements TModel, TLabModel {
       massRed: this.massRedProperty.value,
       massBlue: this.massBlueProperty.value,
       bumper: this.bumper,
-      plungerExtension: PLUNGER_COMPRESSIONS[this.plungerSettingProperty.value - 1] ?? 0,
+      plungerExtension: plungerCompression(this.plungerSettingProperty.value),
       rollingFriction: this.preferences.rollingFrictionProperty.value,
     };
   }

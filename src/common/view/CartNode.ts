@@ -15,7 +15,7 @@ import { Shape } from "scenerystack/kite";
 import { Circle, Node, Path, Rectangle, RichDragListener, Text } from "scenerystack/scenery";
 import { PhetFont } from "scenerystack/scenery-phet";
 import CartCollisionsColors from "../../CartCollisionsColors.js";
-import { CART_LENGTH, PLUNGER_COMPRESSIONS } from "../../CartCollisionsConstants.js";
+import { CART_LENGTH, plungerCompression } from "../../CartCollisionsConstants.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import { Bumper, type BumperValue } from "../model/collisionPhysics.js";
 import type { TrackTransform } from "./TrackTransform.js";
@@ -143,7 +143,7 @@ export class CartNode extends Node {
     if (options.plungerReleasedProperty && options.plungerSettingProperty && options.bumper === Bumper.PLUNGER) {
       links.push(
         Multilink.multilink([options.plungerReleasedProperty, options.plungerSettingProperty], (released, setting) => {
-          const extension = released ? transform.modelToViewDelta(PLUNGER_COMPRESSIONS[setting - 1] ?? 0) : 1.5;
+          const extension = released ? transform.modelToViewDelta(plungerCompression(setting)) : 1.5;
           const rodY = bumperY + BODY_HEIGHT * 0.2;
           plunger.shape = Shape.rect(halfWidth, rodY, extension, CART_NODE_SETTINGS.SHAPE_HEIGHT).rect(
             halfWidth + extension - 2,

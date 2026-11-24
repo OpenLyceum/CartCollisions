@@ -123,7 +123,7 @@ class TableCellNode extends RectangularPushButton {
       minHeight: LAB_TABLES_DIALOG_SETTINGS.CELL_MIN_HEIGHT,
       xMargin: LAB_TABLES_DIALOG_SETTINGS.CELL_X_MARGIN,
       yMargin: LAB_TABLES_DIALOG_SETTINGS.CELL_Y_MARGIN,
-      accessibleNameProperty,
+      accessibleName: accessibleNameProperty,
       listener: () => {
         keypadDialog.beginEdit(
           (value: number) => {
@@ -228,7 +228,7 @@ export class LabTablesDialog extends Dialog {
         }),
         {
           ...checkboxOptions,
-          accessibleNameProperty: label,
+          accessibleName: label,
         },
       );
 
@@ -260,7 +260,7 @@ export class LabTablesDialog extends Dialog {
           fill: CartCollisionsColors.accentButtonTextColorProperty,
           maxWidth: LAB_TABLES_DIALOG_SETTINGS.PUSH_BUTTON_MAX_WIDTH,
         }),
-        accessibleNameProperty: label,
+        accessibleName: label,
         listener,
       });
 

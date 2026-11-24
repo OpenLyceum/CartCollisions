@@ -193,6 +193,7 @@ export class SmartCartChannel {
           return;
         }
       }
+      // biome-ignore lint/plugin/no-native-timer: async host/hardware delay (not sim step)
       await new Promise<void>((resolve) => setTimeout(resolve, this.pollIntervalMs));
     }
   }

@@ -70,7 +70,7 @@ export class FitPanel extends CartCollisionsPanel {
       pick: (fits: typeof graph.fitResultsProperty.value) => LineFit | null,
       fill: typeof CartCollisionsColors.redCartColorProperty,
     ) => {
-      const text = new DerivedProperty(
+      const textProperty = new DerivedProperty(
         [
           graph.fitResultsProperty,
           graph.quantityProperty,
@@ -99,8 +99,12 @@ export class FitPanel extends CartCollisionsPanel {
         },
       );
       return {
-        property: text,
-        node: new Text(text, { font: FONT, fill, maxWidth: width - FIT_PANEL_SETTINGS.READOUT_MAX_WIDTH_OFFSET }),
+        property: textProperty,
+        node: new Text(textProperty, {
+          font: FONT,
+          fill,
+          maxWidth: width - FIT_PANEL_SETTINGS.READOUT_MAX_WIDTH_OFFSET,
+        }),
       };
     };
 

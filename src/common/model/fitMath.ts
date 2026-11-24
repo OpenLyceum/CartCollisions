@@ -1,3 +1,4 @@
+import { roundSymmetric } from "scenerystack/dot";
 /**
  * fitMath.ts
  *
@@ -115,5 +116,5 @@ function slopeOver(times: readonly number[], values: readonly number[], start: n
 
 /** Rounds `position` to the nearest whole encoder count of size `resolution`. */
 export function quantize(position: number, resolution: number): number {
-  return Math.round(position / resolution) * resolution;
+  return roundSymmetric(position / resolution) * resolution;
 }

@@ -88,6 +88,14 @@ export const PLUNGER_STIFFNESS = 200;
 /** How far the plunger extends when released from each of its three latch positions, in m. */
 export const PLUNGER_COMPRESSIONS = [0.01, 0.02, 0.03] as const;
 
+export function plungerCompression(setting: number): number {
+  const compression = PLUNGER_COMPRESSIONS[setting - 1];
+  if (compression === undefined) {
+    throw new RangeError(`Invalid plunger setting ${setting}`);
+  }
+  return compression;
+}
+
 /** Default plunger setting (1-based), as in the handout ("position #2"). */
 export const DEFAULT_PLUNGER_SETTING = 2;
 

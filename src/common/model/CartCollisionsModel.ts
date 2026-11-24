@@ -20,7 +20,7 @@ import { CART_COLLISIONS_MODEL_SETTINGS } from "../../CartCollisionsConstants.js
  */
 
 import { BooleanProperty, DerivedProperty, NumberProperty, Property, type TReadOnlyProperty } from "scenerystack/axon";
-import { dotRandom, Range } from "scenerystack/dot";
+import { dotRandom, Range, roundSymmetric } from "scenerystack/dot";
 import type { TModel } from "scenerystack/joist";
 import {
   CART_LENGTH,
@@ -291,7 +291,7 @@ export class CartCollisionsModel implements TModel, TLabModel {
   public step(dt: number): void {
     if (this.isMovingProperty.value) {
       const frame = Math.min(dt, MAX_FRAME);
-      const substeps = Math.max(1, Math.round(frame / PHYSICS_TIME_STEP));
+      const substeps = Math.max(1, roundSymmetric(frame / PHYSICS_TIME_STEP));
       const parameters = this.parameters;
       for (let i = 0; i < substeps; i++) {
         const forces = stepCarts(this.state, parameters, PHYSICS_TIME_STEP);

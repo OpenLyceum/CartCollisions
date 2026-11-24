@@ -3,7 +3,7 @@ import { SMART_CART_PANEL_SETTINGS } from "../../CartCollisionsConstants.js";
  * SmartCartPanel.ts
  *
  * One real Smart Cart's connection: Connect / Disconnect, the cart's name or
- * connection state, any error, Change Sign, and a live position readout that moves
+ * connection state, any errorProperty, Change Sign, and a liveProperty position readout that moves
  * when the cart is pushed — the quickest check that the right cart is connected
  * and its sign is the way the student wants.
  */
@@ -41,7 +41,7 @@ export class SmartCartPanel extends CartCollisionsPanel {
     const labels = StringManager.getInstance().getLabels();
     const innerWidth = options.width - 24;
 
-    const status = new DerivedProperty(
+    const statusProperty = new DerivedProperty(
       [
         channel.connectionStateProperty,
         channel.deviceNameProperty,
@@ -55,33 +55,33 @@ export class SmartCartPanel extends CartCollisionsPanel {
             ? connecting
             : notConnected,
     );
-    const error = new DerivedProperty(
+    const errorProperty = new DerivedProperty(
       [channel.errorMessageProperty, labels.connectionLostStringProperty],
       (message, lost) => (message === null ? "" : message === "disconnected" ? lost : message),
     );
-    const live = new DerivedProperty(
+    const liveProperty = new DerivedProperty(
       [channel.livePositionProperty, channel.connectionStateProperty, labels.livePositionPatternStringProperty],
       (position, state, pattern) =>
         state === ConnectionState.CONNECTED ? StringUtils.fillIn(pattern, { value: toFixed(position, 3) }) : "",
     );
 
-    const buttonLabel = new DerivedProperty(
+    const buttonLabelProperty = new DerivedProperty(
       [channel.connectionStateProperty, labels.connectStringProperty, labels.disconnectStringProperty],
       (state, connect, disconnect) => (state === ConnectionState.CONNECTED ? disconnect : connect),
     );
-    const canPress = new DerivedProperty(
+    const canPressProperty = new DerivedProperty(
       [channel.connectionStateProperty],
       (state) => options.bluetoothAvailable && state !== ConnectionState.CONNECTING,
     );
 
     const connectButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-      content: new Text(buttonLabel, {
+      content: new Text(buttonLabelProperty, {
         font: new PhetFont({ size: SMART_CART_PANEL_SETTINGS.CONNECT_BUTTON_FONT_SIZE, weight: "bold" }),
         fill: LIGHT_SURFACE_TEXT_FILL,
         maxWidth: SMART_CART_PANEL_SETTINGS.CONNECT_BUTTON_MAX_WIDTH,
       }),
-      enabledProperty: canPress,
+      enabledProperty: canPressProperty,
       accessibleName: options.connectAccessibleName,
       // Synchronous listener so the browser still sees a user gesture; connect() never rejects.
       listener: () => {
@@ -119,14 +119,14 @@ export class SmartCartPanel extends CartCollisionsPanel {
               connectButton,
             ],
           }),
-          new Text(status, { font: FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: innerWidth }),
-          new Text(error, {
+          new Text(statusProperty, { font: FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: innerWidth }),
+          new Text(errorProperty, {
             font: new PhetFont(SMART_CART_PANEL_SETTINGS.STATUS_FONT_SIZE),
             fill: CartCollisionsColors.warningColorProperty,
             maxWidth: innerWidth,
           }),
           changeSignCheckbox,
-          new Text(live, { font: FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: innerWidth }),
+          new Text(liveProperty, { font: FONT, fill: CartCollisionsColors.textColorProperty, maxWidth: innerWidth }),
           ...(cartCollisionsQueryParameters.showDiagnostics
             ? [
                 new Text(channel.diagnosticProperty, {

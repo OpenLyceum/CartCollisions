@@ -2,7 +2,7 @@ import { VIRTUAL_SCREEN_SUMMARY_CONTENT_SETTINGS } from "../../CartCollisionsCon
 /**
  * VirtualScreenSummaryContent.ts
  *
- * Screen summary for the three virtual screens. Current details are live: both
+ * Screen summary for the three virtual screens. Current detailsProperty are live: both
  * carts' velocities, the total momentum and kinetic energy, and whether a
  * recording is running — rounded so the paragraph only changes when the numbers a
  * student would read change.
@@ -40,7 +40,7 @@ export class VirtualScreenSummaryContent extends ScreenSummaryContent {
       VIRTUAL_SCREEN_SUMMARY_CONTENT_SETTINGS.TOTAL_KINETIC_ENERGY_ROUNDED_DECIMALS,
     );
 
-    const details = new DerivedProperty(
+    const detailsProperty = new DerivedProperty(
       [
         vRed,
         vBlue,
@@ -64,7 +64,7 @@ export class VirtualScreenSummaryContent extends ScreenSummaryContent {
     super({
       playAreaContent: strings.screenSummary.playAreaStringProperty,
       controlAreaContent: strings.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: details,
+      currentDetailsContent: detailsProperty,
       interactionHintContent: strings.screenSummary.interactionHintStringProperty,
     });
   }

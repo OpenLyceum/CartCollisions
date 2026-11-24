@@ -1,7 +1,7 @@
 /**
  * SmartCartsScreenSummaryContent.ts
  *
- * Screen summary for the Smart Carts screen. Current details report each real
+ * Screen summary for the Smart Carts screen. Current detailsProperty report each real
  * cart's connection and live position, and whether a recording is running.
  */
 
@@ -35,7 +35,7 @@ export class SmartCartsScreenSummaryContent extends ScreenSummaryContent {
     const red = describeCart(model.red);
     const blue = describeCart(model.blue);
 
-    const details = new DerivedProperty(
+    const detailsProperty = new DerivedProperty(
       [
         red,
         blue,
@@ -51,7 +51,7 @@ export class SmartCartsScreenSummaryContent extends ScreenSummaryContent {
     super({
       playAreaContent: strings.screenSummary.playAreaStringProperty,
       controlAreaContent: strings.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: details,
+      currentDetailsContent: detailsProperty,
       interactionHintContent: strings.screenSummary.interactionHintStringProperty,
     });
   }

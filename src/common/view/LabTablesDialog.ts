@@ -99,7 +99,7 @@ class TableCellNode extends RectangularPushButton {
         : CartCollisionsColors.incorrectColorProperty.value;
     });
 
-    const accessibleName = new DerivedProperty(
+    const accessibleNameProperty = new DerivedProperty(
       [
         valueProperty,
         labels.rows[`${row.id}StringProperty` as const],
@@ -123,7 +123,7 @@ class TableCellNode extends RectangularPushButton {
       minHeight: LAB_TABLES_DIALOG_SETTINGS.CELL_MIN_HEIGHT,
       xMargin: LAB_TABLES_DIALOG_SETTINGS.CELL_X_MARGIN,
       yMargin: LAB_TABLES_DIALOG_SETTINGS.CELL_Y_MARGIN,
-      accessibleName,
+      accessibleNameProperty,
       listener: () => {
         keypadDialog.beginEdit(
           (value: number) => {
@@ -147,7 +147,7 @@ class TableCellNode extends RectangularPushButton {
     this.disposeTableCellNode = () => {
       appearance.dispose();
       baseColor.dispose();
-      accessibleName.dispose();
+      accessibleNameProperty.dispose();
     };
   }
 
@@ -228,7 +228,7 @@ export class LabTablesDialog extends Dialog {
         }),
         {
           ...checkboxOptions,
-          accessibleName: label,
+          accessibleNameProperty: label,
         },
       );
 
@@ -260,7 +260,7 @@ export class LabTablesDialog extends Dialog {
           fill: CartCollisionsColors.accentButtonTextColorProperty,
           maxWidth: LAB_TABLES_DIALOG_SETTINGS.PUSH_BUTTON_MAX_WIDTH,
         }),
-        accessibleName: label,
+        accessibleNameProperty: label,
         listener,
       });
 

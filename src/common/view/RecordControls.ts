@@ -25,7 +25,7 @@ export class RecordControls extends HBox {
   public constructor(model: TLabModel) {
     const labels = StringManager.getInstance().getLabels();
 
-    const recordLabel = new DerivedProperty(
+    const recordLabelProperty = new DerivedProperty(
       [model.isRecordingProperty, labels.recordStringProperty, labels.stopStringProperty],
       (recording, record, stop) => (recording ? stop : record),
     );
@@ -50,7 +50,7 @@ export class RecordControls extends HBox {
         children: [
           dot,
           square,
-          new Text(recordLabel, {
+          new Text(recordLabelProperty, {
             font: FONT,
             fill: LIGHT_SURFACE_TEXT_FILL,
             maxWidth: RECORD_CONTROLS_SETTINGS.RECORD_BUTTON_MAX_WIDTH,
@@ -59,7 +59,7 @@ export class RecordControls extends HBox {
         excludeInvisibleChildrenFromBounds: true,
       }),
       enabledProperty: model.canRecordProperty,
-      accessibleName: recordLabel,
+      accessibleName: recordLabelProperty,
       listener: () => (model.isRecordingProperty.value ? model.stop() : model.record()),
       minWidth: RECORD_CONTROLS_SETTINGS.RECORD_BUTTON_MIN_WIDTH,
     });
@@ -81,7 +81,7 @@ export class RecordControls extends HBox {
 
     this.disposeRecordControls = () => {
       model.isRecordingProperty.unlink(iconLink);
-      recordLabel.dispose();
+      recordLabelProperty.dispose();
     };
   }
 

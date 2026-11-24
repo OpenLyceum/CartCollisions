@@ -110,9 +110,9 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
           accessibleName: labels.plungerSettingStringProperty,
         },
       );
-      const canTrigger = new DerivedProperty([model.plungerReleasedProperty], (released) => !released);
-      derived.push(canTrigger);
-      const triggerButton = actionButton(labels.triggerStringProperty, () => model.trigger(), canTrigger);
+      const canTriggerProperty = new DerivedProperty([model.plungerReleasedProperty], (released) => !released);
+      derived.push(canTriggerProperty);
+      const triggerButton = actionButton(labels.triggerStringProperty, () => model.trigger(), canTriggerProperty);
       children.push(
         new HBox({
           spacing: EXPERIMENT_CONTROL_PANEL_SETTINGS.CONTENT_SPACING,
@@ -151,9 +151,9 @@ export class ExperimentControlPanel extends CartCollisionsPanel {
           },
         },
       );
-      const canPush = new DerivedProperty([model.isMovingProperty], (moving) => !moving);
-      derived.push(canPush);
-      const pushButton = actionButton(labels.pushStringProperty, () => model.push(), canPush);
+      const canPushProperty = new DerivedProperty([model.isMovingProperty], (moving) => !moving);
+      derived.push(canPushProperty);
+      const pushButton = actionButton(labels.pushStringProperty, () => model.push(), canPushProperty);
       children.push(pushSpeedControl, pushButton);
       traversal.push(pushSpeedControl, pushButton);
     }

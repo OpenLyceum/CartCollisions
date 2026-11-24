@@ -1,3 +1,4 @@
+import { roundSymmetric } from "scenerystack/dot";
 import { SMART_CART_STREAM_SETTINGS } from "../../CartCollisionsConstants.js";
 /**
  * smartCartStream.ts
@@ -37,13 +38,13 @@ const STREAM_SEQUENCE_MODULUS: number = SMART_CART_STREAM_SETTINGS.STREAM_SEQUEN
 export const STREAM_ACK_INTERVAL: number = SMART_CART_STREAM_SETTINGS.STREAM_ACK_INTERVAL;
 
 export function setSamplePeriodCommand(periodMilliseconds: number): number[] {
-  const us = Math.round(periodMilliseconds * SMART_CART_STREAM_SETTINGS.MICROSECONDS_PER_MILLISECOND);
+  const us = roundSymmetric(periodMilliseconds * SMART_CART_STREAM_SETTINGS.MICROSECONDS_PER_MILLISECOND);
   return [SET_SAMPLE_PERIOD, us & 0xff, (us >>> 8) & 0xff, (us >>> 16) & 0xff, (us >>> 24) & 0xff, 0, 0];
 }
 
 /** One period per channel, in channel order. */
 export function startSamplingCommand(periodMilliseconds: number, channelCount: number): number[] {
-  const ms = Math.round(periodMilliseconds) & 0x7ff;
+  const ms = roundSymmetric(periodMilliseconds) & 0x7ff;
   const bytes = [START_SAMPLING];
   for (let i = 0; i < channelCount; i++) {
     bytes.push(ms & 0xff, (ms >>> 8) & 0xff);
